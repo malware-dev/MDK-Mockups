@@ -1,7 +1,7 @@
 # MDK-Mockups
 ### A set of community driven mockup classes to enable the simulation of Space Engineers ingame scripts in Visual Studio
 
-This repository is effectively an an add-in to [MDK-SE](https://github.com/malware-dev/MDK-SE).
+**This repository is add-in to [MDK-SE](https://github.com/malware-dev/MDK-SE).**
 
 Currently just getting set up, the intent of this repository is to gradually build up a set of mockup classes so you can test-run your MDK scripts in Visual Studio, thus having the full debugging capacity of that IDE on hand.
 
