@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>33863c91-80f6-4abc-a735-3934a61d494c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>IngameScript.Mockups</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Base\MockCubeBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\MockEntity.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\MockFunctionalBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\MockTerminalBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blocks\MockProgrammableBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MockCubeGrid.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MockGridTerminalSystem.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MockRuntime.debug.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Base\" />
+  </ItemGroup>
+</Project>
