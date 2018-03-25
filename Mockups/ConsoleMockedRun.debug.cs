@@ -1,12 +1,17 @@
 ﻿using System;
-using System.Threading;
 
 namespace IngameScript.Mockups
 {
+    /// <summary>
+    /// A simple mocked run designed to run in the console
+    /// </summary>
     public class ConsoleMockedRun : MockedRun
     {
         static readonly char[] SpinnerChars = {'|', '/', '-', '\\'};
 
+        /// <summary>
+        /// Get or set whether the run should advance automatically (<c>false</c>) or manually (<c>true</c>)
+        /// </summary>
         public bool IsPaused { get; set; }
 
         public override void Echo(string text)
@@ -17,15 +22,16 @@ namespace IngameScript.Mockups
             Console.WriteLine(text);
         }
 
-        protected override bool Tick(long ticks, int scheduledBlocks)
+        public override bool NextTick(out MockedRunFrame frame)
         {
-            if (scheduledBlocks == 0)
+            if (!base.NextTick(out frame))
                 return false;
+
             if (!IsPaused)
-                return ContinuousTick(ticks);
+                return ContinuousTick(frame.Tick);
 
             if (IsPaused)
-                return PausedTick(ticks);
+                return PausedTick(frame.Tick);
 
             return false;
         }
@@ -55,7 +61,6 @@ namespace IngameScript.Mockups
 
         bool ContinuousTick(long ticks)
         {
-            Thread.Sleep(16);
             var spinnerChar = SpinnerChars[ticks % SpinnerChars.Length];
             WritePadded($"\r(P:Pause;Q:Quit) {spinnerChar} >");
             if (Console.KeyAvailable)

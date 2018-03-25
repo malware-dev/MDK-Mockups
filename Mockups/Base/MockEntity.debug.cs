@@ -7,8 +7,6 @@ namespace IngameScript.Mockups.Base
 {
     public abstract class MockEntity : IMyEntity
     {
-        static long _autoEntityIdSource = 1;
-
         public virtual Vector3D WorldPosition { get; set; }
 
         public virtual MyEntityComponentContainer Components
@@ -16,7 +14,7 @@ namespace IngameScript.Mockups.Base
             get { throw new NotImplementedException(); }
         }
 
-        public virtual long EntityId { get; set; } = _autoEntityIdSource++;
+        public virtual long EntityId { get; set; }
 
         public virtual string Name { get; set; }
 

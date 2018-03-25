@@ -43,6 +43,11 @@ namespace IngameScript.Mockups.Blocks
             return Run(argument, UpdateType.Script);
         }
 
+        /// <summary>
+        /// Installs the program for the given mocked run. Any programmable block may only be
+        /// a part of a single mocked run or behavior is undefined.
+        /// </summary>
+        /// <param name="mockedRun"></param>
         public virtual void Install(MockedRun mockedRun)
         {
             if (Program != null)
@@ -76,7 +81,12 @@ namespace IngameScript.Mockups.Blocks
                 return false;
 
             if ((runtime.UpdateFrequency & UpdateFrequency.Once) != 0)
+            {
                 updateType |= UpdateType.Once;
+                runtime.UpdateFrequency &= ~UpdateFrequency.Once;
+                if (runtime.UpdateFrequency == UpdateFrequency.None)
+                    return false;
+            }
 
             if ((runtime.UpdateFrequency & UpdateFrequency.Update1) != 0)
                 updateType |= UpdateType.Update1;
@@ -87,7 +97,37 @@ namespace IngameScript.Mockups.Blocks
             if ((runtime.UpdateFrequency & UpdateFrequency.Update100) != 0 && ticks % 100 == 0)
                 updateType |= UpdateType.Update100;
 
+            return updateType != UpdateType.None;
+        }
+
+        /// <summary>
+        /// Determines if this programmable block is scheduled to be run at a later stage.
+        /// </summary>
+        /// <param name="ticks"></param>
+        /// <returns></returns>
+        public virtual bool IsScheduledForLater(long ticks)
+        {
+            var runtime = Runtime;
+            if (runtime == null)
+                return false;
+
+            var freq = runtime.UpdateFrequency;
+            if (freq == UpdateFrequency.None)
+                return false;
+
             return true;
+        }
+
+        /// <summary>
+        /// Removes the Once flag from this programmable block.
+        /// </summary>
+        public virtual void ToggleOnceFlag()
+        {
+            var runtime = Runtime;
+            if (runtime == null)
+                return;
+
+            runtime.UpdateFrequency &= ~UpdateFrequency.Once;
         }
     }
 }

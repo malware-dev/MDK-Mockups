@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockProgrammableBlock.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\ConsoleMockedRun.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockCubeGrid.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRunFrame.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockGridTerminalSystem.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockRuntime.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRun.debug.cs" />

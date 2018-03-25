@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using IngameScript.Mockups.Blocks;
@@ -13,10 +14,17 @@ namespace IngameScript.Mockups
     {
         List<MockProgrammableBlock> _programmableBlocks = new List<MockProgrammableBlock>();
 
+        long _tickCount;
+
         protected MockedRun()
         {
             MockedProgrammableBlocks = new ReadOnlyCollection<MockProgrammableBlock>(_programmableBlocks);
         }
+
+        /// <summary>
+        /// Determines whether this run has been initialized. 
+        /// </summary>
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// Gets or sets the grid terminal system to use during this run. This property must be populated.
@@ -25,7 +33,7 @@ namespace IngameScript.Mockups
 
         /// <summary>
         /// A list of mocked programmable blocks available in the <see cref="GridTerminalSystem"/>. This collection
-        /// is filled out during the <see cref="Start"/> of the run.
+        /// is filled out during the initialization of the run.
         /// </summary>
         public ReadOnlyCollection<MockProgrammableBlock> MockedProgrammableBlocks { get; }
 
@@ -36,37 +44,121 @@ namespace IngameScript.Mockups
         public abstract void Echo(string text);
 
         /// <summary>
-        /// Start the run
+        /// Attempts to retrieve the update type for this block.
         /// </summary>
-        public virtual void Start()
+        /// <param name="ticks">The tick count to get the update type for</param>
+        /// <param name="pb"></param>
+        /// <param name="updateType">The detected update type</param>
+        /// <returns><c>true</c> if this block is scheduled for a later run, <c>false</c> otherwise.</returns>
+        protected virtual bool ScheduleProgrammableBlock(long ticks, MockProgrammableBlock pb, out UpdateType updateType)
         {
+            updateType = UpdateType.None;
+            var runtime = pb.Runtime;
+            if (runtime == null || runtime.UpdateFrequency == UpdateFrequency.None)
+                return false;
+
+            if ((runtime.UpdateFrequency & UpdateFrequency.Once) != 0)
+            {
+                updateType |= UpdateType.Once;
+                runtime.UpdateFrequency &= ~UpdateFrequency.Once;
+                if (runtime.UpdateFrequency == UpdateFrequency.None)
+                    return false;
+            }
+
+            if ((runtime.UpdateFrequency & UpdateFrequency.Update1) != 0)
+                updateType |= UpdateType.Update1;
+
+            if ((runtime.UpdateFrequency & UpdateFrequency.Update10) != 0 && ticks % 10 == 0)
+                updateType |= UpdateType.Update10;
+
+            if ((runtime.UpdateFrequency & UpdateFrequency.Update100) != 0 && ticks % 100 == 0)
+                updateType |= UpdateType.Update100;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Runs a single tick of this mocked run.
+        /// </summary>
+        /// <returns><c>true</c> if the run should continue; <c>false</c> otherwise.</returns>
+        public bool NextTick()
+        {
+            MockedRunFrame frame;
+            return NextTick(out frame);
+        }
+
+        /// <summary>
+        /// Runs a single tick of this mocked run.
+        /// </summary>
+        /// <returns><c>true</c> if the run should continue; <c>false</c> otherwise.</returns>
+        public virtual bool NextTick(out MockedRunFrame frame)
+        {
+            EnsureInit();
+            var scheduledPBs = 0;
+            var runPBs = 0;
+            foreach (var pb in MockedProgrammableBlocks)
+            {
+                UpdateType updateType;
+                if (pb.TryGetUpdateTypeFor(_tickCount, out updateType))
+                {
+                    RunProgrammableBlock(pb, null, updateType);
+                    runPBs++;
+                }
+                pb.ToggleOnceFlag();
+                if (pb.IsScheduledForLater(_tickCount))
+                    scheduledPBs++;
+            }
+
+            frame = new MockedRunFrame(_tickCount, scheduledPBs > 0, scheduledPBs, runPBs);
+            _tickCount++;
+            return scheduledPBs > 0;
+        }
+
+        /// <summary>
+        /// Makes sure that the Run has been initialized.
+        /// </summary>
+        protected void EnsureInit()
+        {
+            if (IsInitialized)
+                return;
+            IsInitialized = true;
+
             Debug.Assert(GridTerminalSystem != null, nameof(GridTerminalSystem) + " != null");
 
+            _tickCount = 0;
             FindProgrammableBlocks(_programmableBlocks);
             Starting();
             InstallPrograms();
+        }
 
-            long tickCount = 0;
-            while (true)
-            {
-                var runningBlocks = 0;
-                foreach (var pb in MockedProgrammableBlocks)
-                {
-                    UpdateType updateType;
-                    if (pb.TryGetUpdateTypeFor(tickCount, out updateType))
-                    {
-                        runningBlocks++;
-                        if (updateType == UpdateType.None)
-                            continue;
-                        RunProgrammableBlock(pb, null, updateType);
-                    }
-                }
+        /// <summary>
+        /// Runs a programmable block by its name.
+        /// </summary>
+        /// <param name="programmableBlockName"></param>
+        /// <param name="argument"></param>
+        /// <param name="updateType"></param>
+        public void Trigger(string programmableBlockName, string argument = null, UpdateType updateType = UpdateType.Trigger)
+        {
+            var pb = GridTerminalSystem.GetBlockWithName(programmableBlockName) as MockProgrammableBlock;
+            if (pb == null)
+                throw new InvalidOperationException($"Cannot find a mocked programmable block named {programmableBlockName}");
+            EnsureInit();
+            RunProgrammableBlock(pb, argument, updateType);
+        }
 
-                if (!Tick(tickCount, runningBlocks))
-                    break;
-
-                tickCount++;
-            }
+        /// <summary>
+        /// Runs a programmable block by its entity ID.
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="argument"></param>
+        /// <param name="updateType"></param>
+        public void Trigger(long entityId, string argument = null, UpdateType updateType = UpdateType.Trigger)
+        {
+            var pb = GridTerminalSystem.GetBlockWithId(entityId) as MockProgrammableBlock;
+            if (pb == null)
+                throw new InvalidOperationException($"Cannot find a mocked programmable block with the ID {entityId}");
+            EnsureInit();
+            RunProgrammableBlock(pb, argument, updateType);
         }
 
         /// <summary>
@@ -74,18 +166,17 @@ namespace IngameScript.Mockups
         /// filled at this point.
         /// </summary>
         protected virtual void Starting()
-        {
-        }
+        { }
 
         /// <summary>
         /// Runs the given programmable block
         /// </summary>
         /// <param name="pb"></param>
         /// <param name="argument"></param>
-        /// <param name="flags"></param>
-        protected virtual void RunProgrammableBlock(MockProgrammableBlock pb, string argument, UpdateType flags)
+        /// <param name="updateType"></param>
+        protected virtual void RunProgrammableBlock(MockProgrammableBlock pb, string argument, UpdateType updateType)
         {
-            pb.Run(argument, flags);
+            pb.Run(argument, updateType);
         }
 
         /// <summary>
@@ -116,10 +207,9 @@ namespace IngameScript.Mockups
         /// <summary>
         /// Called after all programmable blocks have been invoked.
         /// </summary>
-        /// <param name="ticks">The current tick count</param>
         /// <param name="scheduledBlocks"></param>
         /// <returns><c>true</c> if the tick is valid and the run should continue; <c>false</c> to stop the run.</returns>
-        protected virtual bool Tick(long ticks, int scheduledBlocks)
+        protected virtual bool OnTick(int scheduledBlocks)
         {
             return scheduledBlocks > 0;
         }
