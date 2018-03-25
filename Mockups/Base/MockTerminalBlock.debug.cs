@@ -4,7 +4,7 @@ using System.Text;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 
-namespace IngameScript.Base
+namespace IngameScript.Mockups.Base
 {
     public abstract class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {

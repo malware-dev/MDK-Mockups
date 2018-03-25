@@ -1,10 +1,10 @@
 ﻿using System;
-using IngameScript.Base;
+using IngameScript.Mockups.Base;
 using VRage.Game;
 using VRage.Game.ModAPI.Ingame;
 using VRageMath;
 
-namespace IngameScript
+namespace IngameScript.Mockups
 {
     public class MockCubeGrid : MockEntity, IMyCubeGrid
     {

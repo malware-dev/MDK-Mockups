@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sandbox.ModAPI.Ingame;
 
-namespace IngameScript
+namespace IngameScript.Mockups
 {
     public class MockGridTerminalSystem : IMyGridTerminalSystem, IEnumerable<IMyTerminalBlock>
     {

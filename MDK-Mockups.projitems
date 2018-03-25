@@ -6,19 +6,23 @@
     <SharedGUID>33863c91-80f6-4abc-a735-3934a61d494c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>IngameScript.Mockups</Import_RootNamespace>
+    <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Base\MockCubeBlock.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Base\MockEntity.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Base\MockFunctionalBlock.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Base\MockTerminalBlock.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Blocks\MockProgrammableBlock.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MockCubeGrid.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MockGridTerminalSystem.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MockRuntime.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\AssertionException.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\Assert.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockCubeBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockEntity.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockFunctionalBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockTerminalBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockProgrammableBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\ConsoleMockedRun.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockCubeGrid.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockGridTerminalSystem.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockRuntime.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRun.debug.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Base\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Mockups\Base\" />
   </ItemGroup>
 </Project>

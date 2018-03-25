@@ -4,7 +4,7 @@ using VRage.Game.ModAPI.Ingame;
 using VRage.ObjectBuilders;
 using VRageMath;
 
-namespace IngameScript.Base
+namespace IngameScript.Mockups.Base
 {
     public abstract class MockCubeBlock : MockEntity, IMyCubeBlock
     {
