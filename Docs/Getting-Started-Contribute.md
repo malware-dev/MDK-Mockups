@@ -10,7 +10,7 @@
 
 ## Downloading The Repository
 
-The process of downloading the repository for contribution is only a little different from [Getting Started - Use](getting-started-use.md). Rather than checking out the repository normally, you will need to follow [GitHub's instructions on how to Fork a repository](https://help.github.com/articles/fork-a-repo/). Other than that the process is identical.
+The process of downloading the repository for contribution is only a little different from [Getting Started - Use](https://github.com/malware-dev/MDK-Mockups/blob/master/Docs/Getting-Started-Use.md). Rather than checking out the repository normally, you will need to follow [GitHub's instructions on how to Fork a repository](https://help.github.com/articles/fork-a-repo/). Other than that the process is identical.
 
 
 
