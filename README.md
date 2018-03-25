@@ -9,4 +9,8 @@ This repository was set up based on the request of members of the community. Whi
 
 **Currently in experimental stage**
 
-Please contact me on [Keen's discord](https://discord.gg/0hIE7GirODUqhfIg) if you want to help getting the basics of the repo up and running. _We need you_.
+The project is currently in a highly fluent state. The structure has not yet been finalized and there is likely to be breaking changes for a while as we find a base team and decide how we want this to work.
+
+**Please Help**
+
+Like I said, I can't do the heavy lifting on this project. Please contact me on [Keen's discord](https://discord.gg/0hIE7GirODUqhfIg) if you want to help getting the basics of the repo up and running. _We need you_.
