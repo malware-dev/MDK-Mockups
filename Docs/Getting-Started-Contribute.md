@@ -24,6 +24,7 @@ Once you've made a change you wish to share, you will need to [create a pull req
 * Everything is open for contribution, including this documentation. This is the reason it's stored directly in the repository rather than the wiki. The better documentation, the easier for people to get started, the more people we get contributing.
 * _All_ `.cs` files **must** end with the suffix `.debug.cs`, not just `.cs`. This is so MDK can exclude these files when deploying a script.
 * Make sure your contributions do not break something. If it does, and you think your change is important, make contact with one of the project administrators - either via the Issues or via Keen's Discord, and argue your case.
+* Do not make your mockups work via nonstandard behavior. It should replicate game behavior or not at all.
 * Make sure your contributions are flexible. Others may want to expand on it.
 * Comment your contributions (documentation comments is fair enough) and make sure your code is readable.
 * **This project relies on cooperation.** It will fall apart if we do not, so we will not tolerate bad behavior.
