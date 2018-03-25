@@ -17,4 +17,4 @@ Like I said, I can't do the heavy lifting on this project. Please contact me on 
 
 ## [Getting Started - Use](Docs/Getting-Started-Use.md)
 
-## [Getting Started - Contribute](Docs/Getting-Started-Contribute)
+## [Getting Started - Contribute](Docs/Getting-Started-Contribute.md)
