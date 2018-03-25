@@ -15,7 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockEntity.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockFunctionalBlock.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockTerminalBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockGyro.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockProgrammableBlock.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockTextPanel.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\ConsoleMockedRun.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockCubeGrid.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRunFrame.debug.cs" />
