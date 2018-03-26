@@ -8,16 +8,16 @@ using IMyGyro = Sandbox.ModAPI.Ingame.IMyGyro;
 
 namespace IngameScript.Mockups.Blocks
 {
-  class MockGyro : MockFunctionalBlock, IMyGyro
-  {
-    public virtual float GyroPower { get; set; }
+    public class MockGyro : MockFunctionalBlock, IMyGyro
+    {
+        public virtual float GyroPower { get; set; }
 
-    public virtual bool GyroOverride { get; set; }
+        public virtual bool GyroOverride { get; set; }
 
-    public virtual float Yaw { get; set; }
+        public virtual float Yaw { get; set; }
 
-    public virtual float Pitch { get; set; }
+        public virtual float Pitch { get; set; }
 
-    public virtual float Roll { get; set; }
-  }
+        public virtual float Roll { get; set; }
+    }
 }
