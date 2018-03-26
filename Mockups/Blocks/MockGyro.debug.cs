@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IngameScript.Mockups.Base;
-using Sandbox.ModAPI;
+﻿using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Ingame;
-using IMyGyro = Sandbox.ModAPI.Ingame.IMyGyro;
 
 namespace IngameScript.Mockups.Blocks
 {
