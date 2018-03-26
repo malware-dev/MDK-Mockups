@@ -21,10 +21,13 @@ Once you've made a change you wish to share, you will need to [create a pull req
 
 ## Rules and Etiquette
 
-* Everything is open for contribution, including this documentation. This is the reason it's stored directly in the repository rather than the wiki. The better documentation, the easier for people to get started, the more people we get contributing.
 * _All_ `.cs` files **must** end with the suffix `.debug.cs`, not just `.cs`. This is so MDK can exclude these files when deploying a script.
-* Make sure your contributions do not break something. If it does, and you think your change is important, make contact with one of the project administrators - either via the Issues or via Keen's Discord, and argue your case.
+* All mockup classes should be _public_. 
 * Do not make your mockups work via nonstandard behavior. It should replicate game behavior or not at all.
+* While there's **no requirement** to completely finish every single feature of a block, please make sure the parts you _do not_ include throws `NotImplementedException`. Obviously, the more you complete before creating your pull request, the better.
+* It's considered courteous to follow the coding standards. There is a risk that your pull request might be rejected if it deviates too far from the standards.
+* Everything is open for contribution, including this documentation. This is the reason it's stored directly in the repository rather than the wiki. The better documentation, the easier for people to get started, the more people we get contributing.
+* Make sure your contributions do not break something. If it does, and you think your change is important, make contact with one of the project administrators - either via the Issues or via Keen's Discord, and argue your case.
 * Make sure your contributions are flexible. Others may want to expand on it.
 * Comment your contributions (documentation comments is fair enough) and make sure your code is readable.
 * **This project relies on cooperation.** It will fall apart if we do not, so we will not tolerate bad behavior.
