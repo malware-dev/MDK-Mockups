@@ -9,13 +9,19 @@ namespace IngameScript.Mockups.Blocks
 {
     public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
+        string _storage = string.Empty;
+
         public virtual Type ProgramType { get; set; }
 
         public virtual IMyGridProgram Program { get; set; }
 
         public virtual IMyGridProgramRuntimeInfo Runtime { get; set; } = new MockGridProgramRuntimeInfo();
 
-        public virtual string Storage { get; set; }
+        public virtual string Storage
+        {
+            get { return _storage; }
+            set { _storage = value ?? ""; }
+        }
 
         public virtual bool IsRunning { get; set; }
 
@@ -27,14 +33,21 @@ namespace IngameScript.Mockups.Blocks
                 return false;
             if (Program == null)
                 return false;
+            if (IsRunning)
+                return false;
             try
             {
+                IsRunning = true;
                 Malware.MDKUtilities.MDK.Run(Program, argument ?? "", updateType: updateType);
                 return true;
             }
             catch (Exception)
             {
                 return false;
+            }
+            finally
+            {
+                IsRunning = false;
             }
         }
 
