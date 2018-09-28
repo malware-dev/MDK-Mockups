@@ -44,6 +44,13 @@ namespace IngameScript.Mockups.Base
 
         public virtual Vector3I Position { get; set; }
 
+        public MockCubeBlock()
+            : base()
+        {
+            IsWorking = true;
+            IsFunctional = true;
+        }
+
         public virtual MyRelationsBetweenPlayerAndBlock GetUserRelationToOwner(long playerId)
         {
             throw new NotImplementedException();
@@ -59,8 +66,8 @@ namespace IngameScript.Mockups.Base
             throw new NotImplementedException();
         }
 
-        public virtual string GetOwnerFactionTag() => OwnerFactionTag;
+        public virtual string GetOwnerFactionTag() { return OwnerFactionTag; }
 
-        public virtual MyRelationsBetweenPlayerAndBlock GetPlayerRelationToOwner() => PlayerRelationToOwner;
+        public virtual MyRelationsBetweenPlayerAndBlock GetPlayerRelationToOwner() { return PlayerRelationToOwner; }
     }
 }

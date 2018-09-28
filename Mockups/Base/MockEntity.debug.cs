@@ -7,6 +7,8 @@ namespace IngameScript.Mockups.Base
 {
     public abstract class MockEntity : IMyEntity
     {
+        private static long NextEntityId = 1;
+
         public virtual Vector3D WorldPosition { get; set; }
 
         public virtual MyEntityComponentContainer Components
@@ -40,6 +42,11 @@ namespace IngameScript.Mockups.Base
 
         public virtual BoundingSphereD WorldVolumeHr { get; set; }
 
+        public MockEntity()
+        {
+            EntityId = NextEntityId++;
+        }
+
         public virtual IMyInventory GetInventory()
         {
             throw new NotImplementedException();
@@ -50,6 +57,6 @@ namespace IngameScript.Mockups.Base
             throw new NotImplementedException();
         }
 
-        public virtual Vector3D GetPosition() => WorldPosition;
+        public virtual Vector3D GetPosition() { return WorldPosition; }
     }
 }
