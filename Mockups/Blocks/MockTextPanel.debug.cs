@@ -39,22 +39,22 @@ namespace IngameScript.Mockups.Blocks
         StringBuilder _publicTitle = new StringBuilder();
         List<string> _selectedImages = new List<string>();
 
-        public List<string> LoadedImages { get; } = new List<string>
-        {
-            "Offline",
-            "Online",
-            "Arrow",
-            "Cross",
-            "Danger",
-            "No Entry",
-            "Construction",
-            "White screen"
-        };
+        public readonly List<string> LoadedImages = new List<string>
+            {
+                "Offline",
+                "Online",
+                "Arrow",
+                "Cross",
+                "Danger",
+                "No Entry",
+                "Construction",
+                "White screen"
+            };
 
         public virtual string CurrentlyShownImage { get; set; }
 
         [Obsolete("This property no has meaning in-game. If you need a secondary storage, use CustomData")]
-        public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; } = ShowTextOnScreenFlag.PUBLIC;
+        public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; }
 
         public virtual bool ShowText { get; set; }
 
@@ -70,18 +70,24 @@ namespace IngameScript.Mockups.Blocks
             set { throw new NotImplementedException(); }
         }
 
-        public virtual string Font { get; set; } = "Debug";
+        public virtual string Font { get; set; }
+
+        public MockTextPanel()
+        {
+            ShowOnScreen = ShowTextOnScreenFlag.PUBLIC;
+            Font = "Debug";
+        }
 
         public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
         {
-            Debug.Assert(ids != null, $"{nameof(ids)} cannot be null");
+            Debug.Assert(ids != null, "ids cannot be null");
             foreach (var id in ids)
                 AddImageToSelection(id, checkExistence);
         }
 
         public virtual void AddImageToSelection(string id, bool checkExistence = false)
         {
-            Debug.Assert(id != null, $"{nameof(id)} cannot be null");
+            Debug.Assert(id != null, "id cannot be null");
             if (checkExistence && _selectedImages.Contains(id))
                 return;
             if (LoadedImages.Contains(id))
@@ -95,7 +101,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual void GetFonts(List<string> fonts)
         {
-            Debug.Assert(fonts != null, $"{nameof(fonts)} cannot be null!");
+            Debug.Assert(fonts != null, "fonts cannot be null!");
             fonts.Clear();
             foreach (var font in _fonts)
                 fonts.Add(font);
@@ -113,13 +119,13 @@ namespace IngameScript.Mockups.Blocks
             throw new NotSupportedException();
         }
 
-        public virtual string GetPublicText() => _publicText.ToString();
+        public virtual string GetPublicText() { return _publicText.ToString(); }
 
-        public virtual string GetPublicTitle() => _publicTitle.ToString();
+        public virtual string GetPublicTitle() { return _publicTitle.ToString(); }
 
         public virtual void GetSelectedImages(List<string> output)
         {
-            Debug.Assert(output != null, $"{nameof(output)} cannot be null");
+            Debug.Assert(output != null, "output cannot be null");
             output.Clear();
             foreach(var img in _selectedImages)
                 output.Add(img);
@@ -127,7 +133,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual void ReadPublicText(StringBuilder buffer, bool append = false)
         {
-            Debug.Assert(buffer != null, $"{nameof(buffer)} cannot be null");
+            Debug.Assert(buffer != null, "buffer cannot be null");
             if (!append)
                 buffer.Clear();
             buffer.AppendStringBuilder(_publicText);
@@ -135,7 +141,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual void RemoveImageFromSelection(string id, bool removeDuplicates = false)
         {
-            Debug.Assert(id != null, $"{nameof(id)} cannot be null");
+            Debug.Assert(id != null, "id cannot be null");
             if (removeDuplicates)
                 _selectedImages.RemoveAll(img => img == id);
             else
@@ -144,7 +150,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual void RemoveImagesFromSelection(List<string> ids, bool removeDuplicates = false)
         {
-            Debug.Assert(ids != null, $"{nameof(ids)} cannot be null");
+            Debug.Assert(ids != null, "ids cannot be null");
             foreach (var id in ids)
                 RemoveImageFromSelection(id, removeDuplicates);
         }
@@ -185,7 +191,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual bool WritePublicText(string value, bool append = false)
         {
-            Debug.Assert(value != null, $"{nameof(value)} cannot be null");
+            Debug.Assert(value != null, "value cannot be null");
             if (!append)
                 _publicText.Clear();
 
@@ -198,7 +204,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual bool WritePublicText(StringBuilder value, bool append = false)
         {
-            Debug.Assert(value != null, $"{nameof(value)} cannot be null");
+            Debug.Assert(value != null, "value cannot be null");
             if (!append)
                 _publicText.Clear();
 
@@ -212,7 +218,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual bool WritePublicTitle(string value, bool append = false)
         {
-            Debug.Assert(value != null, $"{nameof(value)} cannot be null");
+            Debug.Assert(value != null, "value cannot be null");
             if (!append)
                 _publicTitle.Clear();
             _publicTitle.Append(value);

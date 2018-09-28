@@ -61,7 +61,7 @@ namespace IngameScript.Mockups.Base
             {
                 if (string.IsNullOrEmpty(GetOwnerFactionTag()))
                     return CustomName;
-                return $"{GetOwnerFactionTag()}.{CustomName}";
+                return GetOwnerFactionTag() + "." + CustomName;
             }
         }
 
@@ -78,5 +78,11 @@ namespace IngameScript.Mockups.Base
         public virtual bool ShowInToolbarConfig { get; set; }
 
         public virtual bool ShowInInventory { get; set; }
+
+        public MockTerminalBlock()
+            : base()
+        {
+
+        }
     }
 }

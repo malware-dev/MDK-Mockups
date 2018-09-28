@@ -8,8 +8,8 @@ namespace IngameScript.Mockups
 {
     public class MockGridTerminalSystem : IMyGridTerminalSystem, IEnumerable<IMyTerminalBlock>
     {
-        public List<IMyTerminalBlock> Blocks { get; } = new List<IMyTerminalBlock>();
-        public List<IMyBlockGroup> Groups { get; } = new List<IMyBlockGroup>();
+        public List<IMyTerminalBlock> Blocks = new List<IMyTerminalBlock>();
+        public List<IMyBlockGroup> Groups = new List<IMyBlockGroup>();
 
         public void Add(IMyBlockGroup group)
         {
@@ -29,42 +29,57 @@ namespace IngameScript.Mockups
 
         public void GetBlockGroups(List<IMyBlockGroup> blockGroups, Func<IMyBlockGroup, bool> collect = null)
         {
-            blockGroups?.Clear();
+            if (blockGroups == null)
+                return;
+
+            blockGroups.Clear();
+
             foreach (var group in Groups)
             {
-                if (collect?.Invoke(group) ?? true)
-                    blockGroups?.Add(group);
+                if (collect == null || collect.Invoke(group))
+                {
+                    blockGroups.Add(group);
+                }
             }
         }
 
         public void GetBlocksOfType<T>(List<IMyTerminalBlock> blocks, Func<IMyTerminalBlock, bool> collect = null) where T : class
         {
-            blocks?.Clear();
+            if (blocks == null)
+                return;
+
+            blocks.Clear();
             foreach (var block in Blocks)
             {
-                if (block is T && (collect?.Invoke(block) ?? true))
-                    blocks?.Add(block);
+                if (block is T && (collect == null || collect.Invoke(block)))
+                    blocks.Add(block);
             }
         }
 
         public void GetBlocksOfType<T>(List<T> blocks, Func<T, bool> collect = null) where T : class
         {
-            blocks?.Clear();
+            if (blocks == null)
+                return;
+
+            blocks.Clear();
             foreach (var block in Blocks)
             {
                 var typedBlock = block as T;
-                if (typedBlock != null && (collect?.Invoke(typedBlock) ?? true))
-                    blocks?.Add(typedBlock);
+                if (typedBlock != null && (collect == null || collect.Invoke(typedBlock)))
+                    blocks.Add(typedBlock);
             }
         }
 
         public void SearchBlocksOfName(string name, List<IMyTerminalBlock> blocks, Func<IMyTerminalBlock, bool> collect = null)
         {
-            blocks?.Clear();
+            if (blocks == null)
+                return;
+
+            blocks.Clear();
             foreach (var block in Blocks)
             {
-                if (block.CustomName != null && block.CustomName.Contains(name, StringComparison.Ordinal) && (collect?.Invoke(block) ?? true))
-                    blocks?.Add(block);
+                if (block.CustomName != null && block.CustomName.Contains(name, StringComparison.Ordinal) && (collect == null || collect.Invoke(block)))
+                    blocks.Add(block);
             }
         }
 
@@ -83,7 +98,7 @@ namespace IngameScript.Mockups
             return Blocks.FirstOrDefault(block => block.EntityId == id);
         }
 
-        public IEnumerator<IMyTerminalBlock> GetEnumerator() => Blocks.GetEnumerator();
+        public IEnumerator<IMyTerminalBlock> GetEnumerator() { return Blocks.GetEnumerator(); }
 
         IEnumerator IEnumerable.GetEnumerator()
         {

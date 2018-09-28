@@ -40,7 +40,7 @@ namespace IngameScript.Mockups
         {
             var spinnerChar = SpinnerChars[ticks % SpinnerChars.Length];
             ClearLine();
-            Console.Write($"\r(P:Pause;Q:Quit;Space:Tick) {spinnerChar} >");
+            Console.Write("\r(P:Pause;Q:Quit;Space:Tick) " + spinnerChar + " >");
             while (true)
             {
                 var key = Console.ReadKey(true);
@@ -62,7 +62,7 @@ namespace IngameScript.Mockups
         bool ContinuousTick(long ticks)
         {
             var spinnerChar = SpinnerChars[ticks % SpinnerChars.Length];
-            WritePadded($"\r(P:Pause;Q:Quit) {spinnerChar} >");
+            WritePadded("\r(P:Pause;Q:Quit) " + spinnerChar + " >");
             if (Console.KeyAvailable)
             {
                 var key = Console.ReadKey(true);

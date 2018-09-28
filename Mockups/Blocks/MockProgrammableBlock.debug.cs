@@ -15,7 +15,7 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual IMyGridProgram Program { get; set; }
 
-        public virtual IMyGridProgramRuntimeInfo Runtime { get; set; } = new MockGridProgramRuntimeInfo();
+        public virtual IMyGridProgramRuntimeInfo Runtime { get; set; }
 
         public virtual string Storage
         {
@@ -26,6 +26,11 @@ namespace IngameScript.Mockups.Blocks
         public virtual bool IsRunning { get; set; }
 
         public virtual string TerminalRunArgument { get; set; }
+
+        public MockProgrammableBlock()
+        {
+            Runtime = new MockGridProgramRuntimeInfo();
+        }
 
         public virtual bool Run(string argument, UpdateType updateType)
         {
@@ -68,7 +73,7 @@ namespace IngameScript.Mockups.Blocks
             if (ProgramType == null)
                 return;
 
-            Debug.Assert(Runtime != null, $"{nameof(Runtime)} != null");
+            Debug.Assert(Runtime != null, "Runtime != null");
             var config = new Malware.MDKUtilities.MDK.ProgramConfig
             {
                 GridTerminalSystem = mockedRun.GridTerminalSystem,

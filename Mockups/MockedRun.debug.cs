@@ -35,7 +35,7 @@ namespace IngameScript.Mockups
         /// A list of mocked programmable blocks available in the <see cref="GridTerminalSystem"/>. This collection
         /// is filled out during the initialization of the run.
         /// </summary>
-        public ReadOnlyCollection<MockProgrammableBlock> MockedProgrammableBlocks { get; }
+        public readonly ReadOnlyCollection<MockProgrammableBlock> MockedProgrammableBlocks;
 
         /// <summary>
         /// Echos text onto the scripting console. This is the method used for the script Echo command
@@ -123,7 +123,7 @@ namespace IngameScript.Mockups
                 return;
             IsInitialized = true;
 
-            Debug.Assert(GridTerminalSystem != null, nameof(GridTerminalSystem) + " != null");
+            Debug.Assert(GridTerminalSystem != null, "GridTerminalSystem != null");
 
             _tickCount = 0;
             FindProgrammableBlocks(_programmableBlocks);
@@ -141,7 +141,7 @@ namespace IngameScript.Mockups
         {
             var pb = GridTerminalSystem.GetBlockWithName(programmableBlockName) as MockProgrammableBlock;
             if (pb == null)
-                throw new InvalidOperationException($"Cannot find a mocked programmable block named {programmableBlockName}");
+                throw new InvalidOperationException("Cannot find a mocked programmable block named " + programmableBlockName);
             EnsureInit();
             RunProgrammableBlock(pb, argument, updateType);
         }
@@ -156,7 +156,7 @@ namespace IngameScript.Mockups
         {
             var pb = GridTerminalSystem.GetBlockWithId(entityId) as MockProgrammableBlock;
             if (pb == null)
-                throw new InvalidOperationException($"Cannot find a mocked programmable block with the ID {entityId}");
+                throw new InvalidOperationException("Cannot find a mocked programmable block with the ID " + entityId);
             EnsureInit();
             RunProgrammableBlock(pb, argument, updateType);
         }
