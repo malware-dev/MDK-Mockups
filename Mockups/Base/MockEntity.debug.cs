@@ -14,21 +14,15 @@ namespace IngameScript.Mockups.Base
             get { throw new NotImplementedException(); }
         }
 
-        public virtual long EntityId { get; set; }
+        public virtual long EntityId { get; set; } = MockGridSystem.GetNextEntityId();
 
-        public virtual string Name { get; set; }
+        public virtual string Name { get; set; } = "";
 
-        public virtual string DisplayName { get; set; }
+        public virtual string DisplayName { get; set; } = "";
 
-        public virtual bool HasInventory
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public virtual bool HasInventory { get; } = false;
 
-        public virtual int InventoryCount
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public virtual int InventoryCount { get; } = 0;
 
         public virtual BoundingBoxD WorldAABB { get; set; }
 

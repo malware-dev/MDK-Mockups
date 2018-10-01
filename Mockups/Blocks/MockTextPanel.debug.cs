@@ -51,24 +51,20 @@ namespace IngameScript.Mockups.Blocks
             "White screen"
         };
 
-        public virtual string CurrentlyShownImage { get; set; }
+        public virtual string CurrentlyShownImage { get; set; } = "";
 
         [Obsolete("This property no has meaning in-game. If you need a secondary storage, use CustomData")]
         public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; } = ShowTextOnScreenFlag.PUBLIC;
 
-        public virtual bool ShowText { get; set; }
+        public virtual bool ShowText { get; set; } = true;
 
-        public virtual float FontSize { get; set; }
+        public virtual float FontSize { get; set; } = 1;
 
-        public virtual Color FontColor { get; set; }
+        public virtual Color FontColor { get; set; } = new Color(255, 255, 255);
 
-        public virtual Color BackgroundColor { get; set; }
+        public virtual Color BackgroundColor { get; set; } = new Color(0, 0, 0);
 
-        public virtual float ChangeInterval
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public virtual float ChangeInterval { get; set; } = 0;
 
         public virtual string Font { get; set; } = "Debug";
 

@@ -6,9 +6,6 @@ namespace IngameScript.Mockups.Base
     {
         public virtual bool Enabled { get; set; } = true;
 
-        public void RequestEnable(bool enable)
-        {
-            Enabled = enable;
-        }
+        public void RequestEnable(bool enable) => Enabled = enable;
     }
 }

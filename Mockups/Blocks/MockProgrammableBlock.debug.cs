@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using IngameScript.Mockups.Base;
+using Malware.MDKUtilities;
 using Sandbox.ModAPI;
 using Sandbox.ModAPI.Ingame;
 using IMyProgrammableBlock = Sandbox.ModAPI.Ingame.IMyProgrammableBlock;
@@ -38,7 +39,7 @@ namespace IngameScript.Mockups.Blocks
             try
             {
                 IsRunning = true;
-                Malware.MDKUtilities.MDK.Run(Program, argument ?? "", updateType: updateType);
+                MDKFactory.Run(Program, argument ?? "", updateType: updateType);
                 return true;
             }
             catch (Exception)
@@ -69,7 +70,7 @@ namespace IngameScript.Mockups.Blocks
                 return;
 
             Debug.Assert(Runtime != null, $"{nameof(Runtime)} != null");
-            var config = new Malware.MDKUtilities.MDK.ProgramConfig
+            var config = new MDKFactory.ProgramConfig
             {
                 GridTerminalSystem = mockedRun.GridTerminalSystem,
                 Runtime = Runtime,
@@ -77,7 +78,7 @@ namespace IngameScript.Mockups.Blocks
                 Echo = mockedRun.Echo,
                 Storage = Storage
             };
-            Program = Malware.MDKUtilities.MDK.CreateProgram(ProgramType, config);
+            Program = MDKFactory.CreateProgram(ProgramType, config);
         }
 
         /// <summary>
