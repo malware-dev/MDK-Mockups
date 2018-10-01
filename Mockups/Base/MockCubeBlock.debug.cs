@@ -34,11 +34,11 @@ namespace IngameScript.Mockups.Base
 
         public virtual Vector3I Min { get; set; }
 
-        public virtual int NumberInGrid { get; set; } = MockGridSystem.GetNextNumberInGrid();
+        public virtual int NumberInGrid { get; set; }
 
         public virtual MyBlockOrientation Orientation { get; set; }
 
-        public virtual long OwnerId { get; set; } = MockGridSystem.PlayerId;
+        public virtual long OwnerId { get; set; }
 
         public virtual Vector3I Position { get; set; }
 
@@ -60,7 +60,7 @@ namespace IngameScript.Mockups.Base
         public virtual string GetOwnerFactionTag()
         {
             var faction = "";
-            MockGridSystem.PlayerFactions.TryGetValue(OwnerId, out faction);
+            //MockGridSystem.PlayerFactions.TryGetValue(OwnerId, out faction);
 
             return faction;
         }

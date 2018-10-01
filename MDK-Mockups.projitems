@@ -9,7 +9,6 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)MockGridSystem.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MockTerminalProperty.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\AssertionException.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\Assert.debug.cs" />

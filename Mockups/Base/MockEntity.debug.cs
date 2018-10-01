@@ -14,7 +14,7 @@ namespace IngameScript.Mockups.Base
             get { throw new NotImplementedException(); }
         }
 
-        public virtual long EntityId { get; set; } = MockGridSystem.GetNextEntityId();
+        public virtual long EntityId { get; set; }// = MockGridSystem.GetNextEntityId();
 
         public virtual string Name { get; set; } = "";
 

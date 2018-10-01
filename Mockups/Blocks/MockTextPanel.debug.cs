@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Ingame;
+using Sandbox.ModAPI.Interfaces;
 using VRage.Game.GUI.TextPanel;
 using VRageMath;
 
@@ -11,6 +12,18 @@ namespace IngameScript.Mockups.Blocks
 {
     public class MockTextPanel : MockFunctionalBlock, IMyTextPanel
     {
+        protected override IEnumerable<ITerminalProperty> Properties { get; } = new List<ITerminalProperty>()
+        {
+            new MockBoolTerminalProperty<IMyTextPanel>("OnOff", b => b.Enabled),
+            new MockBoolTerminalProperty<IMyTextPanel>("ShowInTerminal", b => b.ShowInTerminal),
+            new MockBoolTerminalProperty<IMyTextPanel>("ShowInToolbarConfig", b => b.ShowInToolbarConfig),
+            new MockBoolTerminalProperty<IMyTextPanel>("ShowOnHUD", b => b.ShowOnHUD),
+            new MockFloatTerminalProperty<IMyTextPanel>("FontSize", b => b.FontSize),
+            new MockColorTerminalProperty<IMyTextPanel>("FontColor", b => b.FontColor),
+            new MockColorTerminalProperty<IMyTextPanel>("BackgroundColor", b => b.BackgroundColor),
+            new MockFloatTerminalProperty<IMyTextPanel>("ChangeIntervalSlider", b => b.ChangeInterval)
+        };
+
         const int MaxCharacterCount = 100000;
 
         List<string> _fonts = new List<string>

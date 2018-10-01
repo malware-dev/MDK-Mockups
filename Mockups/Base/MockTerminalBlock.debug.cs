@@ -12,9 +12,9 @@ namespace IngameScript.Mockups.Base
 {
     public abstract class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {
-        public virtual bool HasLocalPlayerAccess() => HasPlayerAccess(MockGridSystem.PlayerId);
+        protected abstract IEnumerable<ITerminalProperty> Properties { get; }
 
-        public virtual bool HasPlayerAccess(long playerId)
+        public virtual bool HasLocalPlayerAccess()
         {
             switch (PlayerRelationToOwner)
             {
@@ -25,6 +25,11 @@ namespace IngameScript.Mockups.Base
                 default:
                     return false;
             }
+        }
+
+        public virtual bool HasPlayerAccess(long playerId)
+        {
+            throw new NotImplementedException();
         }
 
         void IMyTerminalBlock.SetCustomName(string text) => CustomName = text;
@@ -67,33 +72,19 @@ namespace IngameScript.Mockups.Base
             return properties.FirstOrDefault();
         }
 
-        private static readonly IReadOnlyDictionary<Type, Func<PropertyInfo, ITerminalProperty>> PropTypes
-            = new Dictionary<Type, Func<PropertyInfo, ITerminalProperty>>()
-            {
-                { typeof(string), prop => new MockStringTerminalProperty(prop.Name) },
-                { typeof(float), prop => new MockFloatTerminalProperty(prop.Name) },
-                { typeof(bool), prop => new MockBoolTerminalProperty(prop.Name) },
-                { typeof(Color), prop => new MockColorTerminalProperty(prop.Name) }
-            };
-
-        public virtual void GetProperties(List<ITerminalProperty> resultList, Func<ITerminalProperty, bool> collect = null)
+        public void GetProperties(List<ITerminalProperty> resultList, Func<ITerminalProperty, bool> collect = null)
         {
             if (resultList == null)
                 return;
 
             resultList.Clear();
 
-            var props = GetType().GetProperties().Where(p => p.IsMemberPublic() && p.CanRead && p.CanWrite)
-                .Where(p => PropTypes.ContainsKey(p.PropertyType))
-                .Select(p => PropTypes[p.PropertyType](p));
-
-            if (collect == null)
+            foreach (var prop in Properties)
             {
-                resultList.AddRange(props);
-            }
-            else
-            {
-                resultList.AddRange(props.Where(collect));
+                if (collect?.Invoke(prop) ?? true)
+                {
+                    resultList.Add(prop);
+                }
             }
         }
 

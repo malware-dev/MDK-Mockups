@@ -1,15 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using IngameScript.Mockups.Base;
 using Malware.MDKUtilities;
 using Sandbox.ModAPI;
 using Sandbox.ModAPI.Ingame;
+using Sandbox.ModAPI.Interfaces;
 using IMyProgrammableBlock = Sandbox.ModAPI.Ingame.IMyProgrammableBlock;
 
 namespace IngameScript.Mockups.Blocks
 {
     public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
+        protected override IEnumerable<ITerminalProperty> Properties { get; } = new List<ITerminalProperty>()
+        {
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("OnOff", b => b.Enabled),
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("ShowInTerminal", b => b.ShowInTerminal),
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("ShowInToolbarConfig", b => b.ShowInToolbarConfig),
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("ShowOnHUD", b => b.ShowOnHUD)
+        };
+
         string _storage = string.Empty;
 
         public virtual Type ProgramType { get; set; }
@@ -142,6 +152,11 @@ namespace IngameScript.Mockups.Blocks
                 return;
 
             runtime.UpdateFrequency &= ~UpdateFrequency.Once;
+        }
+
+        public override void GetActions(List<ITerminalAction> resultList, Func<ITerminalAction, Boolean> collect = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }
