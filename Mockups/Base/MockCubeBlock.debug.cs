@@ -8,8 +8,6 @@ namespace IngameScript.Mockups.Base
 {
     public abstract class MockCubeBlock : MockEntity, IMyCubeBlock
     {
-        public virtual string OwnerFactionTag { get; set; }
-
         public virtual MyRelationsBetweenPlayerAndBlock PlayerRelationToOwner { get; set; }
 
         public virtual SerializableDefinitionId BlockDefinition { get; set; }
@@ -18,17 +16,17 @@ namespace IngameScript.Mockups.Base
 
         public virtual IMyCubeGrid CubeGrid { get; set; }
 
-        public virtual string DefinitionDisplayNameText { get; set; }
+        public virtual string DefinitionDisplayNameText { get; set; } = "";
 
-        public virtual float DisassembleRatio { get; set; }
+        public virtual float DisassembleRatio { get; set; } = 0;
 
-        public virtual string DisplayNameText { get; set; }
+        public virtual string DisplayNameText { get; set; } = "";
 
-        public virtual bool IsBeingHacked { get; set; }
+        public virtual bool IsBeingHacked { get; set; } = false;
 
-        public virtual bool IsFunctional { get; set; }
+        public virtual bool IsFunctional { get; set; } = true;
 
-        public virtual bool IsWorking { get; set; }
+        public virtual bool IsWorking { get; set; } = true;
 
         public virtual Vector3I Max { get; set; }
 
@@ -59,8 +57,26 @@ namespace IngameScript.Mockups.Base
             throw new NotImplementedException();
         }
 
-        public virtual string GetOwnerFactionTag() => OwnerFactionTag;
+        public virtual string GetOwnerFactionTag()
+        {
+            var faction = "";
+            //MockGridSystem.PlayerFactions.TryGetValue(OwnerId, out faction);
+
+            return faction;
+        }
 
         public virtual MyRelationsBetweenPlayerAndBlock GetPlayerRelationToOwner() => PlayerRelationToOwner;
+
+        public override String ToString()
+        {
+            var name = GetType().Name + " #" + EntityId;
+
+            if (!String.IsNullOrWhiteSpace(DisplayNameText))
+            {
+                name += ": " + DisplayNameText;
+            }
+
+            return name;
+        }
     }
 }
