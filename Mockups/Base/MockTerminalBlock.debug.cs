@@ -1,18 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using VRage.Game;
-using VRageMath;
 
 namespace IngameScript.Mockups.Base
 {
     public abstract class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {
-        protected abstract IEnumerable<ITerminalProperty> Properties { get; }
+        ReadOnlyCollection<ITerminalProperty> _properties;
+        StringBuilder _customName = new StringBuilder();
+
+        protected ReadOnlyCollection<ITerminalProperty> Properties
+        {
+            get
+            {
+                if (_properties == null)
+                    _properties = new ReadOnlyCollection<ITerminalProperty>(CreateTerminalProperties().ToList());
+                return _properties;
+            }
+        }
+
+        public virtual string CustomName
+        {
+            // Ugh... >_<
+            // This is horrible, but it's _actually_ how SE does it.
+            get
+            {
+                return _customName.ToString();
+            }
+            set
+            {
+                _customName.Clear();
+                _customName.Append(value);
+            }
+        }
+
+        public virtual string CustomNameWithFaction
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(GetOwnerFactionTag()))
+                    return CustomName;
+
+                return $"{GetOwnerFactionTag()}.{CustomName}";
+            }
+        }
+
+        public virtual string DetailedInfo { get; set; } = "";
+
+        public virtual string CustomInfo { get; set; } = "";
+
+        public virtual string CustomData { get; set; } = "";
+
+        public virtual bool ShowOnHUD { get; set; } = true;
+
+        public virtual bool ShowInTerminal { get; set; } = true;
+
+        public virtual bool ShowInToolbarConfig { get; set; } = true;
+
+        public virtual bool ShowInInventory { get; set; } = true;
+
+        protected virtual IEnumerable<ITerminalProperty> CreateTerminalProperties()
+        {
+            return new ITerminalProperty[]
+            {
+                new MockTerminalProperty<IMyTerminalBlock, bool>("ShowInTerminal", b => b.ShowInTerminal, (b, v) => b.ShowInTerminal = true, true),
+                new MockTerminalProperty<IMyTerminalBlock, bool>("ShowInToolbarConfig", b => b.ShowInToolbarConfig, (b, v) => b.ShowInToolbarConfig = v, true),
+                new MockTerminalProperty<IMyTerminalBlock, bool>("ShowInInventory", b => b.ShowInInventory, (b, v) => b.ShowInInventory = v, false),
+                new MockTerminalProperty<IMyTerminalBlock, bool>("ShowOnHUD", b => b.ShowOnHUD, (b, v) => b.ShowOnHUD = v, false),
+                
+                // Ugh... >_<
+                new MockTerminalProperty<IMyTerminalBlock, StringBuilder>("Name", b => _customName, (b, v) =>
+                {
+                    _customName.Clear();
+                    _customName.Append(v);
+                }),
+            };
+        }
 
         public virtual bool HasLocalPlayerAccess()
         {
@@ -87,32 +155,5 @@ namespace IngameScript.Mockups.Base
                 }
             }
         }
-
-        public virtual string CustomName { get; set; } = "";
-
-        public virtual string CustomNameWithFaction
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(GetOwnerFactionTag()))
-                    return CustomName;
-
-                return $"{GetOwnerFactionTag()}.{CustomName}";
-            }
-        }
-
-        public virtual string DetailedInfo { get; set; } = "";
-
-        public virtual string CustomInfo { get; set; } = "";
-
-        public virtual string CustomData { get; set; } = "";
-
-        public virtual bool ShowOnHUD { get; set; } = true;
-
-        public virtual bool ShowInTerminal { get; set; } = true;
-
-        public virtual bool ShowInToolbarConfig { get; set; } = true;
-
-        public virtual bool ShowInInventory { get; set; } = true;
     }
 }
