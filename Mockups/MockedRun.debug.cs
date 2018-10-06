@@ -12,8 +12,7 @@ namespace IngameScript.Mockups
     /// </summary>
     public abstract class MockedRun
     {
-        List<MockProgrammableBlock> _programmableBlocks = new List<MockProgrammableBlock>();
-
+        readonly List<MockProgrammableBlock> _programmableBlocks = new List<MockProgrammableBlock>();
         long _tickCount;
 
         protected MockedRun()
@@ -44,40 +43,6 @@ namespace IngameScript.Mockups
         public abstract void Echo(string text);
 
         /// <summary>
-        /// Attempts to retrieve the update type for this block.
-        /// </summary>
-        /// <param name="ticks">The tick count to get the update type for</param>
-        /// <param name="pb"></param>
-        /// <param name="updateType">The detected update type</param>
-        /// <returns><c>true</c> if this block is scheduled for a later run, <c>false</c> otherwise.</returns>
-        protected virtual bool ScheduleProgrammableBlock(long ticks, MockProgrammableBlock pb, out UpdateType updateType)
-        {
-            updateType = UpdateType.None;
-            var runtime = pb.Runtime;
-            if (runtime == null || runtime.UpdateFrequency == UpdateFrequency.None)
-                return false;
-
-            if ((runtime.UpdateFrequency & UpdateFrequency.Once) != 0)
-            {
-                updateType |= UpdateType.Once;
-                runtime.UpdateFrequency &= ~UpdateFrequency.Once;
-                if (runtime.UpdateFrequency == UpdateFrequency.None)
-                    return false;
-            }
-
-            if ((runtime.UpdateFrequency & UpdateFrequency.Update1) != 0)
-                updateType |= UpdateType.Update1;
-
-            if ((runtime.UpdateFrequency & UpdateFrequency.Update10) != 0 && ticks % 10 == 0)
-                updateType |= UpdateType.Update10;
-
-            if ((runtime.UpdateFrequency & UpdateFrequency.Update100) != 0 && ticks % 100 == 0)
-                updateType |= UpdateType.Update100;
-
-            return true;
-        }
-
-        /// <summary>
         /// Runs a single tick of this mocked run.
         /// </summary>
         /// <returns><c>true</c> if the run should continue; <c>false</c> otherwise.</returns>
@@ -104,7 +69,6 @@ namespace IngameScript.Mockups
                     RunProgrammableBlock(pb, null, updateType);
                     runPBs++;
                 }
-                pb.ToggleOnceFlag();
                 if (pb.IsScheduledForLater(_tickCount))
                     scheduledPBs++;
             }
