@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using IngameScript.Mockups.Base;
 using Malware.MDKUtilities;
 using Sandbox.ModAPI;
@@ -14,8 +12,16 @@ namespace IngameScript.Mockups.Blocks
 {
     public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
+        protected override IEnumerable<ITerminalProperty> Properties { get; } = new List<ITerminalProperty>()
+        {
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("OnOff", b => b.Enabled),
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("ShowInTerminal", b => b.ShowInTerminal),
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("ShowInToolbarConfig", b => b.ShowInToolbarConfig),
+            new MockBoolTerminalProperty<IMyProgrammableBlock>("ShowOnHUD", b => b.ShowOnHUD)
+        };
+
         string _storage = string.Empty;
-     
+
         public virtual Type ProgramType { get; set; }
 
         public virtual IMyGridProgram Program { get; set; }
@@ -32,15 +38,6 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual string TerminalRunArgument { get; set; }
 
-        protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
-        {
-            return base.CreateTerminalProperties().Concat(new[]
-            {
-                // Ugh... >_<
-                new MockTerminalProperty<IMyProgrammableBlock, StringBuilder>("Title", b => new StringBuilder(TerminalRunArgument), (b, v) => TerminalRunArgument = v.ToString())
-            });
-        }
-
         public virtual bool Run(string argument, UpdateType updateType)
         {
             if (!Enabled)
@@ -52,7 +49,6 @@ namespace IngameScript.Mockups.Blocks
             try
             {
                 IsRunning = true;
-                ToggleOnceFlag();
                 MDKFactory.Run(Program, argument ?? "", updateType: updateType);
                 return true;
             }
@@ -109,7 +105,12 @@ namespace IngameScript.Mockups.Blocks
                 return false;
 
             if ((runtime.UpdateFrequency & UpdateFrequency.Once) != 0)
+            {
                 updateType |= UpdateType.Once;
+                runtime.UpdateFrequency &= ~UpdateFrequency.Once;
+                if (runtime.UpdateFrequency == UpdateFrequency.None)
+                    return false;
+            }
 
             if ((runtime.UpdateFrequency & UpdateFrequency.Update1) != 0)
                 updateType |= UpdateType.Update1;
@@ -153,7 +154,7 @@ namespace IngameScript.Mockups.Blocks
             runtime.UpdateFrequency &= ~UpdateFrequency.Once;
         }
 
-        public override void GetActions(List<ITerminalAction> resultList, Func<ITerminalAction, bool> collect = null)
+        public override void GetActions(List<ITerminalAction> resultList, Func<ITerminalAction, Boolean> collect = null)
         {
             throw new NotImplementedException();
         }

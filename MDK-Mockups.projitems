@@ -9,7 +9,7 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockTerminalProperty.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MockTerminalProperty.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\AssertionException.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\Assert.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockCubeBlock.debug.cs" />
@@ -25,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockCubeGrid.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRunFrame.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockGridTerminalSystem.debug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockGridProgramRuntimeInfo.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockRuntime.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRun.debug.cs" />
   </ItemGroup>
   <ItemGroup>

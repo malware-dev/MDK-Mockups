@@ -67,11 +67,11 @@ namespace IngameScript.Mockups.Base
 
         public virtual MyRelationsBetweenPlayerAndBlock GetPlayerRelationToOwner() => PlayerRelationToOwner;
 
-        public override string ToString()
+        public override String ToString()
         {
             var name = GetType().Name + " #" + EntityId;
 
-            if (!string.IsNullOrWhiteSpace(DisplayNameText))
+            if (!String.IsNullOrWhiteSpace(DisplayNameText))
             {
                 name += ": " + DisplayNameText;
             }

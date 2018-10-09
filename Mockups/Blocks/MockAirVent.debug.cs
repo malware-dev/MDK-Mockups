@@ -1,15 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IngameScript.Mockups.Base;
+﻿using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace IngameScript.Mockups.Blocks
 {
     public class MockAirVent : MockFunctionalBlock, IMyAirVent
     {
+        protected override IEnumerable<ITerminalProperty> Properties { get; } = new List<ITerminalProperty>()
+        {
+            new MockBoolTerminalProperty<IMyAirVent>("OnOff", b => b.Enabled),
+            new MockBoolTerminalProperty<IMyAirVent>("ShowInTerminal", b => b.ShowInTerminal),
+            new MockBoolTerminalProperty<IMyAirVent>("ShowInToolbarConfig", b => b.ShowInToolbarConfig),
+            new MockBoolTerminalProperty<IMyAirVent>("ShowOnHUD", b => b.ShowOnHUD),
+            new MockBoolTerminalProperty<IMyAirVent>("Depressurize", b => b.Depressurize)
+        };
+
         public bool CanPressurize { get; set; }
 
         public bool IsDepressurizing { get; set; }
@@ -19,15 +27,7 @@ namespace IngameScript.Mockups.Blocks
         public VentStatus Status { get; set; }
 
         public bool PressurizationEnabled { get; } = true;
-
-        protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
-        {
-            return base.CreateTerminalProperties().Concat(new[]
-            {
-                new MockTerminalProperty<IMyAirVent, bool>("Depressurize", b => b.Depressurize, (b, v) => b.Depressurize = v)
-            });
-        }
-
+        
         public float GetOxygenLevel()
         {
             throw new NotImplementedException();

@@ -1,13 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using IngameScript.Mockups.Base;
+﻿using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
+using System.Collections.Generic;
 
 namespace IngameScript.Mockups.Blocks
 {
     public class MockGyro : MockFunctionalBlock, IMyGyro
     {
+        protected override IEnumerable<ITerminalProperty> Properties { get; } = new List<ITerminalProperty>()
+        {
+            new MockBoolTerminalProperty<IMyGyro>("OnOff", b => b.Enabled),
+            new MockBoolTerminalProperty<IMyGyro>("ShowInTerminal", b => b.ShowInTerminal),
+            new MockBoolTerminalProperty<IMyGyro>("ShowInToolbarConfig", b => b.ShowInToolbarConfig),
+            new MockBoolTerminalProperty<IMyGyro>("ShowOnHUD", b => b.ShowOnHUD),
+            new MockFloatTerminalProperty<IMyGyro>("Power", b => b.GyroPower),
+            new MockBoolTerminalProperty<IMyGyro>("Override", b => b.GyroOverride),
+            new MockFloatTerminalProperty<IMyGyro>("Yaw", b => b.Yaw),
+            new MockFloatTerminalProperty<IMyGyro>("Pitch", b => b.Pitch),
+            new MockFloatTerminalProperty<IMyGyro>("Roll", b => b.Roll)
+        };
+
         public virtual float GyroPower { get; set; }
 
         public virtual bool GyroOverride { get; set; }
@@ -17,17 +29,5 @@ namespace IngameScript.Mockups.Blocks
         public virtual float Pitch { get; set; }
 
         public virtual float Roll { get; set; }
-
-        protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
-        {
-            return base.CreateTerminalProperties().Concat(new ITerminalProperty[]
-            {
-                new MockTerminalProperty<IMyGyro, float>("Power", b => b.GyroPower, (b, v) => b.GyroPower = v),
-                new MockTerminalProperty<IMyGyro, bool>("Override", b => b.GyroOverride, (b, v) => b.GyroOverride = v),
-                new MockTerminalProperty<IMyGyro, float>("Yaw", b => b.Yaw, (b, v) => b.Yaw = v),
-                new MockTerminalProperty<IMyGyro, float>("Pitch", b => b.Pitch, (b, v) => b.Pitch = v),
-                new MockTerminalProperty<IMyGyro, float>("Roll", b => b.Roll, (b, v) => b.Roll = v)
-            });
-        }
     }
 }
