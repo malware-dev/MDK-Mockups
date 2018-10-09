@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using IngameScript.Mockups.Base;
+using Sandbox.Common.ObjectBuilders;
+using Sandbox.Game.Entities.Blocks;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using VRage.Game.GUI.TextPanel;
@@ -12,18 +15,6 @@ namespace IngameScript.Mockups.Blocks
 {
     public class MockTextPanel : MockFunctionalBlock, IMyTextPanel
     {
-        protected override IEnumerable<ITerminalProperty> Properties { get; } = new List<ITerminalProperty>()
-        {
-            new MockBoolTerminalProperty<IMyTextPanel>("OnOff", b => b.Enabled),
-            new MockBoolTerminalProperty<IMyTextPanel>("ShowInTerminal", b => b.ShowInTerminal),
-            new MockBoolTerminalProperty<IMyTextPanel>("ShowInToolbarConfig", b => b.ShowInToolbarConfig),
-            new MockBoolTerminalProperty<IMyTextPanel>("ShowOnHUD", b => b.ShowOnHUD),
-            new MockFloatTerminalProperty<IMyTextPanel>("FontSize", b => b.FontSize),
-            new MockColorTerminalProperty<IMyTextPanel>("FontColor", b => b.FontColor),
-            new MockColorTerminalProperty<IMyTextPanel>("BackgroundColor", b => b.BackgroundColor),
-            new MockFloatTerminalProperty<IMyTextPanel>("ChangeIntervalSlider", b => b.ChangeInterval)
-        };
-
         const int MaxCharacterCount = 100000;
 
         List<string> _fonts = new List<string>
@@ -51,6 +42,7 @@ namespace IngameScript.Mockups.Blocks
         StringBuilder _publicText = new StringBuilder();
         StringBuilder _publicTitle = new StringBuilder();
         List<string> _selectedImages = new List<string>();
+        TextAlignmentEnum _alignment = TextAlignmentEnum.Align_Left;
 
         public List<string> LoadedImages { get; } = new List<string>
         {
@@ -80,6 +72,34 @@ namespace IngameScript.Mockups.Blocks
         public virtual float ChangeInterval { get; set; } = 0;
 
         public virtual string Font { get; set; } = "Debug";
+
+        protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
+        {
+            return base.CreateTerminalProperties().Concat(new ITerminalProperty[]
+            {
+                new MockTerminalProperty<IMyTextPanel, int>("alignment", b => (int)_alignment, (b, v) => _alignment = (TextAlignmentEnum)v, 1),
+                new MockTerminalProperty<IMyTextPanel, float>("FontSize", b => b.FontSize, (b, v) => b.FontSize = v, 1),
+                new MockTerminalProperty<IMyTextPanel, Color>("FontColor", b => b.FontColor, (b, v) => b.FontColor = v, Color.White),
+                new MockTerminalProperty<IMyTextPanel, Color>("BackgroundColor", b => b.BackgroundColor, (b, v) => b.BackgroundColor = v, Color.Black),
+                new MockTerminalProperty<IMyTextPanel, float>("ChangeIntervalSlider", b => b.ChangeInterval, (b, v) => b.ChangeInterval = v),
+                new MockTerminalProperty<IMyTextPanel, bool>("ShowTextOnScreen", b => b.ShowText, (b, v) => ShowText = v),
+
+                new MockTerminalProperty<IMyTextPanel, long>("Font", b =>
+                {
+                    throw new NotImplementedException("Sorry, don't know how the ID is generated");
+                }, (b, v) =>
+                {
+                    throw new NotImplementedException("Sorry, don't know how the ID is generated");
+                }),
+
+                // Ugh... >_<
+                new MockTerminalProperty<IMyTerminalBlock, StringBuilder>("Title", b => _publicTitle, (b, v) =>
+                {
+                    _publicTitle.Clear();
+                    _publicTitle.Append(v);
+                }),
+            });
+        }
 
         public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
         {
@@ -130,7 +150,7 @@ namespace IngameScript.Mockups.Blocks
         {
             Debug.Assert(output != null, $"{nameof(output)} cannot be null");
             output.Clear();
-            foreach(var img in _selectedImages)
+            foreach (var img in _selectedImages)
                 output.Add(img);
         }
 

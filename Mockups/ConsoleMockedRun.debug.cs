@@ -1,13 +1,21 @@
 ﻿using System;
+using System.Text;
 
 namespace IngameScript.Mockups
 {
     /// <summary>
     /// A simple mocked run designed to run in the console
     /// </summary>
+    /// <inheritdoc />
     public class ConsoleMockedRun : MockedRun
     {
+        readonly StringBuilder _echoOutput;
         static readonly char[] SpinnerChars = {'|', '/', '-', '\\'};
+
+        public ConsoleMockedRun(StringBuilder echoOutput = null)
+        {
+            _echoOutput = echoOutput;
+        }
 
         /// <summary>
         /// Get or set whether the run should advance automatically (<c>false</c>) or manually (<c>true</c>)
@@ -16,10 +24,15 @@ namespace IngameScript.Mockups
 
         public override void Echo(string text)
         {
-            Console.Write('\r');
-            if (text.Length < Console.BufferWidth)
-                text = text.PadRight(Console.BufferWidth - text.Length, ' ');
-            Console.WriteLine(text);
+            if (_echoOutput != null)
+                _echoOutput.AppendLine(text);
+            else
+            {
+                Console.Write('\r');
+                if (text.Length < Console.BufferWidth)
+                    text = text.PadRight(Console.BufferWidth - text.Length, ' ');
+                Console.WriteLine(text);
+            }
         }
 
         public override bool NextTick(out MockedRunFrame frame)
