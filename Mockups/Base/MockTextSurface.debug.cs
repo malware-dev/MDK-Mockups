@@ -114,7 +114,7 @@ namespace IngameScript.Mockups.Base
         {
             Debug.Assert(scripts != null, $"{nameof(scripts)} cannot be null!");
             scripts.Clear();
-            foreach (var script in _script)
+            foreach (var script in _scripts)
                 scripts.Add(script);
         }
 
