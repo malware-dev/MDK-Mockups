@@ -53,5 +53,10 @@ namespace IngameScript.Mockups
         {
             throw new NotImplementedException();
         }
+
+        public virtual bool IsSameConstructAs(IMyCubeGrid other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -104,6 +104,11 @@ namespace IngameScript.Mockups.Base
 
         void IMyTerminalBlock.SetCustomName(StringBuilder text) => CustomName = text.ToString();
 
+        bool IMyTerminalBlock.IsSameConstructAs(IMyTerminalBlock other)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual void GetActions(List<ITerminalAction> resultList, Func<ITerminalAction, bool> collect = null)
         {
             throw new NotImplementedException();
