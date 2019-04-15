@@ -71,9 +71,9 @@ namespace IngameScript.Mockups.Base
         {
             var name = GetType().Name + " #" + EntityId;
 
-            if (!string.IsNullOrWhiteSpace(DisplayNameText))
+            if (!string.IsNullOrWhiteSpace(DisplayName))
             {
-                name += ": " + DisplayNameText;
+                name += ": " + DisplayName;
             }
 
             return name;

@@ -9,6 +9,9 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockTextSurface.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockMotorRotor.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockMotorStator.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockTerminalProperty.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\AssertionException.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\Assert.debug.cs" />
@@ -17,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockFunctionalBlock.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockTerminalBlock.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockAirVent.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockDoor.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockGyro.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockInteriorLight.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockProgrammableBlock.debug.cs" />
@@ -27,8 +31,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockGridTerminalSystem.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockGridProgramRuntimeInfo.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockedRun.debug.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Mockups\Base\" />
   </ItemGroup>
 </Project>
