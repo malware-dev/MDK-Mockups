@@ -56,7 +56,10 @@ namespace IngameScript.Mockups
 
         public virtual bool IsSameConstructAs(IMyCubeGrid other)
         {
-            throw new NotImplementedException();
+            if (other.EntityId == this.EntityId)
+                return true;
+
+            throw new NotSupportedException("Cannot currently find links between joined grids");
         }
     }
 }

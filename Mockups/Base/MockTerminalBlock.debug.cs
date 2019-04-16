@@ -11,6 +11,9 @@ namespace IngameScript.Mockups.Base
 {
     public abstract class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {
+        public Dictionary<long, MyRelationsBetweenPlayerAndBlock> Relationships { get; }
+            = new Dictionary<long, MyRelationsBetweenPlayerAndBlock>();
+
         ReadOnlyCollection<ITerminalProperty> _properties;
         StringBuilder _customName = new StringBuilder();
 
@@ -97,7 +100,15 @@ namespace IngameScript.Mockups.Base
 
         public virtual bool HasPlayerAccess(long playerId)
         {
-            throw new NotImplementedException();
+            switch (Relationships.GetValueOrDefault(playerId, MyRelationsBetweenPlayerAndBlock.Neutral))
+            {
+                case MyRelationsBetweenPlayerAndBlock.FactionShare:
+                case MyRelationsBetweenPlayerAndBlock.Owner:
+                case MyRelationsBetweenPlayerAndBlock.NoOwnership:
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         void IMyTerminalBlock.SetCustomName(string text) => CustomName = text;
@@ -106,7 +117,10 @@ namespace IngameScript.Mockups.Base
 
         bool IMyTerminalBlock.IsSameConstructAs(IMyTerminalBlock other)
         {
-            throw new NotImplementedException();
+            if (other.CubeGrid.EntityId == this.CubeGrid.EntityId)
+                return true;
+
+            throw new NotSupportedException("Cannot currently find links between joined grids");
         }
 
         public virtual void GetActions(List<ITerminalAction> resultList, Func<ITerminalAction, bool> collect = null)

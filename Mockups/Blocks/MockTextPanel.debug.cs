@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using IngameScript.Mockups.Base;
 using Sandbox.Common.ObjectBuilders;
-using Sandbox.Game.Entities.Blocks;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using VRage.Game.GUI.TextPanel;
@@ -157,7 +156,6 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual void RemoveImagesFromSelection(List<string> ids, bool removeDuplicates = false)
             => _surface.RemoveImagesFromSelection(ids, removeDuplicates);
-
 
         [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData")]
         public virtual void SetShowOnScreen(ShowTextOnScreenFlag set)

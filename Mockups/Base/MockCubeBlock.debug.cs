@@ -1,5 +1,4 @@
-﻿using System;
-using VRage.Game;
+﻿using VRage.Game;
 using VRage.Game.ModAPI.Ingame;
 using VRage.ObjectBuilders;
 using VRageMath;
@@ -43,19 +42,11 @@ namespace IngameScript.Mockups.Base
         public virtual Vector3I Position { get; set; }
 
         public virtual MyRelationsBetweenPlayerAndBlock GetUserRelationToOwner(long playerId)
-        {
-            throw new NotImplementedException();
-        }
+            => MyRelationsBetweenPlayerAndBlock.Neutral;
 
-        public virtual void UpdateIsWorking()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual void UpdateIsWorking() { }
 
-        public virtual void UpdateVisual()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual void UpdateVisual() { }
 
         public virtual string GetOwnerFactionTag()
         {
