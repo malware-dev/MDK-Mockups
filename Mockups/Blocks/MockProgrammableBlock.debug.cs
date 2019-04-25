@@ -16,7 +16,8 @@ namespace IngameScript.Mockups.Blocks
     public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
         string _storage = string.Empty;
-        IMyTextSurface _surface = new MockTextSurface();
+        readonly IMyTextSurface _primary = new MockTextSurface(new VRageMath.Vector2(512, 512), new VRageMath.Vector2(512, 512));
+        readonly IMyTextSurface _keyboard = new MockTextSurface(new VRageMath.Vector2(512, 256), new VRageMath.Vector2(512, 256));
 
         public virtual int SurfaceCount { get; } = 1;
      
@@ -164,10 +165,15 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual IMyTextSurface GetSurface(int index)
         {
-            if (index == 0)
-                return _surface;
-
-            throw new IndexOutOfRangeException();
+            switch (index)
+            {
+                case 0:
+                    return _primary;
+                case 1:
+                    return _keyboard;
+                default:
+                    throw new IndexOutOfRangeException();
+            }
         }
     }
 }

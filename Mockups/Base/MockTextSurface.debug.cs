@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game.GUI.TextPanel;
@@ -8,54 +9,15 @@ using VRageMath;
 
 namespace IngameScript.Mockups.Base
 {
-    public class MockTextSurface : IMyTextSurface
+    public partial class MockTextSurface : IMyTextSurface
     {
         const int MaxCharacterCount = 100000;
 
-        readonly List<string> _fonts = new List<string>
-        {
-            "Debug",
-            "Red",
-            "Green",
-            "Blue",
-            "White",
-            "DarkBlue",
-            "UrlNormal",
-            "UrlHighlight",
-            "ErrorMessageboxCaption",
-            "ErrorMessageBoxText",
-            "InfoMessageBoxCaption",
-            "InfoMessageBoxText",
-            "ScreenCaption",
-            "GameCredits",
-            "LoadingScreen",
-            "BuildInfo",
-            "BuildInfoHighlight",
-            "Monospace"
-        };
-
-        readonly List<string> _scripts = new List<string>
-        {
-        };
-
-        List<string> _selectedImages = new List<string>();
-        List<string> _sprites = new List<string>();
+        readonly List<string> _selectedImages = new List<string>();
+        readonly StringBuilder _text = new StringBuilder();
         MySpriteDrawFrame _spriteFrame = new MySpriteDrawFrame();
-        StringBuilder _text = new StringBuilder();
 
-        public string CurrentlyShownImage { get; private set; }
-        
-        public List<string> LoadedImages { get; } = new List<string>
-        {
-            "Offline",
-            "Online",
-            "Arrow",
-            "Cross",
-            "Danger",
-            "No Entry",
-            "Construction",
-            "White screen"
-        };
+        public string CurrentlyShownImage { get; set; }
 
         public float FontSize { get; set; } = 1;
         public Color FontColor { get; set; } = new Color(255, 255, 255);
@@ -67,9 +29,9 @@ namespace IngameScript.Mockups.Base
         public string Script { get; set; } = "";
         public ContentType ContentType { get; set; } = ContentType.NONE;
 
-        public Vector2 SurfaceSize { get; private set; } = new Vector2();
+        public Vector2 SurfaceSize { get; }
 
-        public Vector2 TextureSize { get; private set; } = new Vector2();
+        public Vector2 TextureSize { get; }
 
         public bool PreserveAspectRatio { get; set; } = true;
         public float TextPadding { get; set; } = 0f;
@@ -79,6 +41,12 @@ namespace IngameScript.Mockups.Base
         public string Name { get; private set; }
 
         public string DisplayName { get; private set; }
+
+        public MockTextSurface(Vector2 surfaceSize, Vector2 textureSize)
+        {
+            SurfaceSize = surfaceSize;
+            TextureSize = textureSize;
+        }
         
         public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
         {
@@ -92,7 +60,8 @@ namespace IngameScript.Mockups.Base
             Debug.Assert(id != null, $"{nameof(id)} cannot be null");
             if (checkExistence && _selectedImages.Contains(id))
                 return;
-            if (LoadedImages.Contains(id))
+
+            if (_textures.Contains(id))
                 _selectedImages.Add(id);
         }
 
@@ -105,8 +74,8 @@ namespace IngameScript.Mockups.Base
         {
             Debug.Assert(fonts != null, $"{nameof(fonts)} cannot be null!");
             fonts.Clear();
-            foreach (var font in _fonts)
-                fonts.Add(font);
+
+            fonts.AddRange(_fonts.Keys);
         }
 
         public MySpriteDrawFrame DrawFrame() => _spriteFrame;
@@ -138,7 +107,32 @@ namespace IngameScript.Mockups.Base
 
         public Vector2 MeasureStringInPixels(StringBuilder text, string font, float scale)
         {
-            throw new NotImplementedException();
+            var lines = text.ToString().Replace("\r", "").Split(new[] { "\n" }, StringSplitOptions.None);
+            var width = 0f;
+            var height = 0f;
+
+            var baseFont = _fonts[font];
+            var set = _charMap[baseFont];
+
+            foreach (var line in lines.Select(l => l.GroupBy(c => c)))
+            {
+                var lineWidth = 0f;
+                var lineHeight = 0f;
+
+                foreach (var c in line)
+                {
+                    var dimensions = set.First(s => s.Value.Contains(c.Key)).Key;
+
+                    lineWidth += dimensions.X * c.Count();
+                    lineHeight = Math.Max(lineHeight, dimensions.Y);
+                }
+
+                width = Math.Max(lineWidth, width);
+                height += lineHeight;
+            }
+
+            // TODO: Fix how font scale affects overall dimensions of the base bitmap.
+            return new Vector2(width * scale, height * scale);
         }
 
         public void ReadText(StringBuilder buffer, bool append = false)

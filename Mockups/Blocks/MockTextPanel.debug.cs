@@ -14,28 +14,50 @@ namespace IngameScript.Mockups.Blocks
 {
     public class MockTextPanel : MockFunctionalBlock, IMyTextPanel
     {
-        const int MaxCharacterCount = 100000;
-
-        IMyTextSurface _surface = new MockTextSurface();
-        StringBuilder _publicTitle = new StringBuilder();
+        readonly MockTextSurface _surface = new MockTextSurface(new Vector2(512, 512), new Vector2(512, 512));
+        readonly StringBuilder _publicTitle = new StringBuilder();
         TextAlignmentEnum _alignment = TextAlignmentEnum.Align_Left;
 
-        public virtual string CurrentlyShownImage { get; set; } = "";
+        public virtual string CurrentlyShownImage
+        {
+            get { return _surface.CurrentlyShownImage; }
+            set { _surface.CurrentlyShownImage = value; }
+        }
 
         [Obsolete("This property no has meaning in-game. If you need a secondary storage, use CustomData")]
         public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; } = ShowTextOnScreenFlag.PUBLIC;
 
         public bool ShowText => _surface.ContentType == ContentType.TEXT_AND_IMAGE;
 
-        public virtual float FontSize { get; set; } = 1;
+        public virtual float FontSize
+        {
+            get { return _surface.FontSize; }
+            set { _surface.FontSize = value; }
+        }
 
-        public virtual Color FontColor { get; set; } = new Color(255, 255, 255);
+        public virtual Color FontColor
+        {
+            get { return _surface.FontColor; }
+            set { _surface.FontColor = value; }
+        }
 
-        public virtual Color BackgroundColor { get; set; } = new Color(0, 0, 0);
+        public virtual Color BackgroundColor
+        {
+            get { return _surface.BackgroundColor; }
+            set { _surface.BackgroundColor = value; }
+        }
 
-        public virtual float ChangeInterval { get; set; } = 0;
+        public virtual float ChangeInterval
+        {
+            get { return _surface.ChangeInterval; }
+            set { _surface.ChangeInterval = value; }
+        }
 
-        public virtual string Font { get; set; } = "Debug";
+        public virtual string Font
+        {
+            get { return _surface.Font; }
+            set { _surface.Font = value; }
+        }
 
         public byte BackgroundAlpha
         {
@@ -61,10 +83,6 @@ namespace IngameScript.Mockups.Blocks
             set { _surface.ContentType = value; }
         }
 
-        public Vector2 SurfaceSize => _surface.SurfaceSize;
-
-        public Vector2 TextureSize => _surface.TextureSize;
-
         public bool PreserveAspectRatio
         {
             get { return _surface.PreserveAspectRatio; }
@@ -88,6 +106,10 @@ namespace IngameScript.Mockups.Blocks
             get { return _surface.ScriptForegroundColor; }
             set { _surface.ScriptForegroundColor = value; }
         }
+
+        public Vector2 SurfaceSize => _surface.SurfaceSize;
+
+        public Vector2 TextureSize => _surface.TextureSize;
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -204,6 +226,7 @@ namespace IngameScript.Mockups.Blocks
             Debug.Assert(value != null, $"{nameof(value)} cannot be null");
             if (!append)
                 _publicTitle.Clear();
+
             _publicTitle.Append(value);
 
             return true;
