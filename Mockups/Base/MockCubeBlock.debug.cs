@@ -43,19 +43,13 @@ namespace IngameScript.Mockups.Base
         public virtual Vector3I Position { get; set; }
 
         public virtual MyRelationsBetweenPlayerAndBlock GetUserRelationToOwner(long playerId)
-        {
-            throw new NotImplementedException();
-        }
+            => MyRelationsBetweenPlayerAndBlock.Neutral;
 
-        public virtual void UpdateIsWorking()
-        {
-            throw new NotImplementedException();
-        }
+        [Obsolete("This method should not be referenced by ingame scripts.", true)]
+        public virtual void UpdateIsWorking() { }
 
-        public virtual void UpdateVisual()
-        {
-            throw new NotImplementedException();
-        }
+        [Obsolete("This method should not be referenced by ingame scripts.", true)]
+        public virtual void UpdateVisual() { }
 
         public virtual string GetOwnerFactionTag()
         {
@@ -71,9 +65,9 @@ namespace IngameScript.Mockups.Base
         {
             var name = GetType().Name + " #" + EntityId;
 
-            if (!string.IsNullOrWhiteSpace(DisplayNameText))
+            if (!string.IsNullOrWhiteSpace(DisplayName))
             {
-                name += ": " + DisplayNameText;
+                name += ": " + DisplayName;
             }
 
             return name;

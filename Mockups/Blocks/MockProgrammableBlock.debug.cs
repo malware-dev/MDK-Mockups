@@ -9,12 +9,17 @@ using Sandbox.ModAPI;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using IMyProgrammableBlock = Sandbox.ModAPI.Ingame.IMyProgrammableBlock;
+using IMyTextSurface = Sandbox.ModAPI.Ingame.IMyTextSurface;
 
 namespace IngameScript.Mockups.Blocks
 {
     public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
         string _storage = string.Empty;
+        readonly IMyTextSurface _primary = new MockTextSurface(new VRageMath.Vector2(512, 512), new VRageMath.Vector2(512, 512));
+        readonly IMyTextSurface _keyboard = new MockTextSurface(new VRageMath.Vector2(512, 256), new VRageMath.Vector2(512, 256));
+
+        public virtual int SurfaceCount { get; } = 1;
      
         public virtual Type ProgramType { get; set; }
 
@@ -156,6 +161,19 @@ namespace IngameScript.Mockups.Blocks
         public override void GetActions(List<ITerminalAction> resultList, Func<ITerminalAction, bool> collect = null)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual IMyTextSurface GetSurface(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return _primary;
+                case 1:
+                    return _keyboard;
+                default:
+                    throw new IndexOutOfRangeException();
+            }
         }
     }
 }

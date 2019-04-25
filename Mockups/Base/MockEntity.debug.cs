@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
 using VRageMath;
@@ -36,12 +38,12 @@ namespace IngameScript.Mockups.Base
 
         public virtual IMyInventory GetInventory()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("This block type does not have an inventory.");
         }
 
         public virtual IMyInventory GetInventory(int index)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("This block type does not have an inventory.");
         }
 
         public virtual Vector3D GetPosition() => WorldPosition;
