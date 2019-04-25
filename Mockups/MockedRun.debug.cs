@@ -23,7 +23,7 @@ namespace IngameScript.Mockups
         /// <summary>
         /// Determines whether this run has been initialized. 
         /// </summary>
-        public bool IsInitialized { get; set; }
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// Gets or sets the grid terminal system to use during this run. This property must be populated.

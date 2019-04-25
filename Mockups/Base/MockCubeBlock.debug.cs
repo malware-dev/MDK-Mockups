@@ -1,4 +1,5 @@
-﻿using VRage.Game;
+﻿using System;
+using VRage.Game;
 using VRage.Game.ModAPI.Ingame;
 using VRage.ObjectBuilders;
 using VRageMath;
@@ -44,8 +45,10 @@ namespace IngameScript.Mockups.Base
         public virtual MyRelationsBetweenPlayerAndBlock GetUserRelationToOwner(long playerId)
             => MyRelationsBetweenPlayerAndBlock.Neutral;
 
+        [Obsolete("This method should not be referenced by ingame scripts.", true)]
         public virtual void UpdateIsWorking() { }
 
+        [Obsolete("This method should not be referenced by ingame scripts.", true)]
         public virtual void UpdateVisual() { }
 
         public virtual string GetOwnerFactionTag()

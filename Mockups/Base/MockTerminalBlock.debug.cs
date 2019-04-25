@@ -98,17 +98,10 @@ namespace IngameScript.Mockups.Base
             }
         }
 
+        [Obsolete("This method should not be referenced by ingame scripts.", true)]
         public virtual bool HasPlayerAccess(long playerId)
         {
-            switch (Relationships.GetValueOrDefault(playerId, MyRelationsBetweenPlayerAndBlock.Neutral))
-            {
-                case MyRelationsBetweenPlayerAndBlock.FactionShare:
-                case MyRelationsBetweenPlayerAndBlock.Owner:
-                case MyRelationsBetweenPlayerAndBlock.NoOwnership:
-                    return true;
-                default:
-                    return false;
-            }
+            throw new NotImplementedException();
         }
 
         void IMyTerminalBlock.SetCustomName(string text) => CustomName = text;
