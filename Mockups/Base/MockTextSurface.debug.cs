@@ -19,7 +19,7 @@ namespace IngameScript.Mockups.Base
 
         readonly List<string> _selectedImages = new List<string>();
         readonly StringBuilder _text = new StringBuilder();
-        MySpriteDrawFrame _spriteFrame = new MySpriteDrawFrame(frame => { });
+        List<MySprite> MySprites { get; } = new List<MySprite>();
 
         public string CurrentlyShownImage { get; set; }
 
@@ -46,12 +46,14 @@ namespace IngameScript.Mockups.Base
 
         public string DisplayName { get; private set; }
 
+        public IEnumerable<MySprite> SpriteBuffer => MySprites;
+
         public MockTextSurface(Vector2 surfaceSize, Vector2 textureSize)
         {
             SurfaceSize = surfaceSize;
             TextureSize = textureSize;
         }
-        
+
         public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
         {
             Debug.Assert(ids != null, $"{nameof(ids)} cannot be null");
@@ -82,7 +84,12 @@ namespace IngameScript.Mockups.Base
             fonts.AddRange(_fonts.Keys);
         }
 
-        public MySpriteDrawFrame DrawFrame() => _spriteFrame;
+        public MySpriteDrawFrame DrawFrame() => new MySpriteDrawFrame(frame =>
+        {
+            MySprites.Clear();
+            frame.AddToList(MySprites);
+        });
+
         public void GetScripts(List<string> scripts)
         {
             Debug.Assert(scripts != null, $"{nameof(scripts)} cannot be null!");
