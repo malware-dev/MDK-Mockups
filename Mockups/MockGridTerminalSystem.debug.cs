@@ -21,6 +21,11 @@ namespace IngameScript.Mockups
             Blocks.Add(block);
         }
 
+        public void Add(IEnumerable<IMyTerminalBlock> blocks)
+        {
+            Blocks.AddRange(blocks);
+        }
+
         public void GetBlocks(List<IMyTerminalBlock> blocks)
         {
             blocks.Clear();
