@@ -19,7 +19,7 @@ namespace IngameScript.Mockups.Base
 
         readonly List<string> _selectedImages = new List<string>();
         readonly StringBuilder _text = new StringBuilder();
-        MySpriteDrawFrame _spriteFrame = new MySpriteDrawFrame();
+        MySpriteDrawFrame _spriteFrame = new MySpriteDrawFrame(frame => { });
 
         public string CurrentlyShownImage { get; set; }
 
