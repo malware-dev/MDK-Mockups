@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{52410FE6-5C10-4D68-B9BF-66BE5CF90BC5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>DocGen</RootNamespace>
+    <AssemblyName>DocGen</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiEntry.cs" />
+    <Compile Include="ApiEntryStringFlags.cs" />
+    <Compile Include="LocalizationTexts.cs" />
+    <Compile Include="MarkdownGenerators\NamespaceIndexGenerator.cs" />
+    <Compile Include="MarkdownGenerators\BlockGroupName.cs" />
+    <Compile Include="MarkdownGenerators\NamespaceGenerator.cs" />
+    <Compile Include="MarkdownGenerators\ApiIndexGenerator.cs" />
+    <Compile Include="MarkdownGenerators\DocumentGenerator.cs" />
+    <Compile Include="MarkdownGenerators\MemberGenerator.cs" />
+    <Compile Include="MarkdownGenerators\TypeGenerator.cs" />
+    <Compile Include="Markdown\MarkdownInline.cs" />
+    <Compile Include="Markdown\MarkdownWriter.cs" />
+    <Compile Include="MDKUtilityFramework.cs" />
+    <Compile Include="ProgrammableBlockApi.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Terminals.cs" />
+    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="Whitelist.cs" />
+    <Compile Include="WhitelistAndTerminalCaches.cs" />
+    <Compile Include="WhitelistRule.cs" />
+    <Compile Include="XmlDocs\CodeParagraph.cs" />
+    <Compile Include="XmlDocs\CodeSpan.cs" />
+    <Compile Include="XmlDocs\MemberParagraph.cs" />
+    <Compile Include="XmlDocs\Paragraph.cs" />
+    <Compile Include="XmlDocs\ParagraphType.cs" />
+    <Compile Include="XmlDocs\ParamParagraph.cs" />
+    <Compile Include="XmlDocs\ParamRefSpan.cs" />
+    <Compile Include="XmlDocs\Span.cs" />
+    <Compile Include="XmlDocs\TypeParamParagraph.cs" />
+    <Compile Include="XmlDocs\TypeParamRefSpan.cs" />
+    <Compile Include="XmlDocs\TypeRefSpan.cs" />
+    <Compile Include="XmlDocs\XmlDoc.cs" />
+    <Compile Include="XmlDocs\XmlDocNode.cs" />
+    <Compile Include="XmlDocs\XmlDocWriteContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MDKWhitelistExtractor\MDKWhitelistExtractor.csproj">
+      <Project>{02e93d45-c296-49f4-bef2-3d5429549917}</Project>
+      <Name>MDKWhitelistExtractor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="..\SteamAndSE\SteamAndSE.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
