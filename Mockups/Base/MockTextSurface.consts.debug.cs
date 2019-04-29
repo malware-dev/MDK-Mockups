@@ -1,4 +1,4 @@
-///
+﻿///
 /// This file is auto generated based on the Space Engineers content directory.
 /// Space Engineers version: 1.0.0.0, date: 2019-04-15 15:33:34
 /// 
@@ -7,9 +7,11 @@ using System.Collections.Generic;
 
 namespace IngameScript.Mockups.Base
 {
-	public partial class MockTextSurface
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
+    public partial class MockTextSurface
 	{
-
         static readonly IReadOnlyDictionary<string, string> _fonts = new Dictionary<string, string>
 		{
 			{ "Debug", "white_shadow" },

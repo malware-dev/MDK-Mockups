@@ -3,6 +3,9 @@
     /// <summary>
     /// Provides information about a single frame in a <see cref="MockedRun"/>
     /// </summary>
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public struct MockedRunFrame
     {
         public MockedRunFrame(long tick, bool isRunning, int scheduledPBs, int runPBs)

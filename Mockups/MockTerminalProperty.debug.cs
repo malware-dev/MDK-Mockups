@@ -4,6 +4,9 @@ using VRage.Game.ModAPI.Ingame;
 
 namespace IngameScript
 {
+#if !MOCKUP_DEBUG
+    [DebuggerNonUserCode]
+#endif
     public class MockTerminalProperty<TBlock, T> : ITerminalProperty<T>
         where TBlock : IMyCubeBlock
     {

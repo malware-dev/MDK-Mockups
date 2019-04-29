@@ -8,6 +8,9 @@ using VRageMath;
 
 namespace IngameScript.Mockups.Blocks
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockInteriorLight : MockTerminalBlock, IMyInteriorLight
     {
         float _offset;

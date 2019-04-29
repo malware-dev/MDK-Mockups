@@ -9,10 +9,12 @@ using System.Xml;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game.GUI.TextPanel;
 using VRageMath;
-using VRageRender;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public partial class MockTextSurface : IMyTextSurface
     {
         const int MaxCharacterCount = 100000;
@@ -180,7 +182,7 @@ namespace IngameScript.Mockups.Base
             return true;
         }
 
-        #region Mock Context for IMyTextSurface.MeasureStringInPixels
+#region Mock Context for IMyTextSurface.MeasureStringInPixels
         private static IDictionary<string, MockFont> FontDefinitions { get; } = new Dictionary<string, MockFont>();
 
         private static MockFont GetFontDefinition(string font)
@@ -386,6 +388,6 @@ namespace IngameScript.Mockups.Base
                 return !char.IsWhiteSpace(c) && !char.IsControl(c);
             }
         }
-        #endregion
+#endregion
     }
 }

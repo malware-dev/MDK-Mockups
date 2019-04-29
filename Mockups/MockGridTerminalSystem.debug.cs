@@ -6,6 +6,9 @@ using Sandbox.ModAPI.Ingame;
 
 namespace IngameScript.Mockups
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockGridTerminalSystem : IMyGridTerminalSystem, IEnumerable<IMyTerminalBlock>
     {
         public List<IMyTerminalBlock> Blocks { get; } = new List<IMyTerminalBlock>();

@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace IngameScript.Mockups.Asserts
 {
-    [DebuggerNonUserCode]
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public static class Assert
     {
         [Obsolete("Use " + nameof(Assert) + "." + nameof(True))]
