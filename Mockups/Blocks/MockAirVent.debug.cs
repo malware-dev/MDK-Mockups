@@ -10,6 +10,8 @@ namespace IngameScript.Mockups.Blocks
 {
     public class MockAirVent : MockFunctionalBlock, IMyAirVent
     {
+        public float OxygenLevel { get; set; } = 0;
+
         public bool CanPressurize { get; set; }
 
         public bool IsDepressurizing { get; set; }
@@ -28,10 +30,7 @@ namespace IngameScript.Mockups.Blocks
             });
         }
 
-        public float GetOxygenLevel()
-        {
-            throw new NotImplementedException();
-        }
+        public float GetOxygenLevel() => OxygenLevel;
 
         public void SetCustomName(string text) => CustomName = text;
 
