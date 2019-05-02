@@ -11,10 +11,7 @@ namespace IngameScript.Mockups.Base
     {
         public virtual Vector3D WorldPosition { get; set; }
 
-        public virtual MyEntityComponentContainer Components
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public virtual MyEntityComponentContainer Components { get; }
 
         public virtual long EntityId { get; set; }// = MockGridSystem.GetNextEntityId();
 
