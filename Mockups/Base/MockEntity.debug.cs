@@ -6,7 +6,7 @@ using VRageMath;
 namespace IngameScript.Mockups.Base
 {
 #if !MOCKUP_DEBUG
-    [System.Diagnostics.[DebuggerNonUserCode]
+    [System.Diagnostics.DebuggerNonUserCode]
 #endif
     public abstract class MockEntity : IMyEntity
     {
