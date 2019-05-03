@@ -12,6 +12,9 @@ using VRageMath;
 
 namespace IngameScript.Mockups.Blocks
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockTextPanel : MockFunctionalBlock, IMyTextPanel
     {
         readonly MockTextSurface _surface = new MockTextSurface(new Vector2(512, 512), new Vector2(512, 512));

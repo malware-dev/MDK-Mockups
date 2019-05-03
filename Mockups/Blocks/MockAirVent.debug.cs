@@ -8,6 +8,9 @@ using SpaceEngineers.Game.ModAPI.Ingame;
 
 namespace IngameScript.Mockups.Blocks
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockAirVent : MockFunctionalBlock, IMyAirVent
     {
         public float OxygenLevel { get; set; } = 0;

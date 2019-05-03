@@ -6,6 +6,9 @@ using VRageMath;
 
 namespace IngameScript.Mockups
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockCubeGrid : MockEntity, IMyCubeGrid
     {
         public virtual string CustomName { get; set; }

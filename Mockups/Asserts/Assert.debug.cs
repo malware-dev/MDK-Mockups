@@ -1,8 +1,10 @@
 ﻿using System;
-using VRageMath;
 
 namespace IngameScript.Mockups.Asserts
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public static class Assert
     {
         [Obsolete("Use " + nameof(Assert) + "." + nameof(True))]

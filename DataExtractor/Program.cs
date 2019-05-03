@@ -56,7 +56,6 @@ namespace DataExtractor
             headerBuilder.AppendLine("/// This file is auto generated based on the Space Engineers content directory.");
             headerBuilder.AppendLine($"/// Space Engineers version: {version.FileVersion}, date: {modified}");
             headerBuilder.AppendLine("/// ");
-            headerBuilder.AppendLine();
 
             var header = headerBuilder.ToString();
 

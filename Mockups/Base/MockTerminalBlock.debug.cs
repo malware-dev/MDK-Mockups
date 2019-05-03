@@ -9,6 +9,9 @@ using VRage.Game;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public abstract class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {
         public Dictionary<long, MyRelationsBetweenPlayerAndBlock> Relationships { get; }

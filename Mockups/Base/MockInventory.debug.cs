@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using VRage;
 using VRage.Game.ModAPI.Ingame;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockInventory : IMyInventory
     {
         protected static readonly MyFixedPoint Value0 = new MyFixedPoint { RawValue = 0 };

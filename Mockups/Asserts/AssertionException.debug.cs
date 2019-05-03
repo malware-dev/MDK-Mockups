@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 namespace IngameScript.Mockups.Asserts
 {
     [Serializable]
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class AssertionException : Exception
     {
         //

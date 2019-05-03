@@ -6,6 +6,9 @@ using VRageMath;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public abstract class MockCubeBlock : MockEntity, IMyCubeBlock
     {
         public virtual MyRelationsBetweenPlayerAndBlock PlayerRelationToOwner { get; set; }
