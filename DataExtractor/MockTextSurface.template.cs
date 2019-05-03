@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace IngameScript.Mockups.Base
 {
-#if !MOCKUP_DEBUG
-    [System.Diagnostics.DebuggerNonUserCode]
-#endif
     public partial class MockTextSurface
 	{
         static readonly IReadOnlyDictionary<string, string> _fonts = new Dictionary<string, string>
