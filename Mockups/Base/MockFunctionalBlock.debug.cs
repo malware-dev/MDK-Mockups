@@ -6,6 +6,9 @@ using Sandbox.ModAPI.Interfaces;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public abstract class MockFunctionalBlock : MockTerminalBlock, IMyFunctionalBlock
     {
         public virtual bool Enabled { get; set; } = true;

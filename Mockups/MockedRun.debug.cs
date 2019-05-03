@@ -10,6 +10,9 @@ namespace IngameScript.Mockups
     /// <summary>
     /// Represents a mocked-up run of one or more scripts
     /// </summary>
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public abstract class MockedRun
     {
         readonly List<MockProgrammableBlock> _programmableBlocks = new List<MockProgrammableBlock>();

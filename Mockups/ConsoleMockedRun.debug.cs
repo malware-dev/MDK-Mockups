@@ -7,6 +7,9 @@ namespace IngameScript.Mockups
     /// A simple mocked run designed to run in the console
     /// </summary>
     /// <inheritdoc />
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class ConsoleMockedRun : MockedRun
     {
         readonly StringBuilder _echoOutput;

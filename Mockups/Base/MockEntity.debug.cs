@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
 using VRageMath;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.[DebuggerNonUserCode]
+#endif
     public abstract class MockEntity : IMyEntity
     {
         public virtual Vector3D WorldPosition { get; set; }

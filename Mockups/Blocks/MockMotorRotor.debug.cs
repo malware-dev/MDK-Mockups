@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IngameScript.Mockups.Base;
+﻿using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Ingame;
-using VRage.Game;
-using VRage.Game.Components;
-using VRage.Game.ModAPI.Ingame;
-using VRage.ObjectBuilders;
-using VRageMath;
 
 namespace IngameScript.Mockups.Blocks
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockMotorRotor : MockCubeBlock, IMyMotorRotor
     {
         public bool IsAttached => Base != null;

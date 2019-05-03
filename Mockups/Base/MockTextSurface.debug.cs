@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Xml;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game.GUI.TextPanel;
 using VRageMath;
 
 namespace IngameScript.Mockups.Base
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public partial class MockTextSurface : IMyTextSurface
     {
         const int MaxCharacterCount = 100000;
 
         readonly List<string> _selectedImages = new List<string>();
         readonly StringBuilder _text = new StringBuilder();
-        MySpriteDrawFrame _spriteFrame = new MySpriteDrawFrame();
+        List<MySprite> MySprites { get; } = new List<MySprite>();
 
         public string CurrentlyShownImage { get; set; }
 
@@ -42,12 +48,14 @@ namespace IngameScript.Mockups.Base
 
         public string DisplayName { get; private set; }
 
+        public IEnumerable<MySprite> SpriteBuffer => MySprites;
+
         public MockTextSurface(Vector2 surfaceSize, Vector2 textureSize)
         {
             SurfaceSize = surfaceSize;
             TextureSize = textureSize;
         }
-        
+
         public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
         {
             Debug.Assert(ids != null, $"{nameof(ids)} cannot be null");
@@ -78,7 +86,12 @@ namespace IngameScript.Mockups.Base
             fonts.AddRange(_fonts.Keys);
         }
 
-        public MySpriteDrawFrame DrawFrame() => _spriteFrame;
+        public MySpriteDrawFrame DrawFrame() => new MySpriteDrawFrame(frame =>
+        {
+            MySprites.Clear();
+            frame.AddToList(MySprites);
+        });
+
         public void GetScripts(List<string> scripts)
         {
             Debug.Assert(scripts != null, $"{nameof(scripts)} cannot be null!");
@@ -107,32 +120,15 @@ namespace IngameScript.Mockups.Base
 
         public Vector2 MeasureStringInPixels(StringBuilder text, string font, float scale)
         {
-            var lines = text.ToString().Replace("\r", "").Split(new[] { "\n" }, StringSplitOptions.None);
-            var width = 0f;
-            var height = 0f;
-
-            var baseFont = _fonts[font];
-            var set = _charMap[baseFont];
-
-            foreach (var line in lines.Select(l => l.GroupBy(c => c)))
+            try
             {
-                var lineWidth = 0f;
-                var lineHeight = 0f;
-
-                foreach (var c in line)
-                {
-                    var dimensions = set.First(s => s.Value.Contains(c.Key)).Key;
-
-                    lineWidth += dimensions.X * c.Count();
-                    lineHeight = Math.Max(lineHeight, dimensions.Y);
-                }
-
-                width = Math.Max(lineWidth, width);
-                height += lineHeight;
+                var result = GetFontDefinition(font)?.MeasureString(text, scale);
+                return result ?? Vector2.Zero;
             }
-
-            // TODO: Fix how font scale affects overall dimensions of the base bitmap.
-            return new Vector2(width * scale, height * scale);
+            catch (Exception)
+            {
+                return Vector2.Zero;
+            }
         }
 
         public void ReadText(StringBuilder buffer, bool append = false)
@@ -185,5 +181,213 @@ namespace IngameScript.Mockups.Base
 
             return true;
         }
+
+#region Mock Context for IMyTextSurface.MeasureStringInPixels
+        private static IDictionary<string, MockFont> FontDefinitions { get; } = new Dictionary<string, MockFont>();
+
+        private static MockFont GetFontDefinition(string font)
+        {
+            var definition = _fonts.First(f => f.Key.ToLower() == font.ToLower()).Value;
+
+            if (!FontDefinitions.ContainsKey(definition))
+            {
+                var dir = Path.GetDirectoryName(Assembly.GetAssembly(typeof(IMyAssembler)).Location);
+                var file = Path.Combine(dir, "..", "Content", "Fonts", definition, "FontDataPA.xml");
+
+                if (!File.Exists(file))
+                {
+                    return null;
+                }
+
+                var fontNode = default(XmlNode);
+                using (var stream = File.OpenRead(file))
+                {
+                    var reader = new XmlDocument();
+                    reader.Load(stream);
+                    fontNode = reader.ChildNodes.OfType<XmlNode>().First(n => n.Name == "font");
+                }
+
+                var baseline = int.Parse(fontNode.Attributes.GetNamedItem("base").Value);
+                var lineheight = int.Parse(fontNode.Attributes.GetNamedItem("height").Value);
+                var glyphs = new Dictionary<char, MockFont.MockGlyphInfo>();
+                var kerns = new Dictionary<MockFont.MockKernPair, sbyte>();
+
+                foreach (var child in fontNode.ChildNodes.Cast<XmlNode>())
+                {
+                    switch (child.Name)
+                    {
+                        case "glyphs":
+                            foreach (var glyph in child.ChildNodes.Cast<XmlNode>().Where(n => n.Name == "glyph"))
+                            {
+                                var loc = glyph.Attributes.GetNamedItem("loc")?.Value;
+                                if (loc == null)
+                                    loc = glyph.Attributes.GetNamedItem("origin")?.Value;
+
+                                var locA = loc.Split(',');
+                                var size = glyph.Attributes.GetNamedItem("size").Value;
+                                var sizeA = size.Split('x');
+
+                                glyphs.Add(glyph.Attributes.GetNamedItem("ch").Value[0], new MockFont.MockGlyphInfo
+                                {
+                                    nBitmapID = ushort.Parse(glyph.Attributes.GetNamedItem("bm").Value),
+                                    pxLocX = ushort.Parse(locA[0]),
+                                    pxLocY = ushort.Parse(locA[1]),
+                                    pxWidth = byte.Parse(sizeA[0]),
+                                    pxHeight = byte.Parse(sizeA[1]),
+                                    pxAdvanceWidth = byte.Parse(glyph.Attributes.GetNamedItem("aw").Value),
+                                    pxLeftSideBearing = sbyte.Parse(glyph.Attributes.GetNamedItem("lsb").Value)
+                                });
+                            }
+                            break;
+                        case "kernpairs":
+                            foreach (var kern in child.ChildNodes.Cast<XmlNode>().Where(n => n.Name == "kernpair"))
+                            {
+                                var l = kern.Attributes.GetNamedItem("left").Value[0];
+                                var r = kern.Attributes.GetNamedItem("right").Value[0];
+                                var a = kern.Attributes.GetNamedItem("adjust").Value;
+
+                                kerns.Add(new MockFont.MockKernPair { Left = l, Right = r }, sbyte.Parse(a));
+                            }
+                            break;
+                    }
+                }
+
+                FontDefinitions.Add(definition, new MockFont(definition, lineheight, glyphs, kerns));
+            }
+
+            return FontDefinitions[definition];
+        }
+
+        // Mock of VRage.Render.dll MyFont for IMyTextSurface.MeasureStringInPixels
+        private class MockFont
+        {
+            private static readonly MockKernPairComparer KernComparer = new MockKernPairComparer();
+
+            private class MockKernPairComparer : IComparer<MockFont.MockKernPair>, IEqualityComparer<MockFont.MockKernPair>
+            {
+                public int Compare(MockFont.MockKernPair x, MockFont.MockKernPair y)
+                {
+                    if (x.Left != y.Left)
+                    {
+                        return x.Left.CompareTo(y.Left);
+                    }
+                    return x.Right.CompareTo(y.Right);
+                }
+
+                public bool Equals(MockFont.MockKernPair x, MockFont.MockKernPair y)
+                {
+                    return x.Left == y.Left && x.Right == y.Right;
+                }
+
+                public int GetHashCode(MockFont.MockKernPair x)
+                {
+                    return x.Left.GetHashCode() ^ x.Right.GetHashCode();
+                }
+            }
+
+            public struct MockKernPair
+            {
+                public MockKernPair(char l, char r)
+                {
+                    this.Left = l;
+                    this.Right = r;
+                }
+
+                public char Left;
+                public char Right;
+            }
+
+            public struct MockGlyphInfo
+            {
+                public ushort nBitmapID;
+                public ushort pxLocX;
+                public ushort pxLocY;
+                public byte pxWidth;
+                public byte pxHeight;
+                public byte pxAdvanceWidth;
+                public sbyte pxLeftSideBearing;
+            };
+
+            public bool KernEnabled { get; set; }
+            public int Spacing { get; set; }
+            public string Name { get; }
+            public int LineHeight { get; private set; }
+
+            private IReadOnlyDictionary<char, MockGlyphInfo> GlyphInfo { get; }
+            private IReadOnlyDictionary<MockKernPair, sbyte> KernPairs { get; } = new Dictionary<MockKernPair, sbyte>(KernComparer);
+
+            public MockFont(string name, int height, IReadOnlyDictionary<char, MockGlyphInfo> glyphs, IReadOnlyDictionary<MockKernPair, sbyte> kernPairs, int spacing = 1)
+            {
+                Name = name;
+                Spacing = spacing;
+                LineHeight = height;
+                GlyphInfo = glyphs;
+                KernPairs = kernPairs;
+            }
+
+            public Vector2 MeasureString(StringBuilder text, float scale)
+            {
+                scale *= 0.778378367f;
+                float num = 0f;
+                char chLeft = '\0';
+                float num2 = 0f;
+                int num3 = 1;
+                for (int i = 0; i < text.Length; i++)
+                {
+                    char c = text[i];
+                    if (c == '\n')
+                    {
+                        num3++;
+                        num = 0f;
+                        chLeft = '\0';
+                    }
+                    else if (this.CanWriteOrReplace(ref c))
+                    {
+                        var myGlyphInfo = this.GlyphInfo[c];
+                        if (this.KernEnabled)
+                        {
+                            num += (float)this.CalcKern(chLeft, c);
+                            chLeft = c;
+                        }
+                        num += (float)myGlyphInfo.pxAdvanceWidth;
+                        if (i < text.Length - 1)
+                        {
+                            num += (float)this.Spacing;
+                        }
+                        if (num > num2)
+                        {
+                            num2 = num;
+                        }
+                    }
+                }
+                return new Vector2(num2 * scale, (float)(num3 * this.LineHeight) * scale);
+            }
+
+            protected bool CanWriteOrReplace(ref char c)
+            {
+                if (!this.GlyphInfo.ContainsKey(c))
+                {
+                    if (!this.CanUseReplacementCharacter(c))
+                    {
+                        return false;
+                    }
+                    c = '□';
+                }
+                return true;
+            }
+
+            protected int CalcKern(char chLeft, char chRight)
+            {
+                sbyte result;
+                this.KernPairs.TryGetValue(new MockKernPair(chLeft, chRight), out result);
+                return result;
+            }
+
+            protected bool CanUseReplacementCharacter(char c)
+            {
+                return !char.IsWhiteSpace(c) && !char.IsControl(c);
+            }
+        }
+#endregion
     }
 }

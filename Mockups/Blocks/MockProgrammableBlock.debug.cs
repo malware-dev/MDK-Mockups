@@ -13,6 +13,9 @@ using IMyTextSurface = Sandbox.ModAPI.Ingame.IMyTextSurface;
 
 namespace IngameScript.Mockups.Blocks
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
         string _storage = string.Empty;

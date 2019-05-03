@@ -1,13 +1,15 @@
 ﻿using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace IngameScript.Mockups.Blocks
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockDoor : MockFunctionalBlock, IMyDoor
     {
         protected float _openRatio = 0;

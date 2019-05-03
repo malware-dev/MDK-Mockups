@@ -6,6 +6,9 @@ using Sandbox.ModAPI.Ingame;
 
 namespace IngameScript.Mockups
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockGridTerminalSystem : IMyGridTerminalSystem, IEnumerable<IMyTerminalBlock>
     {
         public List<IMyTerminalBlock> Blocks { get; } = new List<IMyTerminalBlock>();
@@ -19,6 +22,11 @@ namespace IngameScript.Mockups
         public void Add(IMyTerminalBlock block)
         {
             Blocks.Add(block);
+        }
+
+        public void Add(IEnumerable<IMyTerminalBlock> blocks)
+        {
+            Blocks.AddRange(blocks);
         }
 
         public void GetBlocks(List<IMyTerminalBlock> blocks)

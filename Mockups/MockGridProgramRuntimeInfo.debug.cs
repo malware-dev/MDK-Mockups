@@ -3,6 +3,9 @@ using Sandbox.ModAPI.Ingame;
 
 namespace IngameScript.Mockups
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockGridProgramRuntimeInfo : IMyGridProgramRuntimeInfo
     {
         public virtual TimeSpan TimeSinceLastRun { get; set; }

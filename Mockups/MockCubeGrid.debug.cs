@@ -6,6 +6,9 @@ using VRageMath;
 
 namespace IngameScript.Mockups
 {
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public class MockCubeGrid : MockEntity, IMyCubeGrid
     {
         private MyCubeSize _gridEnumSize = MyCubeSize.Large;
