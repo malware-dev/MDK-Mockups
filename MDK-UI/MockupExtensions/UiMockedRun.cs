@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using IngameScript.Mockups;
 using Sandbox.ModAPI.Ingame;
 
-namespace MDK_UI
+namespace MDK_UI.MockupExtensions
 {
     class UiMockedRun : MockedRun
     {

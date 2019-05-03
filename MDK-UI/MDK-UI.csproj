@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MOCKUP_DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7</LangVersion>
@@ -79,11 +79,15 @@
     <Compile Include="Dialogs\AddGroupDialogBox.xaml.cs">
       <DependentUpon>AddGroupDialogBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ColorConverter.cs" />
+    <Compile Include="TemplateConverters\ColorConverter.cs" />
     <Compile Include="MockupExtensions\IMockupRuntimeProvider.cs" />
+    <Compile Include="MockupExtensions\MockAirVent.cs" />
+    <Compile Include="MockupExtensions\MockDoor.cs" />
+    <Compile Include="MockupExtensions\MockInteriorLight.cs" />
     <Compile Include="MockupExtensions\MockTerminalBlock.cs" />
-    <Compile Include="MyTerminalBlockDataCommonTemplateSelector.cs" />
-    <Compile Include="MyTerminalBlockDataTemplateSelector.cs" />
+    <Compile Include="MockupExtensions\MockTextPanel.cs" />
+    <Compile Include="TemplateSelectors\MyTerminalBlockCommon.cs" />
+    <Compile Include="TemplateSelectors\MyTerminalBlockDetail.cs" />
     <Compile Include="UiMockedRun.cs" />
     <Page Include="Dialogs\AddBlockDialogBox.xaml">
       <SubType>Designer</SubType>
@@ -228,4 +232,5 @@
       <Private>true</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

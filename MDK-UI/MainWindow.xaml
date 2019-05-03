@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:VRageGame="clr-namespace:VRage.Game;assembly=VRage.Game"
         mc:Ignorable="d"
-        Title="{Binding Title}"
+        Title="{Binding AssemblyName}"
         Height="700" Width="1000" MinHeight="450" MinWidth="500"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closed="MainWindow_Closed">
     <Window.Resources>
@@ -176,7 +176,7 @@
                             <ContentControl x:Name="ccComponentCommon" Margin="2" Content="{Binding SelectedItem, ElementName=lbGridComponents}"
                                   ContentTemplateSelector="{StaticResource myTerminalBlockDataCommonTemplateSelector}"/>
                             <ContentControl x:Name="ccComponentDetails" Margin="2" Content="{Binding SelectedItem, ElementName=lbGridComponents}" 
-                                  ContentTemplateSelector="{StaticResource myTerminalBlockDataTemplateSelector}"/>
+                                  ContentTemplateSelector="{StaticResource myTerminalBlockDataDetailTemplateSelector}"/>
                         </StackPanel>
                         
 

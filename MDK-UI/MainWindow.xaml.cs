@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using IngameScript.Mockups;
 using IngameScript.Mockups.Base;
 using IngameScript.Mockups.Blocks;
+using MDK_UI.MockupExtensions;
 using Microsoft.Win32;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game;
@@ -251,6 +252,12 @@ namespace MDK_UI
         private void TickOnce()
         {
             _log.Clear();
+
+            foreach (var block in Blocks.OfType<IMockupRuntimeProvider>().OrderBy(b => b.ProcessPriority))
+            {
+                block.ProcessGameTick(Terminal);
+            }
+
             Runtime.NextTick();
 
             Interlocked.Increment(ref _tickCount);

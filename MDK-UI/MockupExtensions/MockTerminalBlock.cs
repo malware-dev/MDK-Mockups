@@ -10,6 +10,7 @@ namespace IngameScript.Mockups.Base
 {
     public partial class MockTerminalBlock: IMockupDataTemplateProvider
     {
-        public DataTemplate DataTemplate => (DataTemplate) new DisplayTemplateProvider()["dtUnsupportedBlock"];
+        protected virtual string DataTemplateName { get; } = "dtUnsupportedBlock";
+        public DataTemplate DataTemplate => (DataTemplate) new DisplayTemplateProvider()[$"dt{DataTemplateName}"];
     }
 }

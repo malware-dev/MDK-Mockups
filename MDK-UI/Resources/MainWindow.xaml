@@ -3,7 +3,8 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     xmlns:SEIngame="clr-namespace:SpaceEngineers.Game.ModAPI.Ingame;assembly=SpaceEngineers.Game"
                     xmlns:VRageGame="clr-namespace:VRage.Game;assembly=VRage.Game"
-                    xmlns:l="clr-namespace:MDK_UI">
+                    xmlns:ts="clr-namespace:MDK_UI.TemplateSelectors"
+                    xmlns:tc="clr-namespace:MDK_UI.TemplateConverters">
     <ObjectDataProvider x:Key="GridSizes" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
@@ -16,7 +17,8 @@
             <x:Type TypeName="SEIngame:VentStatus"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
-    <l:ColorConverter x:Key="colorConverter" />
+    <tc:ColorConverter x:Key="colorConverter" />
 
-    <l:MyTerminalBlockDataCommonTemplateSelector x:Key="myTerminalBlockDataCommonTemplateSelector"/>
+    <ts:MyTerminalBlockDataCommonTemplateSelector x:Key="myTerminalBlockDataCommonTemplateSelector"/>
+    <ts:MyTerminalBlockDataDetailTemplateSelector x:Key="myTerminalBlockDataDetailTemplateSelector"/>
 </ResourceDictionary>
