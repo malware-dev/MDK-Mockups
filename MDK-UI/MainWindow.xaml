@@ -10,16 +10,7 @@
         Height="700" Width="1000" MinHeight="450" MinWidth="500"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closed="MainWindow_Closed">
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/MainWindow/Resources.xaml"/>
-                <ResourceDictionary Source="Resources/MainWindow/DisplayTemplates/Common.xaml"/>
-                <ResourceDictionary Source="Resources/MainWindow/DisplayTemplates/AirVent.xaml"/>
-                <ResourceDictionary Source="Resources/MainWindow/DisplayTemplates/Door.xaml"/>
-                <ResourceDictionary Source="Resources/MainWindow/DisplayTemplates/LightingBlock.xaml"/>
-                <ResourceDictionary Source="Resources/MainWindow/DisplayTemplates/TextSurface.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="Resources/MainWindow.xaml"/>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">

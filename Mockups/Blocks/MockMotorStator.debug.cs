@@ -8,7 +8,7 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockMotorStator : MockFunctionalBlock, IMyMotorStator
+    public partial class MockMotorStator : MockFunctionalBlock, IMyMotorStator
     {
         public float Angle { get; set; } = 0;
         public float Torque { get; set; }

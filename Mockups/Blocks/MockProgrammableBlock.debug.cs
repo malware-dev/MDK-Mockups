@@ -16,7 +16,7 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
+    public partial class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
         string _storage = string.Empty;
         readonly IMyTextSurface _primary = new MockTextSurface(new VRageMath.Vector2(512, 512), new VRageMath.Vector2(512, 512));

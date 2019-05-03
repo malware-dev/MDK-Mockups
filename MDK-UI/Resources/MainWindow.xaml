@@ -18,6 +18,5 @@
     </ObjectDataProvider>
     <l:ColorConverter x:Key="colorConverter" />
 
-    <l:MyTerminalBlockDataTemplateSelector x:Key="myTerminalBlockDataTemplateSelector" />
     <l:MyTerminalBlockDataCommonTemplateSelector x:Key="myTerminalBlockDataCommonTemplateSelector"/>
 </ResourceDictionary>

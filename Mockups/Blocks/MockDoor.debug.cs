@@ -10,7 +10,7 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockDoor : MockFunctionalBlock, IMyDoor
+    public partial class MockDoor : MockFunctionalBlock, IMyDoor
     {
         protected float _openRatio = 0;
         protected float _lastRatio = 0;
@@ -36,7 +36,10 @@ namespace IngameScript.Mockups.Blocks
 
         public float OpenRatio
         {
-            get => _openRatio;
+            get
+            {
+                return _openRatio;
+            }
             set
             {
                 _lastRatio = _openRatio;

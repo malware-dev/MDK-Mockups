@@ -1,0 +1,12 @@
+﻿<ResourceDictionary x:Class="DisplayTemplateProvider"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MDK_UI.Resources.DisplayTemplates">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Resources/DisplayTemplates/Common.xaml"/>
+        <ResourceDictionary Source="Resources/DisplayTemplates/AirVent.xaml"/>
+        <ResourceDictionary Source="Resources/DisplayTemplates/Door.xaml"/>
+        <ResourceDictionary Source="Resources/DisplayTemplates/LightingBlock.xaml"/>
+        <ResourceDictionary Source="Resources/DisplayTemplates/TextSurface.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

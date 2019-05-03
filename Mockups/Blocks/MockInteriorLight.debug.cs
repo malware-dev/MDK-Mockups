@@ -11,7 +11,7 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockInteriorLight : MockTerminalBlock, IMyInteriorLight
+    public partial class MockInteriorLight : MockTerminalBlock, IMyInteriorLight
     {
         float _offset;
         public float Radius { get; set; } = 2;

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using IngameScript.Mockups.Base;
+using MDK_UI.MockupExtensions;
 
 namespace MDK_UI
 {
@@ -28,7 +29,7 @@ namespace MDK_UI
 
         public AddBlockDialogBox()
         {
-            var baseType = typeof(MockTerminalBlock);
+            var baseType = typeof(IMockupDataTemplateProvider);
             AvailableTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => !t.IsAbstract && baseType.IsAssignableFrom(t))).ToList();
             InitializeComponent();
         }

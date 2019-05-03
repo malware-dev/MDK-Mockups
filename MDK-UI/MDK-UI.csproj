@@ -72,25 +72,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddBlockDialogBox.xaml.cs">
+    <Compile Include="MockupExtensions\IMockupDataTemplateProvider.cs" />
+    <Compile Include="Dialogs\AddBlockDialogBox.xaml.cs">
       <DependentUpon>AddBlockDialogBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddGroupDialogBox.xaml.cs">
+    <Compile Include="Dialogs\AddGroupDialogBox.xaml.cs">
       <DependentUpon>AddGroupDialogBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorConverter.cs" />
+    <Compile Include="MockupExtensions\IMockupRuntimeProvider.cs" />
+    <Compile Include="MockupExtensions\MockTerminalBlock.cs" />
     <Compile Include="MyTerminalBlockDataCommonTemplateSelector.cs" />
     <Compile Include="MyTerminalBlockDataTemplateSelector.cs" />
     <Compile Include="UiMockedRun.cs" />
-    <Page Include="AddBlockDialogBox.xaml">
+    <Page Include="Dialogs\AddBlockDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\MainWindow\DisplayTemplates\AirVent.xaml">
+    <Page Include="Resources\DisplayTemplates\AirVent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\MainWindow\DisplayTemplates\Common.xaml">
+    <Page Include="Resources\DisplayTemplates\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,23 +109,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="AddGroupDialogBox.xaml">
+    <Page Include="Dialogs\AddGroupDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\MainWindow\DisplayTemplates\TextSurface.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\MainWindow\DisplayTemplates\Door.xaml">
+    <Page Include="Resources\DisplayTemplates\DisplayTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\MainWindow\DisplayTemplates\LightingBlock.xaml">
+    <Page Include="Resources\DisplayTemplates\TextSurface.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\DisplayTemplates\Door.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\MainWindow\Resources.xaml">
+    <Page Include="Resources\DisplayTemplates\LightingBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
