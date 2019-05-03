@@ -6,7 +6,7 @@ using VRageMath;
 
 namespace IngameScript.Mockups
 {
-#if !MOCKUP_TEST
+#if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
     public class MockCubeGrid : MockEntity, IMyCubeGrid
