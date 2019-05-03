@@ -7,6 +7,15 @@ Currently just getting set up, the intent of this repository is to gradually bui
 
 This repository was set up based on the request of members of the community. While I will probably eventually be contributing myself too, I will for the most part take a more advisory position as I have too many running projects already to take on yet another. This means that this repository is _very_ dependent on the community. If the community will not contribute, this repo will be too narrow to be helpful for many. This means that we need _your_ help to do it.
 
+# MDK-UI
+### A wrapper utility designed to make testing and designing your scripts easier.
+
+This is a Windows application which can consume a script build using the [MDK-SE](https://github.com/malware-dev/MDK-SE) project type and provide a graphical interface for creating and interacting with your mocked Terminal Grid.
+
+![MDK UI](Docs/Assets/mdk-ui.jpg)
+
+You can see and change the properties of the grid in real-time, while your script is executing, slow down and speed up execution and step over each in-game tick one at a time.
+
 **Currently in experimental stage**
 
 The project is currently in a highly fluent state. The structure has not yet been finalized and there is likely to be breaking changes for a while as we find a base team and decide how we want this to work.
