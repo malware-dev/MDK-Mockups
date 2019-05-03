@@ -5,6 +5,10 @@
                     xmlns:VRageGame="clr-namespace:VRage.Game;assembly=VRage.Game"
                     xmlns:ts="clr-namespace:MDK_UI.TemplateSelectors"
                     xmlns:tc="clr-namespace:MDK_UI.TemplateConverters">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="DisplayTemplates/DisplayTemplates.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <ObjectDataProvider x:Key="GridSizes" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
@@ -19,6 +23,6 @@
     </ObjectDataProvider>
     <tc:ColorConverter x:Key="colorConverter" />
 
-    <ts:MyTerminalBlockDataCommonTemplateSelector x:Key="myTerminalBlockDataCommonTemplateSelector"/>
-    <ts:MyTerminalBlockDataDetailTemplateSelector x:Key="myTerminalBlockDataDetailTemplateSelector"/>
+    <ts:MyTerminalBlockCommon x:Key="myTerminalBlockCommonTemplateSelector"/>
+    <ts:MyTerminalBlockDetail x:Key="myTerminalBlockDetailTemplateSelector"/>
 </ResourceDictionary>

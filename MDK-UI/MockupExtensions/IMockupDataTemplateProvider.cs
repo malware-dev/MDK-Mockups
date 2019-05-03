@@ -2,8 +2,9 @@
 
 namespace MDK_UI.MockupExtensions
 {
-    interface IMockupDataTemplateProvider
+    public interface IMockupDataTemplateProvider
     {
-        DataTemplate DataTemplate { get; }
+        string TemplateDisplayName { get; }
+        string DataTemplateName { get; }
     }
 }

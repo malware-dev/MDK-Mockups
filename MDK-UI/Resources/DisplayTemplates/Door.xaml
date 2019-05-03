@@ -14,6 +14,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" SharedSizeGroup="BlockPropertyNames"/>
@@ -21,8 +24,14 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold">Door</TextBlock>
 
-            <Label Grid.Row="2">Open Ratio:</Label>
-            <Slider Grid.Row="2" Minimum="0" Maximum="1" Grid.Column="1" Value="{Binding OpenRatio}" VerticalAlignment="Center"/>
+            <Label Grid.Row="2">Status</Label>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Status}"/>
+
+            <Label Grid.Row="3">Open Ratio:</Label>
+            <Slider Grid.Row="3" Minimum="0" Maximum="1" Grid.Column="1" TickFrequency="0.01" Value="{Binding OpenRatio}" VerticalAlignment="Center" IsEnabled="False"/>
+
+            <Button Grid.Row="4" Grid.Column="0" Command="{Binding OpenCommand}">Open Door</Button>
+            <Button Grid.Row="4" Grid.Column="1" Command="{Binding CloseCommand}">Close Door</Button>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

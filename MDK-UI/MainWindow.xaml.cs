@@ -52,9 +52,9 @@ namespace MDK_UI
             set { Interlocked.Exchange(ref _targetTickRate, value); }
         }
         public int TickCount => Thread.VolatileRead(ref _tickCount);
-        public double TickRate => Thread.VolatileRead(ref _tickRate);
+        public double TickRate => Thread.VolatileRead(ref _tickRate) / RuntimeConstants.TicksPerSecond;
 
-        private int _targetTickRate = 30;
+        private int _targetTickRate = RuntimeConstants.TicksPerSecond;
         private int _tickCount = 1;
         private double _tickRate = 0;
         private readonly StringBuilder _log = new StringBuilder();
@@ -255,7 +255,7 @@ namespace MDK_UI
 
             foreach (var block in Blocks.OfType<IMockupRuntimeProvider>().OrderBy(b => b.ProcessPriority))
             {
-                block.ProcessGameTick(Terminal);
+                block.ProcessGameTick(Terminal, _tickCount);
             }
 
             Runtime.NextTick();

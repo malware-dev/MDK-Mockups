@@ -10,6 +10,7 @@ namespace IngameScript.Mockups.Blocks
 {
     public partial class MockAirVent
     {
-        protected override string DataTemplateName => "AirVent";
+        public override string DataTemplateName => "AirVent";
+        public override string TemplateDisplayName => "Air Vent";
     }
 }

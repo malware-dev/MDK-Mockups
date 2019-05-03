@@ -14,6 +14,7 @@ namespace IngameScript.Mockups.Blocks
 {
     public partial class MockTextPanel
     {
-        protected override string DataTemplateName => "TextSurface";
+        public override string DataTemplateName => "TextSurface";
+        public override string TemplateDisplayName => "Text Panel";
     }
 }

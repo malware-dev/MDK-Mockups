@@ -10,6 +10,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="200px"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" SharedSizeGroup="BlockPropertyNames"/>
@@ -24,7 +25,10 @@
             <xctk:ColorPicker Grid.Row="2" Grid.Column="1" SelectedColor="{Binding BackgroundColor, Converter={StaticResource colorConverter}}" />
 
             <Label Grid.Row="3">Change Interval:</Label>
-            <Slider Grid.Row="3" Minimum="0" Maximum="60" Grid.Column="1" Value="{Binding ChangeInterval}" VerticalAlignment="Center"/>
+            <Slider Grid.Row="3" Minimum="0" Maximum="60" Grid.Column="1" TickFrequency="0.1" Value="{Binding ChangeInterval}" VerticalAlignment="Center"/>
+
+            <Label Grid.Row="4">Content:</Label>
+            <TextBox Grid.Row="4" Grid.Column="1" AcceptsReturn="True" Text="{Binding CustomData}"/>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

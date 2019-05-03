@@ -22,15 +22,23 @@ namespace MDK_UI
     /// </summary>
     public partial class AddBlockDialogBox : Window
     {
+        private static Type BaseType { get; } = typeof(IMockupDataTemplateProvider);
+        private static Type OverriddenType { get; } = typeof(MockOverriddenAttribute);
+
         public delegate void BlockSubmittedEventHandler(object sender, string title, Type type);
         public event BlockSubmittedEventHandler OnSubmit;
 
-        public IEnumerable<Type> AvailableTypes { get; }
+        public IEnumerable<IMockupDataTemplateProvider> AvailableTypes { get; }
 
         public AddBlockDialogBox()
         {
-            var baseType = typeof(IMockupDataTemplateProvider);
-            AvailableTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => !t.IsAbstract && baseType.IsAssignableFrom(t))).ToList();
+            AvailableTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes().Where(t => !t.IsAbstract && BaseType.IsAssignableFrom(t)))
+                .Where(t => !t.CustomAttributes.Any(a => a.AttributeType == OverriddenType))
+                .Select(t => Activator.CreateInstance(t))
+                .OfType<IMockupDataTemplateProvider>()
+                .ToList();
+
             InitializeComponent();
         }
 
@@ -42,7 +50,7 @@ namespace MDK_UI
 
         private void BtSubmit_Click(object sender, RoutedEventArgs e)
         {
-            OnSubmit?.Invoke(this, BlockName.Text, BlockType.SelectedItem as Type);
+            OnSubmit?.Invoke(this, BlockName.Text, BlockType.SelectedItem.GetType());
             this.Close();
         }
     }

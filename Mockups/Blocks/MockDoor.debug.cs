@@ -12,40 +12,11 @@ namespace IngameScript.Mockups.Blocks
 #endif
     public partial class MockDoor : MockFunctionalBlock, IMyDoor
     {
-        protected float _openRatio = 0;
-        protected float _lastRatio = 0;
-
         public bool Open => OpenRatio != 0;
 
-        public DoorStatus Status
-        {
-            get
-            {
-                if (OpenRatio == 0)
-                    return DoorStatus.Closed;
+        public virtual DoorStatus Status { get; set; } = DoorStatus.Closed;
 
-                if (OpenRatio == 1)
-                    return DoorStatus.Open;
-
-                if (OpenRatio > _lastRatio)
-                    return DoorStatus.Opening;
-
-                return DoorStatus.Closing;
-            }
-        }
-
-        public float OpenRatio
-        {
-            get
-            {
-                return _openRatio;
-            }
-            set
-            {
-                _lastRatio = _openRatio;
-                _openRatio = value;
-            }
-        }
+        public virtual float OpenRatio { get; set; } = 0;
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -69,6 +40,7 @@ namespace IngameScript.Mockups.Blocks
         {
             if (Enabled && IsFunctional)
             {
+                Status = DoorStatus.Closed;
                 OpenRatio = 0;
             }
         }
@@ -77,6 +49,7 @@ namespace IngameScript.Mockups.Blocks
         {
             if (Enabled && IsFunctional)
             {
+                Status = DoorStatus.Open;
                 OpenRatio = 1;
             }
         }

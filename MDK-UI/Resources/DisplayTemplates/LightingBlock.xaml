@@ -13,6 +13,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20px"/>
 
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -20,25 +22,28 @@
                 <ColumnDefinition Width="1*" SharedSizeGroup="BlockPropertyNames"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold">Lighting Block</TextBlock>
+            <TextBlock Grid.Row="0" FontWeight="Bold" Grid.ColumnSpan="2">Lighting Block</TextBlock>
 
             <Label Grid.Row="1">Intensity:</Label>
-            <Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="1" Value="{Binding Intensity}" VerticalAlignment="Center"/>
+            <Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="1" TickFrequency="0.01" Value="{Binding Intensity}" VerticalAlignment="Center"/>
 
             <Label Grid.Row="2">Falloff:</Label>
-            <Slider Grid.Row="2" Minimum="0" Maximum="1" Grid.Column="1" Value="{Binding Falloff}" VerticalAlignment="Center"/>
+            <Slider Grid.Row="2" Minimum="0" Maximum="1" Grid.Column="1" TickFrequency="0.01" Value="{Binding Falloff}" VerticalAlignment="Center"/>
 
             <Label Grid.Row="3">Blink Interval (sec):</Label>
-            <xctk:SingleUpDown Grid.Row="3" Grid.Column="1" Text="{Binding BlinkIntervalSeconds}" VerticalAlignment="Center" Increment="0.001"/>
+            <xctk:SingleUpDown Grid.Row="3" Grid.Column="1" Text="{Binding BlinkIntervalSeconds}" VerticalAlignment="Center" Increment="0.01"/>
 
             <Label Grid.Row="4">Blink Length:</Label>
-            <xctk:SingleUpDown Grid.Row="4" Grid.Column="1" Text="{Binding BlinkLength}" VerticalAlignment="Center" Increment="0.001"/>
+            <Slider Grid.Row="4" Grid.Column="1" Minimum="0" Maximum="1" TickFrequency="0.01" Value="{Binding BlinkLength}" VerticalAlignment="Center"/>
 
             <Label Grid.Row="5">Blink Offset:</Label>
-            <Slider Grid.Row="5" Grid.Column="1" Minimum="0" Maximum="1" Value="{Binding BlinkOffset}" VerticalAlignment="Center"/>
+            <Slider Grid.Row="5" Grid.Column="1" Minimum="0" Maximum="1" TickFrequency="0.01" Value="{Binding BlinkOffset}" VerticalAlignment="Center"/>
 
             <Label Grid.Row="6">Color:</Label>
             <xctk:ColorPicker Grid.Row="6" Grid.Column="1" SelectedColor="{Binding Color, Converter={StaticResource colorConverter}}" />
+
+            <Label Grid.Row="7" Grid.ColumnSpan="2" FontWeight="Bold">Preview</Label>
+            <Rectangle Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Fill="{Binding Preview, Mode=OneWay}" />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

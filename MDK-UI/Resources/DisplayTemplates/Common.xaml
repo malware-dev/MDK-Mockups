@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold">Default Properties</TextBlock>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold">Basic</TextBlock>
 
             <Label Grid.Row="1">Custom Name:</Label>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CustomName}" VerticalContentAlignment="Center" />

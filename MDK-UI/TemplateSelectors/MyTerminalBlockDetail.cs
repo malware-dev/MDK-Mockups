@@ -8,16 +8,16 @@ namespace MDK_UI.TemplateSelectors
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (container is FrameworkElement)
+            if (container is FrameworkElement element
+                && item is IMockupDataTemplateProvider provider)
             {
-                if (item == null)
-                    return null;
-
-                if (item is IMockupDataTemplateProvider provider)
-                    return provider.DataTemplate;
+                return GetTemplate(element, provider.DataTemplateName);
             }
 
             return null;
         }
+
+        private DataTemplate GetTemplate(FrameworkElement element, string template)
+            => element.FindResource("dt" + template) as DataTemplate;
     }
 }
