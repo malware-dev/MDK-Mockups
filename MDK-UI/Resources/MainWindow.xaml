@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:SEIngame="clr-namespace:SpaceEngineers.Game.ModAPI.Ingame;assembly=SpaceEngineers.Game"
+                    xmlns:VRageGame="clr-namespace:VRage.Game;assembly=VRage.Game"
+                    xmlns:ts="clr-namespace:MDK_UI.TemplateSelectors"
+                    xmlns:tc="clr-namespace:MDK_UI.TemplateConverters">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="DisplayTemplates/DisplayTemplates.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <ObjectDataProvider x:Key="GridSizes" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="VRageGame:MyCubeSize"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider x:Key="VentStatuses" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="SEIngame:VentStatus"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <tc:ColorConverter x:Key="colorConverter" />
+
+    <ts:MyTerminalBlockCommon x:Key="myTerminalBlockCommonTemplateSelector"/>
+    <ts:MyTerminalBlockDetail x:Key="myTerminalBlockDetailTemplateSelector"/>
+</ResourceDictionary>

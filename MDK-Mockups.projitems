@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Base\MockTextSurface.consts.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockMotorRotor.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Blocks\MockMotorStator.debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockBlockGroup.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\MockTerminalProperty.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\AssertionException.debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mockups\Asserts\Assert.debug.cs" />

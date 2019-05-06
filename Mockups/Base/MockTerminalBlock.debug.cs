@@ -12,7 +12,7 @@ namespace IngameScript.Mockups.Base
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public abstract class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
+    public abstract partial class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {
         public Dictionary<long, MyRelationsBetweenPlayerAndBlock> Relationships { get; }
             = new Dictionary<long, MyRelationsBetweenPlayerAndBlock>();

@@ -9,7 +9,7 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockGyro : MockFunctionalBlock, IMyGyro
+    public partial class MockGyro : MockFunctionalBlock, IMyGyro
     {
         public virtual float GyroPower { get; set; }
 
