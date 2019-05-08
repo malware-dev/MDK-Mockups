@@ -33,7 +33,14 @@ Once you've made a change you wish to share, you will need to [create a pull req
 ## Rules and Etiquette: MDK-Mockups
 
 * _All_ `.cs` files **must** end with the suffix `.debug.cs`, not just `.cs`. This is so MDK can exclude these files when deploying a script.
-* All mockup classes should be _public_ and _partial_. 
+* All mockup classes should be _public_ and _partial_.
+* All mockup classes should be decorated with the following:
+  * This will allow debuggers to interact with them the same as they would native game implementations.
+```cs
+#if !MOCKUP_DEBUG
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
+```
 * Mockup properties and methods should _virtual_ whenever possible.
 * Do not make your mockups work via nonstandard behavior. It should replicate game behavior or not at all.
 * While there's **no requirement** to completely finish every single feature of a block, please make sure the parts you _do not_ include throws `NotImplementedException`. Obviously, the more you complete before creating your pull request, the better.
