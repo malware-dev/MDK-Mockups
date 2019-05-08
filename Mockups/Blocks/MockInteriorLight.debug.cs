@@ -11,25 +11,24 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public partial class MockInteriorLight : MockTerminalBlock, IMyInteriorLight
+    public partial class MockInteriorLight : MockFunctionalBlock, IMyInteriorLight
     {
-        float _offset;
+        protected float _offset;
         public virtual float Radius { get; set; } = 2;
 
         [Obsolete("Use " + nameof(Radius))]
-        public float ReflectorRadius => Radius;
+        public virtual float ReflectorRadius => Radius;
 
         public virtual float Intensity { get; set; } = 1;
         public virtual float Falloff { get; set; } = 1;
         public virtual float BlinkIntervalSeconds { get; set; } = 0;
 
         [Obsolete("Use " + nameof(BlinkLength) + " instead.")]
-        public float BlinkLenght => BlinkLength;
+        public virtual float BlinkLenght => BlinkLength;
 
         public virtual float BlinkLength { get; set; } = 0;
         public virtual float BlinkOffset { get; set; } = 0;
         public virtual Color Color { get; set; } = new Color(255, 255, 255);
-        public virtual bool Enabled { get; set; } = true;
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -45,8 +44,5 @@ namespace IngameScript.Mockups.Blocks
                 new MockTerminalProperty<IMyInteriorLight, float>("Offset", b => _offset, (b, v) => _offset = v)
             });
         }
-
-        [Obsolete("Use " + nameof(Enabled) + " instead.")]
-        public void RequestEnable(bool enable) => Enabled = enable;
     }
 }

@@ -13,17 +13,17 @@ namespace IngameScript.Mockups.Blocks
 #endif
     public partial class MockAirVent : MockFunctionalBlock, IMyAirVent
     {
-        public float OxygenLevel { get; set; } = 0;
+        public virtual float OxygenLevel { get; set; } = 0;
 
-        public bool CanPressurize { get; set; }
+        public virtual bool CanPressurize { get; set; } = true;
 
-        public bool IsDepressurizing { get; set; }
+        public virtual bool IsDepressurizing => Enabled && (Status == VentStatus.Depressurizing || Status == VentStatus.Depressurized);
 
-        public bool Depressurize { get; set; } = false;
+        public virtual bool Depressurize { get; set; } = false;
 
-        public VentStatus Status { get; set; }
+        public virtual VentStatus Status { get; set; }
 
-        public bool PressurizationEnabled { get; } = true;
+        public virtual bool PressurizationEnabled { get; } = true;
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -33,12 +33,8 @@ namespace IngameScript.Mockups.Blocks
             });
         }
 
-        public float GetOxygenLevel() => OxygenLevel;
+        public virtual float GetOxygenLevel() => OxygenLevel;
 
-        public void SetCustomName(string text) => CustomName = text;
-
-        public void SetCustomName(StringBuilder text) => CustomName = text.ToString();
-
-        public bool IsPressurized() => PressurizationEnabled && (Status == VentStatus.Pressurized || Status == VentStatus.Pressurizing);
+        public virtual bool IsPressurized() => PressurizationEnabled && (Status == VentStatus.Pressurized || Status == VentStatus.Pressurizing);
     }
 }

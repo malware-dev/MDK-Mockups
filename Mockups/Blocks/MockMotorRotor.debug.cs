@@ -8,7 +8,7 @@ namespace IngameScript.Mockups.Blocks
 #endif
     public partial class MockMotorRotor : MockCubeBlock, IMyMotorRotor
     {
-        public bool IsAttached => Base != null;
-        public IMyMechanicalConnectionBlock Base { get; set; }
+        public virtual bool IsAttached => Base != null;
+        public virtual IMyMechanicalConnectionBlock Base { get; set; }
     }
 }

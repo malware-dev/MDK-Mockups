@@ -17,8 +17,8 @@ namespace IngameScript.Mockups.Blocks
 #endif
     public partial class MockTextPanel : MockFunctionalBlock, IMyTextPanel
     {
-        readonly MockTextSurface _surface = new MockTextSurface(new Vector2(512, 512), new Vector2(512, 512));
-        readonly StringBuilder _publicTitle = new StringBuilder();
+        protected readonly MockTextSurface _surface = new MockTextSurface(new Vector2(512, 512), new Vector2(512, 512));
+        protected readonly StringBuilder _publicTitle = new StringBuilder();
         TextAlignmentEnum _alignment = TextAlignmentEnum.Align_Left;
 
         public virtual string CurrentlyShownImage
@@ -30,7 +30,7 @@ namespace IngameScript.Mockups.Blocks
         [Obsolete("This property no has meaning in-game. If you need a secondary storage, use CustomData")]
         public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; } = ShowTextOnScreenFlag.PUBLIC;
 
-        public bool ShowText => _surface.ContentType == ContentType.TEXT_AND_IMAGE;
+        public virtual bool ShowText => _surface.ContentType == ContentType.TEXT_AND_IMAGE;
 
         public virtual float FontSize
         {
@@ -62,57 +62,57 @@ namespace IngameScript.Mockups.Blocks
             set { _surface.Font = value; }
         }
 
-        public byte BackgroundAlpha
+        public virtual byte BackgroundAlpha
         {
             get { return _surface.BackgroundAlpha; }
             set { _surface.BackgroundAlpha = value; }
         }
 
-        public TextAlignment Alignment
+        public virtual TextAlignment Alignment
         {
             get { return _surface.Alignment; }
             set { _surface.Alignment = value; }
         }
 
-        public string Script
+        public virtual string Script
         {
             get { return _surface.Script; }
             set { _surface.Script = value; }
         }
 
-        public ContentType ContentType
+        public virtual ContentType ContentType
         {
             get { return _surface.ContentType; }
             set { _surface.ContentType = value; }
         }
 
-        public bool PreserveAspectRatio
+        public virtual bool PreserveAspectRatio
         {
             get { return _surface.PreserveAspectRatio; }
             set { _surface.PreserveAspectRatio = value; }
         }
 
-        public float TextPadding
+        public virtual float TextPadding
         {
             get { return _surface.TextPadding; }
             set { _surface.TextPadding = value; }
         }
 
-        public Color ScriptBackgroundColor
+        public virtual Color ScriptBackgroundColor
         {
             get { return _surface.ScriptBackgroundColor; }
             set { _surface.ScriptBackgroundColor = value; }
         }
 
-        public Color ScriptForegroundColor
+        public virtual Color ScriptForegroundColor
         {
             get { return _surface.ScriptForegroundColor; }
             set { _surface.ScriptForegroundColor = value; }
         }
 
-        public Vector2 SurfaceSize => _surface.SurfaceSize;
+        public virtual Vector2 SurfaceSize => _surface.SurfaceSize;
 
-        public Vector2 TextureSize => _surface.TextureSize;
+        public virtual Vector2 TextureSize => _surface.TextureSize;
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -235,13 +235,13 @@ namespace IngameScript.Mockups.Blocks
             return true;
         }
 
-        public bool WriteText(string value, bool append = false) => _surface.WriteText(value, append);
-        public string GetText() => _surface.GetText();
-        public bool WriteText(StringBuilder value, bool append = false) => _surface.WriteText(value, append);
-        public void ReadText(StringBuilder buffer, bool append = false) => _surface.ReadText(buffer, append);
-        public void GetSprites(List<string> sprites) => _surface.GetSprites(sprites);
-        public void GetScripts(List<string> scripts) => _surface.GetScripts(scripts);
-        public MySpriteDrawFrame DrawFrame() => _surface.DrawFrame();
-        public Vector2 MeasureStringInPixels(StringBuilder text, string font, float scale) => _surface.MeasureStringInPixels(text, font, scale);
+        public virtual bool WriteText(string value, bool append = false) => _surface.WriteText(value, append);
+        public virtual string GetText() => _surface.GetText();
+        public virtual bool WriteText(StringBuilder value, bool append = false) => _surface.WriteText(value, append);
+        public virtual void ReadText(StringBuilder buffer, bool append = false) => _surface.ReadText(buffer, append);
+        public virtual void GetSprites(List<string> sprites) => _surface.GetSprites(sprites);
+        public virtual void GetScripts(List<string> scripts) => _surface.GetScripts(scripts);
+        public virtual MySpriteDrawFrame DrawFrame() => _surface.DrawFrame();
+        public virtual Vector2 MeasureStringInPixels(StringBuilder text, string font, float scale) => _surface.MeasureStringInPixels(text, font, scale);
     }
 }

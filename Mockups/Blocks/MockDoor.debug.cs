@@ -12,7 +12,7 @@ namespace IngameScript.Mockups.Blocks
 #endif
     public partial class MockDoor : MockFunctionalBlock, IMyDoor
     {
-        public bool Open => OpenRatio != 0;
+        public virtual bool Open => OpenRatio != 0;
 
         public virtual DoorStatus Status { get; set; } = DoorStatus.Closed;
 
