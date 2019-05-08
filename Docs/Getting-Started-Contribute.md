@@ -3,8 +3,10 @@
 ## Overview
 
 * [Downloading The Repository](#downloading-the-repository)
-* [Rules and Etiquette](#rules-and-etiquette)
-
+* [Rules and Etiquette: General](#rules-and-etiquette-general)
+* [Rules and Etiquette: MDK Mockups](#rules-and-etiquette-mdk-mockups)
+* [Rules and Etiquette: MDK UI](#rules-and-etiquette-mdk-ui)
+  * [None Version-Controlled Configuration](#none-version-controlled-configuration)
 
 
 
@@ -17,7 +19,39 @@ The process of downloading the repository for contribution is only a little diff
 Once you've made a change you wish to share, you will need to [create a pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/). This will become a merge task that one of the team administrators can deal with and merge. Once this is done it is available for anyone who updates their repository.
 
 
-## None version controlled configuration.
+
+## Rules and Etiquette: General
+* It's considered courteous to follow the coding standards. There is a risk that your pull request might be rejected if it deviates too far from the standards.
+* Everything is open for contribution, including this documentation. This is the reason it's stored directly in the repository rather than the wiki. The better documentation, the easier for people to get started, the more people we get contributing.
+* Make sure your contributions do not break something. If it does, and you think your change is important, make contact with one of the project administrators - either via the Issues or via Keen's Discord, and argue your case.
+* Make sure your contributions are flexible. Others may want to expand on it.
+* Comment your contributions (documentation comments is fair enough) and make sure your code is readable.
+* **This project relies on cooperation.** It will fall apart if we do not, so we will not tolerate bad behavior.
+
+
+
+## Rules and Etiquette: MDK-Mockups
+
+* _All_ `.cs` files **must** end with the suffix `.debug.cs`, not just `.cs`. This is so MDK can exclude these files when deploying a script.
+* All mockup classes should be _public_ and _partial_. 
+* Mockup properties and methods should _virtual_ whenever possible.
+* Do not make your mockups work via nonstandard behavior. It should replicate game behavior or not at all.
+* While there's **no requirement** to completely finish every single feature of a block, please make sure the parts you _do not_ include throws `NotImplementedException`. Obviously, the more you complete before creating your pull request, the better.
+
+
+
+## Rules and Etiquette: MDK-UI
+
+* MDK-UI specific code must be part of the MDK-UI project, and not implemented within MDK-Mockups
+  * The MDK-Mockups Shared Project must remain usable by MDK-SE projects without the use of the MDK-UI project.
+* Mockups should be implemented by creating a new _partial_ component and implementing the new functionality.
+  * Mockup classes which support custom UI interaction must be decorated with the `IMockupDataTemplateProvider` interface.
+  * Mockup classes which support realtime runtime updates (such as doors and lights) must implement the `IMockupRuntimeProvider` interface.
+* If a mockup's existing implementation must be changed to facilty UI interaction (for example by replacing an already mocked method), the mockup class should be marked with the `[MockOverridden]` attribute and a sub-class created.
+
+
+
+### None Version-Controlled Configuration
 
 The MDK-UI project has a none-version controlled file `SpaceEngineers.paths.prop` which must be manually included for the project to build.
 
@@ -31,17 +65,3 @@ Here is the default template for a standard game install, be sure to modify the 
   </PropertyGroup>
 </Project>
 ```
-
-
-## Rules and Etiquette
-
-* _All_ `.cs` files **must** end with the suffix `.debug.cs`, not just `.cs`. This is so MDK can exclude these files when deploying a script.
-* All mockup classes should be _public_. 
-* Do not make your mockups work via nonstandard behavior. It should replicate game behavior or not at all.
-* While there's **no requirement** to completely finish every single feature of a block, please make sure the parts you _do not_ include throws `NotImplementedException`. Obviously, the more you complete before creating your pull request, the better.
-* It's considered courteous to follow the coding standards. There is a risk that your pull request might be rejected if it deviates too far from the standards.
-* Everything is open for contribution, including this documentation. This is the reason it's stored directly in the repository rather than the wiki. The better documentation, the easier for people to get started, the more people we get contributing.
-* Make sure your contributions do not break something. If it does, and you think your change is important, make contact with one of the project administrators - either via the Issues or via Keen's Discord, and argue your case.
-* Make sure your contributions are flexible. Others may want to expand on it.
-* Comment your contributions (documentation comments is fair enough) and make sure your code is readable.
-* **This project relies on cooperation.** It will fall apart if we do not, so we will not tolerate bad behavior.
