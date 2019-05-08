@@ -17,6 +17,20 @@ The process of downloading the repository for contribution is only a little diff
 Once you've made a change you wish to share, you will need to [create a pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/). This will become a merge task that one of the team administrators can deal with and merge. Once this is done it is available for anyone who updates their repository.
 
 
+## None version controlled configuration.
+
+The MDK-UI project has a none-version controlled file `SpaceEngineers.paths.prop` which must be manually included for the project to build.
+
+Here is the default template for a standard game install, be sure to modify the directory if you have the game installed elsewhere.
+
+```
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SpaceEngineersGameBin>c:\program files (x86)\steam\SteamApps\common\SpaceEngineers\Bin64</SpaceEngineersGameBin>
+  </PropertyGroup>
+</Project>
+```
 
 
 ## Rules and Etiquette
