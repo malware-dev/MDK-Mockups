@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Windows;
-using MDK_UI.MockupExtensions;
 
 namespace IngameScript.Mockups.Base
 {
