@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,13 +14,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using IngameScript.Mockups;
 using IngameScript.Mockups.Base;
 using IngameScript.Mockups.Blocks;
+using MDK_UI.Extensions;
 using MDK_UI.MockupExtensions;
+using MDK_UI.TemplateConverters;
 using Microsoft.Win32;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game;
+using GridProp = System.Windows.Controls.Grid;
 
 namespace MDK_UI
 {
@@ -528,7 +533,74 @@ namespace MDK_UI
             {
                 BlockGroups.Add(group);
             }
+
+            var labelConverter = new DisplayNameConverter();
+            var props = gComponentProperties;
+
+            props.DataContext = SelectedBlock;
+            props.Children.Clear();
+            props.RowDefinitions.Clear();
+
+            props.RowDefinitions.Add(AutoRow());
+
+            var title = new TextBlock
+            {
+                FontWeight = FontWeight.FromOpenTypeWeight(100)
+            };
+
+            title.SetValue(GridProp.ColumnSpanProperty, 2);
+            title.SetValue(GridProp.RowProperty, 0);
+            title.SetBinding(TextBlock.TextProperty, new Binding()
+            {
+                Converter = labelConverter,
+                Source = SelectedBlock
+            });
+
+            props.Children.Add(title);
+
+            var properties = SelectedBlock.GetType().GetProperties();
+            var displayProps = properties.Where(p => p.HasAttribute<DisplayNameAttribute>()).ToList();
+            if (SelectedBlock.GetType().HasAttribute<MetadataTypeAttribute>())
+            {
+                var metadata = SelectedBlock.GetType().GetCustomAttributes(true).OfType<MetadataTypeAttribute>().SelectMany(t => t.MetadataClassType
+                                .GetProperties().Where(p => p.HasAttribute<DisplayNameAttribute>()));
+
+                foreach (var metaprop in metadata)
+                {
+                    if (!displayProps.Any(p => p.Name == metaprop.Name))
+                        displayProps.Add(metaprop);
+                }
+            }
+
+            var rowNum = 1;
+
+            foreach (var prop in displayProps.OrderBy(p => p.GetCustomAttribute<DisplayNameAttribute>().DisplayName))
+            {
+                props.RowDefinitions.Add(AutoRow());
+                
+                var label = new Label();
+                var binding = label.SetBinding(ContentProperty, new Binding()
+                {
+                    ConverterParameter = prop.Name,
+                    Converter = labelConverter,
+                    Source = SelectedBlock
+                });
+                label.SetValue(GridProp.RowProperty, rowNum);
+                label.SetValue(GridProp.ColumnProperty, 0);
+
+                props.Children.Add(label);
+
+                var control = prop.ToUiElement(SelectedBlock, properties.FirstOrDefault(p => p.Name == prop.Name));
+
+                control.SetValue(GridProp.RowProperty, rowNum);
+                control.SetValue(GridProp.ColumnProperty, 1);
+                props.Children.Add(control);
+
+                rowNum++;
+            }
         }
+
+        private RowDefinition AutoRow() => new RowDefinition() { Height = GridLength.Auto };
 
         private void BtAddBlockToGroup_Click(object sender, RoutedEventArgs e)
         {

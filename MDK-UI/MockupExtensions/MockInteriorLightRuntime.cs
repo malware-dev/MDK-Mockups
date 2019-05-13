@@ -1,16 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Media;
+using IngameScript.Mockups.Base;
 using MDK_UI.MockupExtensions;
 using Sandbox.ModAPI.Ingame;
 
 namespace IngameScript.Mockups.Blocks
 {
+    [DisplayName("Interior Light"), MetadataType(typeof(MockInteriorLightMetadata))]
     public class MockInteriorLightRuntime: MockInteriorLight, IMockupRuntimeProvider
     {
-        public override string DataTemplateName => "LightingBlock";
-        public override string TemplateDisplayName => "Interior Light";
-
         public int ProcessPriority => 1;
 
         private int CurrentTick = 0;
@@ -200,5 +200,29 @@ namespace IngameScript.Mockups.Blocks
 
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    internal class MockInteriorLightMetadata: MockFunctionalBlockMetadata
+    {
+        [DisplayName("Radius")]
+        public object Radius { get; set; }
+
+        [DisplayName("Intensity")]
+        public object Intensity { get; set; }
+
+        [DisplayName("Falloff")]
+        public object Falloff { get; set; }
+
+        [DisplayName("Blink Interval Seconds")]
+        public object BlinkIntervalSeconds { get; set; }
+
+        [DisplayName("Blink Length")]
+        public object BlinkLength { get; set; }
+
+        [DisplayName("Blink Offset")]
+        public object BlinkOffset { get; set; }
+
+        [DisplayName("Color")]
+        public object Color { get; set; }
     }
 }

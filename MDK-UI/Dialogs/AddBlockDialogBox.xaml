@@ -4,12 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MDK_UI"
+        xmlns:tc="clr-namespace:MDK_UI.TemplateConverters"
         mc:Ignorable="d"
         Title="Add New Block" Width="300" WindowStyle="ToolWindow"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         SizeToContent="Height"
         DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}"
         FocusManager.FocusedElement="{Binding ElementName=BlockName}">
+    <Window.Resources>
+        <tc:DisplayNameConverter x:Key="displayNameConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -30,7 +34,7 @@
         <ComboBox x:Name="BlockType" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding AvailableTypes}" Margin="2">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=TemplateDisplayName}" />
+                    <TextBlock Text="{Binding Converter={StaticResource displayNameConverter}}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

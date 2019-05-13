@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,6 @@ using VRageMath;
 
 namespace IngameScript.Mockups.Blocks
 {
-    public partial class MockTextPanel
-    {
-        public override string DataTemplateName => "TextSurface";
-        public override string TemplateDisplayName => "Text Panel";
-    }
+    [DisplayName("Text Panel")]
+    public partial class MockTextPanel { }
 }

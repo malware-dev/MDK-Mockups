@@ -1,17 +1,17 @@
-﻿using MDK_UI.MockupExtensions;
+﻿using IngameScript.Mockups.Base;
+using MDK_UI.MockupExtensions;
 using Sandbox.ModAPI.Ingame;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace IngameScript.Mockups.Blocks
 {
+    [DisplayName("Sliding Door"), MetadataType(typeof(MockDoorMetadata))]
     public class MockRuntimeDoor: MockDoor, IMockupRuntimeProvider
     {
         const float OpenRate = 0.1666f;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public override string DataTemplateName => "Door";
-        public override string TemplateDisplayName => "Sliding Door";
 
         public int ProcessPriority => 1;
 
@@ -107,5 +107,14 @@ namespace IngameScript.Mockups.Blocks
 
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    internal class MockDoorMetadata: MockFunctionalBlockMetadata
+    {
+        [DisplayName("Status"), ReadOnly(true)]
+        public DoorStatus Status { get; set; }
+
+        [DisplayName("Open Ratio"), Range(0, 1)]
+        public object OpenRatio { get; set; }
     }
 }
