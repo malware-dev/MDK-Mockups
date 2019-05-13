@@ -13,13 +13,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using IngameScript.Mockups;
 using IngameScript.Mockups.Base;
 using IngameScript.Mockups.Blocks;
+using MDK_UI.Blueprints;
 using MDK_UI.MockupExtensions;
 using Microsoft.Win32;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game;
+using static MDK_UI.ImportBlueprintDialogBox;
 
 namespace MDK_UI
 {
@@ -565,6 +568,47 @@ namespace MDK_UI
                 {
                     group.Blocks.Remove(SelectedBlock);
                 }
+            }
+        }
+
+        private void MiImport_Click(object sender, RoutedEventArgs e)
+        {
+            var blueprintDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SpaceEngineers", "Blueprints");
+            var file = new OpenFileDialog()
+            {
+                Filter = "SE Blueprint|*.sbc;*.xml|SE Workshop Blueprint|*.sbb;*.zip",
+                Multiselect = false,
+                InitialDirectory = blueprintDirectory
+            };
+
+            if (file.ShowDialog() == true)
+            {
+                var filename = file.FileName;
+                var progress = new ImportBlueprintDialogBox(filename, Grid, BlockGroups, Blocks);
+
+                progress.OnComplete += (_, result) =>
+                {
+                    switch (result)
+                    {
+                        case ImportResult.Invalid:
+                            MessageBox.Show("The file provided is not a supported type.", "Import Failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            break;
+                        case ImportResult.Failed:
+                            MessageBox.Show("The file provided could not be parsed.", "Import Failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            break;
+                        case ImportResult.Aborted:
+                            MessageBox.Show("The import was aborted.", "Import Failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            break;
+                        case ImportResult.Partial:
+                            MessageBox.Show("Blueprint imported successfully, however it contained unsupported blocks which were not included.", "Import Successful", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            break;
+                        case ImportResult.Success:
+                            MessageBox.Show("Blueprint imported successfully.", "Import Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                            break;
+                    }
+                };
+
+                progress.ShowDialog();
             }
         }
     }

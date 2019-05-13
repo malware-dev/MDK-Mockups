@@ -38,6 +38,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +75,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Blueprints\BlueprintDefinition.cs" />
+    <Compile Include="Blueprints\BlueprintParser.cs" />
+    <Compile Include="Dialogs\ImportBlueprintDialogBox.xaml.cs">
+      <DependentUpon>ImportBlueprintDialogBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MockupExtensions\CommandProxy.cs" />
     <Compile Include="MockupExtensions\RuntimeConstants.cs" />
     <Compile Include="MockupExtensions\IMockupDataTemplateProvider.cs" />
@@ -94,6 +102,10 @@
     <Compile Include="TemplateSelectors\MyTerminalBlockCommon.cs" />
     <Compile Include="TemplateSelectors\MyTerminalBlockDetail.cs" />
     <Compile Include="MockupExtensions\UiMockedRun.cs" />
+    <Page Include="Dialogs\ImportBlueprintDialogBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\AddBlockDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

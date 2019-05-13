@@ -27,8 +27,7 @@
                 <MenuItem Header="E_xit" x:Name="miExit" Click="MiExit_Click"/>
             </MenuItem>
             <MenuItem Header="_Blueprints">
-                <MenuItem Header="_Import" IsEnabled="False" x:Name="miImport"/>
-                <MenuItem Header="_Export" IsEnabled="False" x:Name="miExport"/>
+                <MenuItem Header="_Import" x:Name="miImport" Click="MiImport_Click"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About MDK UI" x:Name="miAbout" Click="MiAbout_Click"/>
