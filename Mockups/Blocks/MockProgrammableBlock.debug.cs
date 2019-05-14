@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
+    [DisplayName("Programmable Block")]
     public partial class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
         protected string _storage = string.Empty;
@@ -49,6 +51,7 @@ namespace IngameScript.Mockups.Blocks
             });
         }
 
+        [DisplayName("Run")]
         public virtual bool Run(string argument, UpdateType updateType)
         {
             if (!Enabled)

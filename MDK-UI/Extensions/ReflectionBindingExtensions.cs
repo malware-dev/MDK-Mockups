@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,10 +9,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using MDK_UI.TemplateConverters;
 using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
 
 namespace MDK_UI.Extensions
 {
-    static class PropertyInfoExtensions
+    static class ReflectionBindingExtensions
     {
         public static UIElement ToUiElement(this PropertyInfo prop, object target, PropertyInfo parent = null)
         {
@@ -118,6 +120,7 @@ namespace MDK_UI.Extensions
                         var comboBox = new ComboBox
                         {
                             IsReadOnly = prop.IsReadOnly(),
+                            IsEnabled = !prop.IsReadOnly()
                         };
 
                         foreach (var value in Enum.GetValues(type))
@@ -126,7 +129,7 @@ namespace MDK_UI.Extensions
                         }
 
                         var binding = prop.GetBinding(target);
-                        binding.Converter = new DisplayNameConverter();
+                        //binding.Converter = new DisplayNameConverter();
 
                         comboBox.SetBinding(Selector.SelectedItemProperty, binding);
                         return comboBox;
@@ -140,6 +143,43 @@ namespace MDK_UI.Extensions
                     }
             }
         }
+
+        public static UIElement ToUIElement(this MethodInfo method, object target, MethodInfo parent = null)
+        {
+            var name = method.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
+            var element = new Button
+            {
+                Content = name
+            };
+
+            method = parent ?? method;
+            if (method.GetParameters().Any())
+            {
+                element.Click += UnsupportedMethod;
+            }
+            else
+            {
+                element.Click += (sender, args) =>
+                {
+                    var result = method.Invoke(target, new object[] { });
+
+                    if (method.ReturnType != typeof(void))
+                        element.InvokeMessageBox($"{name} returned:\n{result}", "Action Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                };
+            }
+
+            return element;
+        }
+
+        private static void InvokeMessageBox(this UIElement element, string message, string caption, MessageBoxButton button, MessageBoxImage icon)
+        {
+            element.Dispatcher.Invoke(() => MessageBox.Show(message, caption, button, icon));
+        }
+
+        private static RoutedEventHandler UnsupportedMethod { get; } = (sender, args) =>
+        {
+            (sender as UIElement).InvokeMessageBox("Executing actions with parameters is not yet supported.", "Not Supported", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        };
 
         private static bool IsReadOnly(this PropertyInfo prop)
             => !prop.CanWrite || (prop.GetCustomAttribute<ReadOnlyAttribute>()?.IsReadOnly ?? false);

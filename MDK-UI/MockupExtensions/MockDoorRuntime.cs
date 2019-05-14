@@ -1,12 +1,10 @@
-﻿using IngameScript.Mockups.Base;
-using MDK_UI.MockupExtensions;
+﻿using MDK_UI.MockupExtensions;
 using Sandbox.ModAPI.Ingame;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace IngameScript.Mockups.Blocks
 {
-    [DisplayName("Sliding Door"), MetadataType(typeof(MockDoorMetadata))]
+    [DisplayName("Sliding Door")]
     public class MockRuntimeDoor: MockDoor, IMockupRuntimeProvider
     {
         const float OpenRate = 0.1666f;
@@ -65,17 +63,7 @@ namespace IngameScript.Mockups.Blocks
             if (Status != DoorStatus.Closed)
                 Status = DoorStatus.Closing;
         }
-
-        public CommandProxy OpenCommand { get; }
-        public CommandProxy CloseCommand { get; }
-
-        public MockRuntimeDoor()
-            :base()
-        {
-            OpenCommand = new CommandProxy(OpenDoor);
-            CloseCommand = new CommandProxy(CloseDoor);
-        }
-
+        
         public void ProcessGameTick(IMyGridTerminalSystem gridTerminalSystem, int tick)
         {
             switch (Status)
@@ -107,14 +95,5 @@ namespace IngameScript.Mockups.Blocks
 
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
-
-    internal class MockDoorMetadata: MockFunctionalBlockMetadata
-    {
-        [DisplayName("Status"), ReadOnly(true)]
-        public DoorStatus Status { get; set; }
-
-        [DisplayName("Open Ratio"), Range(0, 1)]
-        public object OpenRatio { get; set; }
     }
 }

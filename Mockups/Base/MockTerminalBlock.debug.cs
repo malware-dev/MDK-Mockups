@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
@@ -12,6 +14,7 @@ namespace IngameScript.Mockups.Base
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
+    [DisplayName("Unsupported Block")]
     public abstract partial class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
     {
         public Dictionary<long, MyRelationsBetweenPlayerAndBlock> Relationships { get; }
@@ -30,6 +33,7 @@ namespace IngameScript.Mockups.Base
             }
         }
 
+        [DisplayName("Custom Name")]
         public virtual string CustomName
         {
             // Ugh... >_<
@@ -60,14 +64,19 @@ namespace IngameScript.Mockups.Base
 
         public virtual string CustomInfo { get; set; } = "";
 
+        [DisplayName("Custom Data"), DataType(DataType.MultilineText)]
         public virtual string CustomData { get; set; } = "";
 
+        [DisplayName("Show On HUD")]
         public virtual bool ShowOnHUD { get; set; } = true;
 
+        [DisplayName("Show In Terminal")]
         public virtual bool ShowInTerminal { get; set; } = true;
 
+        [DisplayName("Show In Toolbar Config")]
         public virtual bool ShowInToolbarConfig { get; set; } = true;
 
+        [DisplayName("Show In Inventory")]
         public virtual bool ShowInInventory { get; set; } = true;
 
         protected virtual IEnumerable<ITerminalProperty> CreateTerminalProperties()
