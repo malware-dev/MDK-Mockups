@@ -172,6 +172,8 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual void RemoveImageFromSelection(string id, bool removeDuplicates = false)
             => _surface.RemoveImageFromSelection(id, removeDuplicates);
+        public virtual void RemoveImagesFromSelection(List<string> ids, bool removeDuplicates = false)
+            => _surface.RemoveImagesFromSelection(ids, removeDuplicates);
 
         public virtual string GetText() => _surface.GetText();
         public virtual void ReadText(StringBuilder buffer, bool append = false) => _surface.ReadText(buffer, append);
@@ -182,10 +184,7 @@ namespace IngameScript.Mockups.Blocks
         public virtual MySpriteDrawFrame DrawFrame() => _surface.DrawFrame();
         public virtual Vector2 MeasureStringInPixels(StringBuilder text, string font, float scale) => _surface.MeasureStringInPixels(text, font, scale);
         #endregion
-
-        public virtual void RemoveImagesFromSelection(List<string> ids, bool removeDuplicates = false)
-            => _surface.RemoveImagesFromSelection(ids, removeDuplicates);
-
+        
         #region Obsolete Methods and Properties
         [Obsolete("This property no has meaning in-game. If you need a secondary storage, use CustomData")]
         public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; } = ShowTextOnScreenFlag.PUBLIC;
