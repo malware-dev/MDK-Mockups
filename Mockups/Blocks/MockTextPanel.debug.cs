@@ -152,24 +152,14 @@ namespace IngameScript.Mockups.Blocks
         public virtual void GetFonts(List<string> fonts) 
             => _surface.GetFonts(fonts);
 
-        public virtual string GetPublicText() => _surface.GetText();
-
-        public virtual string GetPublicTitle() => _publicTitle.ToString();
+        public virtual string GetPublicTitle() 
+            => _publicTitle.ToString();
 
         public virtual void GetSelectedImages(List<string> output) 
             => _surface.GetSelectedImages(output);
 
-        public virtual void ReadPublicText(StringBuilder buffer, bool append = false)
-            => _surface.ReadText(buffer, append);
-
         public virtual void RemoveImageFromSelection(string id, bool removeDuplicates = false)
             => _surface.RemoveImageFromSelection(id, removeDuplicates);
-
-        public virtual bool WritePublicText(string value, bool append = false)
-            => _surface.WriteText(value, append);
-
-        public virtual bool WritePublicText(StringBuilder value, bool append = false)
-            => _surface.WriteText(value, append);
 
         public virtual bool WritePublicTitle(string value, bool append = false)
         {
@@ -198,49 +188,65 @@ namespace IngameScript.Mockups.Blocks
         [Obsolete("This property no has meaning in-game. If you need a secondary storage, use CustomData")]
         public virtual ShowTextOnScreenFlag ShowOnScreen { get; set; } = ShowTextOnScreenFlag.PUBLIC;
 
-        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData")]
+        [Obsolete("Use " + nameof(GetText) + ".")]
+        public virtual string GetPublicText()
+            => _surface.GetText();
+
+        [Obsolete("Use " + nameof(ReadText) + ".")]
+        public virtual void ReadPublicText(StringBuilder buffer, bool append = false)
+            => _surface.ReadText(buffer, append);
+
+        [Obsolete("Use " + nameof(WriteText) + ".")]
+        public virtual bool WritePublicText(string value, bool append = false)
+            => _surface.WriteText(value, append);
+
+        [Obsolete("Use " + nameof(WriteText) + ".")]
+        public virtual bool WritePublicText(StringBuilder value, bool append = false)
+            => _surface.WriteText(value, append);
+
+        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData", true)]
         public virtual string GetPrivateText()
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete("This methods no longer have meaning in-game. If you need a secondary storage, use CustomData")]
+        [Obsolete("This methods no longer have meaning in-game. If you need a secondary storage, use CustomData", true)]
         public virtual string GetPrivateTitle()
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData")]
+        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData", true)]
         public virtual void SetShowOnScreen(ShowTextOnScreenFlag set)
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData")]
+        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData", true)]
         public virtual void ShowPrivateTextOnScreen()
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete]
+        [Obsolete("This method no longer have meaning in-game.", true)]
         public virtual void ShowPublicTextOnScreen()
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete]
+        [Obsolete("This method no longer have meaning in-game.", true)]
         public virtual void ShowTextureOnScreen()
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData")]
+        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData", true)]
         public virtual bool WritePrivateText(string value, bool append = false)
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData")]
+        [Obsolete("This method no longer have meaning in-game. If you need a secondary storage, use CustomData", true)]
         public virtual bool WritePrivateTitle(string value, bool append = false)
         {
             throw new NotSupportedException();
