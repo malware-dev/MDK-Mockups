@@ -4,14 +4,12 @@ using System.ComponentModel;
 
 namespace IngameScript.Mockups.Blocks
 {
+    [DisplayName("Sliding Door")]
     public class MockRuntimeDoor: MockDoor, IMockupRuntimeProvider
     {
         const float OpenRate = 0.1666f;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public override string DataTemplateName => "Door";
-        public override string TemplateDisplayName => "Sliding Door";
 
         public int ProcessPriority => 1;
 
@@ -65,17 +63,7 @@ namespace IngameScript.Mockups.Blocks
             if (Status != DoorStatus.Closed)
                 Status = DoorStatus.Closing;
         }
-
-        public CommandProxy OpenCommand { get; }
-        public CommandProxy CloseCommand { get; }
-
-        public MockRuntimeDoor()
-            :base()
-        {
-            OpenCommand = new CommandProxy(OpenDoor);
-            CloseCommand = new CommandProxy(CloseDoor);
-        }
-
+        
         public void ProcessGameTick(IMyGridTerminalSystem gridTerminalSystem, int tick)
         {
             switch (Status)

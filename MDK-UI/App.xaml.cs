@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using Malware.MDKUtilities;
-using Microsoft.Win32;
-using Sandbox.ModAPI;
 
 namespace MDK_UI
 {

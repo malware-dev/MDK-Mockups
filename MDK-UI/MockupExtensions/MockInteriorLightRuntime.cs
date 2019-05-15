@@ -6,11 +6,9 @@ using Sandbox.ModAPI.Ingame;
 
 namespace IngameScript.Mockups.Blocks
 {
+    [DisplayName("Interior Light")]
     public class MockInteriorLightRuntime: MockInteriorLight, IMockupRuntimeProvider
     {
-        public override string DataTemplateName => "LightingBlock";
-        public override string TemplateDisplayName => "Interior Light";
-
         public int ProcessPriority => 1;
 
         private int CurrentTick = 0;
