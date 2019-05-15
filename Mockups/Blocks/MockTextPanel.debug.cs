@@ -140,26 +140,8 @@ namespace IngameScript.Mockups.Blocks
             });
         }
 
-        public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
-            => _surface.AddImagesToSelection(ids, checkExistence);
-
-        public virtual void AddImageToSelection(string id, bool checkExistence = false) 
-            => _surface.AddImageToSelection(id, checkExistence);
-
-        public virtual void ClearImagesFromSelection() 
-            => _surface.ClearImagesFromSelection();
-
-        public virtual void GetFonts(List<string> fonts) 
-            => _surface.GetFonts(fonts);
-
-        public virtual string GetPublicTitle() 
+        public virtual string GetPublicTitle()
             => _publicTitle.ToString();
-
-        public virtual void GetSelectedImages(List<string> output) 
-            => _surface.GetSelectedImages(output);
-
-        public virtual void RemoveImageFromSelection(string id, bool removeDuplicates = false)
-            => _surface.RemoveImageFromSelection(id, removeDuplicates);
 
         public virtual bool WritePublicTitle(string value, bool append = false)
         {
@@ -172,14 +154,34 @@ namespace IngameScript.Mockups.Blocks
             return true;
         }
 
-        public virtual bool WriteText(string value, bool append = false) => _surface.WriteText(value, append);
+        #region Text Surface Proxies
+        public virtual void AddImagesToSelection(List<string> ids, bool checkExistence = false)
+            => _surface.AddImagesToSelection(ids, checkExistence);
+
+        public virtual void AddImageToSelection(string id, bool checkExistence = false) 
+            => _surface.AddImageToSelection(id, checkExistence);
+
+        public virtual void ClearImagesFromSelection() 
+            => _surface.ClearImagesFromSelection();
+
+        public virtual void GetFonts(List<string> fonts) 
+            => _surface.GetFonts(fonts);
+
+        public virtual void GetSelectedImages(List<string> output) 
+            => _surface.GetSelectedImages(output);
+
+        public virtual void RemoveImageFromSelection(string id, bool removeDuplicates = false)
+            => _surface.RemoveImageFromSelection(id, removeDuplicates);
+
         public virtual string GetText() => _surface.GetText();
-        public virtual bool WriteText(StringBuilder value, bool append = false) => _surface.WriteText(value, append);
         public virtual void ReadText(StringBuilder buffer, bool append = false) => _surface.ReadText(buffer, append);
+        public virtual bool WriteText(string value, bool append = false) => _surface.WriteText(value, append);
+        public virtual bool WriteText(StringBuilder value, bool append = false) => _surface.WriteText(value, append);
         public virtual void GetSprites(List<string> sprites) => _surface.GetSprites(sprites);
         public virtual void GetScripts(List<string> scripts) => _surface.GetScripts(scripts);
         public virtual MySpriteDrawFrame DrawFrame() => _surface.DrawFrame();
         public virtual Vector2 MeasureStringInPixels(StringBuilder text, string font, float scale) => _surface.MeasureStringInPixels(text, font, scale);
+        #endregion
 
         public virtual void RemoveImagesFromSelection(List<string> ids, bool removeDuplicates = false)
             => _surface.RemoveImagesFromSelection(ids, removeDuplicates);
