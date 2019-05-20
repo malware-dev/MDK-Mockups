@@ -19,7 +19,7 @@ namespace IngameScript.Mockups.Blocks
     [DisplayName("Text Panel")]
     public partial class MockTextPanel : MockFunctionalBlock, IMyTextPanel
     {
-        protected readonly MockTextSurface _surface = new MockTextSurface(new Vector2(512, 512), new Vector2(512, 512));
+        protected readonly MockTextSurface _surface;
         protected readonly StringBuilder _publicTitle = new StringBuilder();
         TextAlignmentEnum _alignment = TextAlignmentEnum.Align_Left;
 
@@ -28,8 +28,6 @@ namespace IngameScript.Mockups.Blocks
             get { return _surface.CurrentlyShownImage; }
             set { _surface.CurrentlyShownImage = value; }
         }
-
-        public virtual bool ShowText => _surface.ContentType == ContentType.TEXT_AND_IMAGE;
 
         public virtual float FontSize
         {
@@ -109,9 +107,17 @@ namespace IngameScript.Mockups.Blocks
             set { _surface.ScriptForegroundColor = value; }
         }
 
+        public virtual bool ShowText => _surface.ContentType == ContentType.TEXT_AND_IMAGE;
+
         public virtual Vector2 SurfaceSize => _surface.SurfaceSize;
 
         public virtual Vector2 TextureSize => _surface.TextureSize;
+
+        public MockTextPanel()
+        {
+            _surface = new MockTextSurface(new Vector2(512, 512), new Vector2(512, 512));
+            _surface.PropertyChanged += (sender, args) => OnPropertyChanged(args.PropertyName);
+        }
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 using Sandbox.ModAPI.Ingame;
@@ -15,7 +17,7 @@ namespace IngameScript.Mockups.Base
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public partial class MockTextSurface : IMyTextSurface
+    public partial class MockTextSurface : IMyTextSurface, INotifyPropertyChanged
     {
         const int MaxCharacterCount = 100000;
 
@@ -23,30 +25,239 @@ namespace IngameScript.Mockups.Base
         readonly StringBuilder _text = new StringBuilder();
         List<MySprite> MySprites { get; } = new List<MySprite>();
 
-        public string CurrentlyShownImage { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public float FontSize { get; set; } = 1;
-        public Color FontColor { get; set; } = new Color(255, 255, 255);
-        public Color BackgroundColor { get; set; } = new Color(0, 0, 0);
-        public byte BackgroundAlpha { get; set; } = new byte();
-        public float ChangeInterval { get; set; } = 0;
-        public string Font { get; set; } = "Debug";
-        public TextAlignment Alignment { get; set; } = TextAlignment.LEFT;
-        public string Script { get; set; } = "";
-        public ContentType ContentType { get; set; } = ContentType.NONE;
+        string _currentlyShownImage = "";
+        float _fontSize = 1;
+        Color _fontColor = new Color(255, 255, 255);
+        Color _backgroundColor = new Color(0, 0, 0);
+        byte _backgroundAlpha = new byte();
+        float _changeInterval = 0;
+        string _font = "Debug";
+        TextAlignment _alignment = TextAlignment.LEFT;
+        string _script = "";
+        ContentType _contentType = ContentType.NONE;
+        bool _preserveAspectRatio = true;
+        float _textPadding = 0f;
+        Color _scriptBackgroundColor = new Color(255, 255, 255);
+        Color _scriptForegroundColor = new Color(0, 0, 0);
+        string _name = "";
+        string _displayName = "";
+
+        public string CurrentlyShownImage
+        {
+            get { return _currentlyShownImage; }
+            set
+            {
+                if (_currentlyShownImage != value)
+                {
+                    _currentlyShownImage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public float FontSize
+        {
+            get { return _fontSize; }
+            set
+            {
+                if (_fontSize != value)
+                {
+                    _fontSize = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color FontColor
+        {
+            get { return _fontColor; }
+            set
+            {
+                if (_fontColor != value)
+                {
+                    _fontColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color BackgroundColor
+        {
+            get { return _backgroundColor; }
+            set
+            {
+                if (_backgroundColor != value)
+                {
+                    _backgroundColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public byte BackgroundAlpha
+        {
+            get { return _backgroundAlpha; }
+            set
+            {
+                if (_backgroundAlpha != value)
+                {
+                    _backgroundAlpha = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public float ChangeInterval
+        {
+            get { return _changeInterval; }
+            set
+            {
+                if (_changeInterval != value)
+                {
+                    _changeInterval = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Font
+        {
+            get { return _font; }
+            set
+            {
+                if (_font != value)
+                {
+                    _font = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public TextAlignment Alignment
+        {
+            get { return _alignment; }
+            set
+            {
+                if (_alignment != value)
+                {
+                    _alignment = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Script
+        {
+            get { return _script; }
+            set
+            {
+                if (_script != value)
+                {
+                    _script = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ContentType ContentType
+        {
+            get { return _contentType; }
+            set
+            {
+                if (_contentType != value)
+                {
+                    _contentType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public Vector2 SurfaceSize { get; }
 
         public Vector2 TextureSize { get; }
 
-        public bool PreserveAspectRatio { get; set; } = true;
-        public float TextPadding { get; set; } = 0f;
-        public Color ScriptBackgroundColor { get; set; } = new Color(255, 255, 255);
-        public Color ScriptForegroundColor { get; set; } = new Color(0, 0, 0);
+        public bool PreserveAspectRatio
+        {
+            get { return _preserveAspectRatio; }
+            set
+            {
+                if (_preserveAspectRatio != value)
+                {
+                    _preserveAspectRatio = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public string Name { get; private set; }
+        public float TextPadding
+        {
+            get { return _textPadding; }
+            set
+            {
+                if (_textPadding != value)
+                {
+                    _textPadding = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public string DisplayName { get; private set; }
+        public Color ScriptBackgroundColor
+        {
+            get { return _scriptBackgroundColor; }
+            set
+            {
+                if (_scriptBackgroundColor != value)
+                {
+                    _scriptBackgroundColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color ScriptForegroundColor
+        {
+            get { return _scriptForegroundColor; }
+            set
+            {
+                if (_scriptForegroundColor != value)
+                {
+                    _scriptForegroundColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        public string Name
+        {
+            get { return _name; }
+            private set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        public string DisplayName
+        {
+            get { return _displayName; }
+            private set
+            {
+                if (_displayName != value)
+                {
+                    _displayName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public IEnumerable<MySprite> SpriteBuffer => MySprites;
 
@@ -182,7 +393,10 @@ namespace IngameScript.Mockups.Base
             return true;
         }
 
-#region Mock Context for IMyTextSurface.MeasureStringInPixels
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        #region Mock Context for IMyTextSurface.MeasureStringInPixels
         private static IDictionary<string, MockFont> FontDefinitions { get; } = new Dictionary<string, MockFont>();
 
         private static MockFont GetFontDefinition(string font)
