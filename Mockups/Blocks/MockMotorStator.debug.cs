@@ -2,6 +2,7 @@
 using IngameScript.Mockups.Base;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame;
+using VRageMath;
 
 namespace IngameScript.Mockups.Blocks
 {
@@ -21,15 +22,15 @@ namespace IngameScript.Mockups.Blocks
         public float TargetVelocityRPM { get; set; }
         public virtual float LowerLimitRad
         {
-            get { return ToRads(LowerLimitDeg); }
-            set { LowerLimitDeg = FromRads(value); }
+            get { return ToRadians(LowerLimitDeg); }
+            set { LowerLimitDeg = ToDegrees(value); }
         }
         
         public virtual float LowerLimitDeg { get; set; } = -1;
         public virtual float UpperLimitRad
         {
-            get { return ToRads(LowerLimitDeg); }
-            set { LowerLimitDeg = FromRads(value); }
+            get { return ToRadians(UpperLimitRad); }
+            set { UpperLimitRad = ToDegrees(value); }
         }
 
         public virtual float UpperLimitDeg { get; set; } = -1;
@@ -50,20 +51,20 @@ namespace IngameScript.Mockups.Blocks
 
         public virtual IMyAttachableTopBlock MockPendingAttachment { get; set; }
 
-        protected float FromRads(float value)
+        protected float ToDegrees(float value)
         {
             if (value == -1)
                 return -1;
 
-            return value * 180 / Convert.ToSingle(Math.PI);
+            return MathHelper.ToDegrees(value);
         }
 
-        protected float ToRads(float value)
+        protected float ToRadians(float value)
         {
             if (value == -1)
                 return -1;
 
-            return Convert.ToSingle(Math.PI) * value / 180;
+            return MathHelper.ToRadians(value);
         }
 
         public virtual void Attach()

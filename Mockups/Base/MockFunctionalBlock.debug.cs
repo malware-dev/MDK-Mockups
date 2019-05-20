@@ -12,8 +12,21 @@ namespace IngameScript.Mockups.Base
 #endif
     public abstract partial class MockFunctionalBlock : MockTerminalBlock, IMyFunctionalBlock
     {
+        private bool _enabled = true;
+
         [DisplayName("Enabled")]
-        public virtual bool Enabled { get; set; } = true;
+        public virtual bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                if (_enabled != value)
+                {
+                    _enabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {

@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensions\ReflectionBindingExtensions.cs" />
+    <Compile Include="MockupExtensions\MockFunctionalBlock.cs" />
     <Compile Include="MockupExtensions\RuntimeConstants.cs" />
     <Compile Include="Dialogs\AddBlockDialogBox.xaml.cs">
       <DependentUpon>AddBlockDialogBox.xaml</DependentUpon>

@@ -108,7 +108,8 @@ namespace MDK_UI.Extensions
                         var textBox = new TextBox
                         {
                             AcceptsReturn = false,
-                            IsReadOnly = prop.IsReadOnly()
+                            IsReadOnly = prop.IsReadOnly(),
+                            VerticalContentAlignment = VerticalAlignment.Center
                         };
 
                         textBox.SetBinding(TextBox.TextProperty, prop.GetBinding(target));

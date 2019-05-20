@@ -1,6 +1,7 @@
 ﻿using MDK_UI.MockupExtensions;
 using Sandbox.ModAPI.Ingame;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace IngameScript.Mockups.Blocks
 {
@@ -9,46 +10,45 @@ namespace IngameScript.Mockups.Blocks
     {
         const float OpenRate = 0.1666f;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public int ProcessPriority => 1;
 
-        public override string CustomName
+        public override Brush Preview
         {
-            get => base.CustomName;
-            set
+            get
             {
-                if (base.CustomName != value)
-                {
-                    base.CustomName = value;
-                    OnPropertyChanged(nameof(CustomName));
-                }
-            }
-        }
+                if (!Enabled)
+                    return base.Preview;
 
-        public override DoorStatus Status
-        {
-            get => base.Status;
-            set
-            {
-                if (base.Status != value)
+                switch (Status)
                 {
-                    base.Status = value;
-                    OnPropertyChanged(nameof(Status));
+                    case DoorStatus.Closed:
+                        return new SolidColorBrush(new Color
+                        {
+                            R = 255,
+                            G = 0,
+                            B = 0,
+                            A = 255
+                        });
+                    case DoorStatus.Closing:
+                    case DoorStatus.Opening:
+                        return new SolidColorBrush(new Color
+                        {
+                            R = 255,
+                            G = 255,
+                            B = 0,
+                            A = 255
+                        });
+                    case DoorStatus.Open:
+                        return new SolidColorBrush(new Color
+                        {
+                            R = 0,
+                            G = 255,
+                            B = 0,
+                            A = 255
+                        });
                 }
-            }
-        }
 
-        public override float OpenRatio
-        {
-            get => base.OpenRatio;
-            set
-            {
-                if (base.OpenRatio != value)
-                {
-                    base.OpenRatio = value;
-                    OnPropertyChanged(nameof(OpenRatio));
-                }
+                return base.Preview;
             }
         }
 
@@ -92,8 +92,5 @@ namespace IngameScript.Mockups.Blocks
             if (OpenRatio <= 0 && Status != DoorStatus.Closed)
                 Status = DoorStatus.Closed;
         }
-
-        private void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

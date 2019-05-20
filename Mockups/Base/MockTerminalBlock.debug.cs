@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
@@ -15,13 +16,20 @@ namespace IngameScript.Mockups.Base
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
     [DisplayName("Unsupported Block")]
-    public abstract partial class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock
+    public abstract partial class MockTerminalBlock : MockCubeBlock, IMyTerminalBlock, INotifyPropertyChanged
     {
         public Dictionary<long, MyRelationsBetweenPlayerAndBlock> Relationships { get; }
             = new Dictionary<long, MyRelationsBetweenPlayerAndBlock>();
 
         ReadOnlyCollection<ITerminalProperty> _properties;
         StringBuilder _customName = new StringBuilder();
+        string _customData = "";
+        bool _showOnHud = true;
+        bool _showInTerminal = true;
+        bool _showInToolbarConfig = true;
+        bool _showInInventory = true;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected ReadOnlyCollection<ITerminalProperty> Properties
         {
@@ -46,6 +54,7 @@ namespace IngameScript.Mockups.Base
             {
                 _customName.Clear();
                 _customName.Append(value);
+                OnPropertyChanged();
             }
         }
 
@@ -65,19 +74,74 @@ namespace IngameScript.Mockups.Base
         public virtual string CustomInfo { get; set; } = "";
 
         [DisplayName("Custom Data"), DataType(DataType.MultilineText)]
-        public virtual string CustomData { get; set; } = "";
+        public virtual string CustomData
+        {
+            get { return _customData; }
+            set
+            {
+                if (_customData != value)
+                {
+                    _customData = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         [DisplayName("Show On HUD")]
-        public virtual bool ShowOnHUD { get; set; } = true;
+        public virtual bool ShowOnHUD
+        {
+            get { return _showOnHud; }
+            set
+            {
+                if (_showOnHud != value)
+                {
+                    _showOnHud = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         [DisplayName("Show In Terminal")]
-        public virtual bool ShowInTerminal { get; set; } = true;
+        public virtual bool ShowInTerminal
+        {
+            get { return _showInTerminal; }
+            set
+            {
+                if (_showInTerminal != value)
+                {
+                    _showInTerminal = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         [DisplayName("Show In Toolbar Config")]
-        public virtual bool ShowInToolbarConfig { get; set; } = true;
+        public virtual bool ShowInToolbarConfig
+        {
+            get { return _showInToolbarConfig; }
+            set
+            {
+                if (_showInToolbarConfig != value)
+                {
+                    _showInToolbarConfig = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         [DisplayName("Show In Inventory")]
-        public virtual bool ShowInInventory { get; set; } = true;
+        public virtual bool ShowInInventory
+        {
+            get { return _showInInventory; }
+            set
+            {
+                if (_showInInventory != value)
+                {
+                    _showInInventory = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         protected virtual IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -179,5 +243,8 @@ namespace IngameScript.Mockups.Base
                 }
             }
         }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -13,18 +13,6 @@ namespace IngameScript.Mockups.Blocks
 
         private int CurrentTick = 0;
 
-        public override string CustomName
-        {
-            get => base.CustomName;
-            set
-            {
-                if (base.CustomName != value)
-                {
-                    base.CustomName = value;
-                    OnPropertyChanged(nameof(CustomName));
-                }
-            }
-        }
         public override float Radius
         {
             get => base.Radius;
@@ -34,7 +22,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.Radius = value;
 
-                    OnPropertyChanged(nameof(Radius));
+                    OnPropertyChanged();
                     // OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -49,7 +37,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.Intensity = value;
 
-                    OnPropertyChanged(nameof(Intensity));
+                    OnPropertyChanged();
                     // OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -64,7 +52,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.Falloff = value;
 
-                    OnPropertyChanged(nameof(Falloff));
+                    OnPropertyChanged();
                     // OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -79,7 +67,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.BlinkIntervalSeconds = value;
 
-                    OnPropertyChanged(nameof(BlinkIntervalSeconds));
+                    OnPropertyChanged();
                     OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -94,7 +82,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.BlinkLength = value;
 
-                    OnPropertyChanged(nameof(BlinkLength));
+                    OnPropertyChanged();
                     OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -109,7 +97,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.BlinkOffset = value;
 
-                    OnPropertyChanged(nameof(BlinkOffset));
+                    OnPropertyChanged();
                     OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -124,7 +112,7 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.Color = value;
 
-                    OnPropertyChanged(nameof(Color));
+                    OnPropertyChanged();
                     OnPropertyChanged(nameof(Preview));
                 }
             }
@@ -139,13 +127,12 @@ namespace IngameScript.Mockups.Blocks
                 {
                     base.Enabled = value;
 
-                    OnPropertyChanged(nameof(Enabled));
                     OnPropertyChanged(nameof(Preview));
                 }
             }
         }
 
-        public Brush Preview
+        public override Brush Preview
         {
             get
             {
@@ -172,8 +159,6 @@ namespace IngameScript.Mockups.Blocks
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public MockInteriorLightRuntime()
             :base()
         {
@@ -195,8 +180,5 @@ namespace IngameScript.Mockups.Blocks
                 OnPropertyChanged(nameof(Preview));
             }
         }
-
-        private void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

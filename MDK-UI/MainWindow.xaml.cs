@@ -543,95 +543,131 @@ namespace MDK_UI
 
             props.RowDefinitions.Add(AutoRow());
 
-            var title = new TextBlock
-            {
-                FontWeight = FontWeight.FromOpenTypeWeight(100)
-            };
-
+            var title = new TextBlock();
+            title.SetValue(TextBlock.FontWeightProperty, FontWeights.Bold);
             title.SetValue(GridProp.ColumnSpanProperty, 2);
             title.SetValue(GridProp.RowProperty, 0);
-            title.SetBinding(TextBlock.TextProperty, new Binding()
-            {
-                Converter = labelConverter,
-                Source = SelectedBlock
-            });
+            title.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center);
 
             props.Children.Add(title);
 
-            var properties = SelectedBlock.GetType().GetProperties();
-            var methods = SelectedBlock.GetType().GetMethods();
-            var displayProps = properties.Where(p => p.HasAttribute<DisplayNameAttribute>()).ToList();
-            var displayMethods = methods.Where(m => m.HasAttribute<DisplayNameAttribute>()).ToList();
-
-            if (SelectedBlock.GetType().HasAttribute<MetadataTypeAttribute>())
+            if (SelectedBlock == null)
             {
-                var metadata = SelectedBlock.GetType().GetCustomAttributes(true).OfType<MetadataTypeAttribute>().Select(t => t.MetadataClassType);
-                var metaProps = metadata.SelectMany(t => t.GetProperties().Where(p => p.HasAttribute<DisplayNameAttribute>()));
-
-                foreach (var metaprop in metaProps)
-                {
-                    if (!displayProps.Any(p => p.Name == metaprop.Name))
-                        displayProps.Add(metaprop);
-                }
-
-                var metaMethods = metadata.SelectMany(t => t.GetMethods().Where(p => p.HasAttribute<DisplayNameAttribute>()));
-
-                foreach (var metamethod in metaMethods)
-                {
-                    if (!displayMethods.Any(m => m.Name == metamethod.Name))
-                        displayMethods.Add(metamethod);
-                }
+                title.SetValue(TextBlock.TextProperty, "Select a Block");
             }
-
-            var rowNum = 1;
-
-            foreach (var prop in displayProps.OrderBy(p => p.GetCustomAttribute<DisplayNameAttribute>().DisplayName))
+            else
             {
-                props.RowDefinitions.Add(AutoRow());
-                
-                var label = new Label();
-                var binding = label.SetBinding(ContentProperty, new Binding()
+                title.SetBinding(TextBlock.TextProperty, new Binding()
                 {
-                    ConverterParameter = prop.Name,
                     Converter = labelConverter,
                     Source = SelectedBlock
                 });
-                label.SetValue(GridProp.RowProperty, rowNum);
-                label.SetValue(GridProp.ColumnProperty, 0);
 
-                props.Children.Add(label);
+                var properties = SelectedBlock.GetType().GetProperties();
+                var methods = SelectedBlock.GetType().GetMethods();
+                var displayProps = properties.Where(p => p.HasAttribute<DisplayNameAttribute>()).ToList();
+                var displayMethods = methods.Where(m => m.HasAttribute<DisplayNameAttribute>()).ToList();
 
-                var control = prop.ToUiElement(SelectedBlock, properties.FirstOrDefault(p => p.Name == prop.Name));
-
-                control.SetValue(GridProp.RowProperty, rowNum);
-                control.SetValue(GridProp.ColumnProperty, 1);
-                props.Children.Add(control);
-
-                rowNum++;
-            }
-
-            if (displayMethods.Any())
-            {
-                props.RowDefinitions.Add(AutoRow());
-
-                var label = new Label()
+                if (SelectedBlock.GetType().HasAttribute<MetadataTypeAttribute>())
                 {
-                    Content = "Actions"
-                };
-                label.SetValue(GridProp.RowProperty, rowNum);
-                label.SetValue(GridProp.ColumnProperty, 0);
+                    var metadata = SelectedBlock.GetType().GetCustomAttributes(true).OfType<MetadataTypeAttribute>().Select(t => t.MetadataClassType);
+                    var metaProps = metadata.SelectMany(t => t.GetProperties().Where(p => p.HasAttribute<DisplayNameAttribute>()));
 
-                props.Children.Add(label);
+                    foreach (var metaprop in metaProps)
+                    {
+                        if (!displayProps.Any(p => p.Name == metaprop.Name))
+                            displayProps.Add(metaprop);
+                    }
 
-                var actions = new StackPanel();
-                actions.SetValue(GridProp.RowProperty, rowNum);
-                actions.SetValue(GridProp.ColumnProperty, 1);
+                    var metaMethods = metadata.SelectMany(t => t.GetMethods().Where(p => p.HasAttribute<DisplayNameAttribute>()));
 
-                props.Children.Add(actions);
+                    foreach (var metamethod in metaMethods)
+                    {
+                        if (!displayMethods.Any(m => m.Name == metamethod.Name))
+                            displayMethods.Add(metamethod);
+                    }
+                }
 
-                foreach (var method in displayMethods.OrderBy(p => p.GetCustomAttribute<DisplayNameAttribute>().DisplayName))
+                var rowNum = 1;
+
+                foreach (var prop in displayProps.OrderBy(p => p.GetCustomAttribute<DisplayNameAttribute>().DisplayName))
                 {
-                    actions.Children.Add(method.ToUIElement(SelectedBlock, methods.FirstOrDefault(m => m.Name == method.Name)));
+                    props.RowDefinitions.Add(AutoRow());
+
+                    var label = new Label();
+                    var binding = label.SetBinding(ContentProperty, new Binding()
+                    {
+                        ConverterParameter = prop.Name,
+                        Converter = labelConverter,
+                        Source = SelectedBlock
+                    });
+                    label.SetValue(GridProp.RowProperty, rowNum);
+                    label.SetValue(GridProp.ColumnProperty, 0);
+                    label.SetValue(MarginProperty, new Thickness(2));
+
+                    props.Children.Add(label);
+
+                    var control = prop.ToUiElement(SelectedBlock, properties.FirstOrDefault(p => p.Name == prop.Name));
+
+                    control.SetValue(GridProp.RowProperty, rowNum);
+                    control.SetValue(GridProp.ColumnProperty, 1);
+                    control.SetValue(MarginProperty, new Thickness(2));
+                    props.Children.Add(control);
+
+                    // Custom logic for MyINI configs in CustomData
+                    if (prop.Name == "CustomData" && prop.PropertyType == typeof(string))
+                    {
+                        control.SetValue(GridProp.RowSpanProperty, 3);
+
+                        rowNum++;
+                        props.RowDefinitions.Add(AutoRow());
+                        var button = new Button
+                        {
+                            Content = "Edit as MyINI"
+                        };
+
+                        button.Click += (element, args) =>
+                        {
+                            (element as UIElement).Dispatcher.Invoke(() => MessageBox.Show("This is in the works!", "Soon™", MessageBoxButton.OK, MessageBoxImage.Information));
+                        };
+
+                        button.SetValue(GridProp.RowProperty, rowNum);
+                        button.SetValue(GridProp.ColumnProperty, 0);
+                        button.SetValue(MarginProperty, new Thickness(2));
+
+                        props.Children.Add(button);
+
+                        rowNum++;
+                        props.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    }
+
+                    rowNum++;
+                }
+
+                if (displayMethods.Any())
+                {
+                    props.RowDefinitions.Add(AutoRow());
+
+                    var label = new Label()
+                    {
+                        Content = "Actions"
+                    };
+                    label.SetValue(GridProp.RowProperty, rowNum);
+                    label.SetValue(GridProp.ColumnProperty, 0);
+
+                    props.Children.Add(label);
+
+                    var actions = new StackPanel();
+                    actions.SetValue(GridProp.RowProperty, rowNum);
+                    actions.SetValue(GridProp.ColumnProperty, 1);
+                    actions.SetValue(MarginProperty, new Thickness(2));
+
+                    props.Children.Add(actions);
+
+                    foreach (var method in displayMethods.OrderBy(p => p.GetCustomAttribute<DisplayNameAttribute>().DisplayName))
+                    {
+                        actions.Children.Add(method.ToUIElement(SelectedBlock, methods.FirstOrDefault(m => m.Name == method.Name)));
+                    }
                 }
             }
         }
