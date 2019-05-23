@@ -3,5 +3,7 @@
 namespace IngameScript.Mockups.Blocks
 {
     [MockOverridden]
-    public partial class MockDoor { }
+    public partial class MockDoor {
+        public MockDoor(): base() { }
+    }
 }

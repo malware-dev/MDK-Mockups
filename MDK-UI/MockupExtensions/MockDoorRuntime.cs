@@ -1,57 +1,69 @@
 ﻿using MDK_UI.MockupExtensions;
 using Sandbox.ModAPI.Ingame;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace IngameScript.Mockups.Blocks
 {
-    public class MockRuntimeDoor: MockDoor, IMockupRuntimeProvider
+    [DisplayName("Sliding Door")]
+    public class MockDoorRuntime: MockDoor, IMockupRuntimeProvider
     {
         const float OpenRate = 0.1666f;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public override string DataTemplateName => "Door";
-        public override string TemplateDisplayName => "Sliding Door";
-
         public int ProcessPriority => 1;
 
-        public override string CustomName
+        public override Brush Preview
         {
-            get => base.CustomName;
-            set
+            get
             {
-                if (base.CustomName != value)
+                if (!Enabled)
+                    return base.Preview;
+
+                switch (Status)
                 {
-                    base.CustomName = value;
-                    OnPropertyChanged(nameof(CustomName));
+                    case DoorStatus.Closed:
+                        return new SolidColorBrush(new Color
+                        {
+                            R = 255,
+                            G = 0,
+                            B = 0,
+                            A = 255
+                        });
+                    case DoorStatus.Closing:
+                    case DoorStatus.Opening:
+                        return new SolidColorBrush(new Color
+                        {
+                            R = 255,
+                            G = 255,
+                            B = 0,
+                            A = 255
+                        });
+                    case DoorStatus.Open:
+                        return new SolidColorBrush(new Color
+                        {
+                            R = 0,
+                            G = 255,
+                            B = 0,
+                            A = 255
+                        });
                 }
+
+                return base.Preview;
             }
         }
 
-        public override DoorStatus Status
+        public MockDoorRuntime(): base()
         {
-            get => base.Status;
-            set
+            PropertyChanged += (sender, args) =>
             {
-                if (base.Status != value)
+                switch (args.PropertyName)
                 {
-                    base.Status = value;
-                    OnPropertyChanged(nameof(Status));
+                    case nameof(OpenRatio):
+                    case nameof(Status):
+                        OnPropertyChanged(nameof(Preview));
+                        break;
                 }
-            }
-        }
-
-        public override float OpenRatio
-        {
-            get => base.OpenRatio;
-            set
-            {
-                if (base.OpenRatio != value)
-                {
-                    base.OpenRatio = value;
-                    OnPropertyChanged(nameof(OpenRatio));
-                }
-            }
+            };
         }
 
         public override void OpenDoor()
@@ -65,17 +77,7 @@ namespace IngameScript.Mockups.Blocks
             if (Status != DoorStatus.Closed)
                 Status = DoorStatus.Closing;
         }
-
-        public CommandProxy OpenCommand { get; }
-        public CommandProxy CloseCommand { get; }
-
-        public MockRuntimeDoor()
-            :base()
-        {
-            OpenCommand = new CommandProxy(OpenDoor);
-            CloseCommand = new CommandProxy(CloseDoor);
-        }
-
+        
         public void ProcessGameTick(IMyGridTerminalSystem gridTerminalSystem, int tick)
         {
             switch (Status)
@@ -104,8 +106,5 @@ namespace IngameScript.Mockups.Blocks
             if (OpenRatio <= 0 && Status != DoorStatus.Closed)
                 Status = DoorStatus.Closed;
         }
-
-        private void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
@@ -75,6 +76,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\ReflectionBindingExtensions.cs" />
+    <Compile Include="MockupExtensions\MockFunctionalBlock.cs" />
     <Compile Include="Blueprints\BlueprintDefinition.cs" />
     <Compile Include="Blueprints\BlueprintParser.cs" />
     <Compile Include="Dialogs\ImportBlueprintDialogBox.xaml.cs">
@@ -82,7 +85,6 @@
     </Compile>
     <Compile Include="MockupExtensions\CommandProxy.cs" />
     <Compile Include="MockupExtensions\RuntimeConstants.cs" />
-    <Compile Include="MockupExtensions\IMockupDataTemplateProvider.cs" />
     <Compile Include="Dialogs\AddBlockDialogBox.xaml.cs">
       <DependentUpon>AddBlockDialogBox.xaml</DependentUpon>
     </Compile>
@@ -94,27 +96,16 @@
     <Compile Include="MockupExtensions\MockOverriddenAttribute.cs" />
     <Compile Include="TemplateConverters\ColorConverter.cs" />
     <Compile Include="MockupExtensions\IMockupRuntimeProvider.cs" />
-    <Compile Include="MockupExtensions\MockAirVent.cs" />
     <Compile Include="MockupExtensions\MockDoorRuntime.cs" />
     <Compile Include="MockupExtensions\MockInteriorLight.cs" />
-    <Compile Include="MockupExtensions\MockTerminalBlock.cs" />
     <Compile Include="MockupExtensions\MockTextPanel.cs" />
-    <Compile Include="TemplateSelectors\MyTerminalBlockCommon.cs" />
-    <Compile Include="TemplateSelectors\MyTerminalBlockDetail.cs" />
+    <Compile Include="TemplateConverters\DisplayNameConverter.cs" />
     <Compile Include="MockupExtensions\UiMockedRun.cs" />
     <Page Include="Dialogs\ImportBlueprintDialogBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\AddBlockDialogBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\DisplayTemplates\AirVent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\DisplayTemplates\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,22 +122,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Dialogs\AddGroupDialogBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\DisplayTemplates\DisplayTemplates.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\DisplayTemplates\TextSurface.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\DisplayTemplates\Door.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\DisplayTemplates\LightingBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

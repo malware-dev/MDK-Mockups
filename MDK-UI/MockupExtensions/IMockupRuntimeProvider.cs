@@ -3,7 +3,7 @@ using Sandbox.ModAPI.Ingame;
 
 namespace MDK_UI.MockupExtensions
 {
-    interface IMockupRuntimeProvider: INotifyPropertyChanged
+    interface IMockupRuntimeProvider
     {
         void ProcessGameTick(IMyGridTerminalSystem gridTerminalSystem, int tick);
         int ProcessPriority { get; }
