@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace IngameScript.Mockups.Blocks
 {
     [DisplayName("Sliding Door")]
-    public class MockRuntimeDoor: MockDoor, IMockupRuntimeProvider
+    public class MockDoorRuntime: MockDoor, IMockupRuntimeProvider
     {
         const float OpenRate = 0.1666f;
 
@@ -50,6 +50,20 @@ namespace IngameScript.Mockups.Blocks
 
                 return base.Preview;
             }
+        }
+
+        public MockDoorRuntime(): base()
+        {
+            PropertyChanged += (sender, args) =>
+            {
+                switch (args.PropertyName)
+                {
+                    case nameof(OpenRatio):
+                    case nameof(Status):
+                        OnPropertyChanged(nameof(Preview));
+                        break;
+                }
+            };
         }
 
         public override void OpenDoor()

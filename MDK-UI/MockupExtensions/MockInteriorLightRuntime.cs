@@ -13,125 +13,6 @@ namespace IngameScript.Mockups.Blocks
 
         private int CurrentTick = 0;
 
-        public override float Radius
-        {
-            get => base.Radius;
-            set
-            {
-                if (value != base.Radius)
-                {
-                    base.Radius = value;
-
-                    OnPropertyChanged();
-                    // OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override float Intensity
-        {
-            get => base.Intensity;
-            set
-            {
-                if (value != base.Intensity)
-                {
-                    base.Intensity = value;
-
-                    OnPropertyChanged();
-                    // OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override float Falloff
-        {
-            get => base.Falloff;
-            set
-            {
-                if (value != base.Falloff)
-                {
-                    base.Falloff = value;
-
-                    OnPropertyChanged();
-                    // OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override float BlinkIntervalSeconds
-        {
-            get => base.BlinkIntervalSeconds;
-            set
-            {
-                if (value != base.BlinkIntervalSeconds)
-                {
-                    base.BlinkIntervalSeconds = value;
-
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override float BlinkLength
-        {
-            get => base.BlinkLength;
-            set
-            {
-                if (value != base.BlinkLength)
-                {
-                    base.BlinkLength = value;
-
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override float BlinkOffset
-        {
-            get => base.BlinkOffset;
-            set
-            {
-                if (value != base.BlinkOffset)
-                {
-                    base.BlinkOffset = value;
-
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override VRageMath.Color Color
-        {
-            get => base.Color;
-            set
-            {
-                if (value != base.Color)
-                {
-                    base.Color = value;
-
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
-        public override bool Enabled
-        {
-            get => base.Enabled;
-            set
-            {
-                if (value != base.Enabled)
-                {
-                    base.Enabled = value;
-
-                    OnPropertyChanged(nameof(Preview));
-                }
-            }
-        }
-
         public override Brush Preview
         {
             get
@@ -170,6 +51,22 @@ namespace IngameScript.Mockups.Blocks
             BlinkOffset = 0;
             Color = new VRageMath.Color(255, 255, 255, 255);
             Enabled = true;
+
+            PropertyChanged += (sender, args) => 
+            {
+                switch (args.PropertyName)
+                {
+                    case nameof(Radius):
+                    case nameof(Intensity):
+                    case nameof(Falloff):
+                    case nameof(BlinkIntervalSeconds):
+                    case nameof(BlinkLength):
+                    case nameof(BlinkOffset):
+                    case nameof(Color):
+                        OnPropertyChanged(nameof(Preview));
+                        break;
+                }
+            };
         }
 
         public void ProcessGameTick(IMyGridTerminalSystem gridTerminalSystem, int tick)

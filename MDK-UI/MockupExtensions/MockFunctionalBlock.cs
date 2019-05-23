@@ -25,5 +25,16 @@ namespace IngameScript.Mockups.Base
                 });
             }
         }
+
+        public MockFunctionalBlock(): base()
+        {
+            PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(Enabled))
+                {
+                    OnPropertyChanged(nameof(Preview));
+                }
+            };
+        }
     }
 }
