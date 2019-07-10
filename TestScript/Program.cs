@@ -50,7 +50,7 @@ namespace IngameScript
             // here, which will allow your script to run itself without a 
             // timer block.
 
-            Runtime.UpdateFrequency = UpdateFrequency.Once;
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
         public void Save()
@@ -83,7 +83,17 @@ namespace IngameScript
                 return;
             }
 
-            Echo((++_i).ToString());
+            var lights = new List<IMyLightingBlock>();
+            var groups = new List<IMyBlockGroup>();
+
+            GridTerminalSystem.GetBlocksOfType(lights);
+            GridTerminalSystem.GetBlockGroups(groups);
+
+            var light = lights.FirstOrDefault();
+
+            var output = $"{++_i}: Light Name = {light?.CustomName ?? "> NOTFOUND <"}, Groups = {groups.Count}";
+
+            Echo((output).ToString());
         }
     }
 }

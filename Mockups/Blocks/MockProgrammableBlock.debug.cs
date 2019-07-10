@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,16 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
+    [DisplayName("Programmable Block")]
+    public partial class MockProgrammableBlock : MockFunctionalBlock, IMyProgrammableBlock
     {
-        string _storage = string.Empty;
-        readonly IMyTextSurface _primary = new MockTextSurface(new VRageMath.Vector2(512, 512), new VRageMath.Vector2(512, 512));
-        readonly IMyTextSurface _keyboard = new MockTextSurface(new VRageMath.Vector2(512, 256), new VRageMath.Vector2(512, 256));
+        protected string _storage = string.Empty;
+        protected bool _isRunning = false;
+        protected string _terminalRunArgument = string.Empty;
+        protected readonly IMyTextSurface _primary = new MockTextSurface(new VRageMath.Vector2(512, 512), new VRageMath.Vector2(512, 512));
+        protected readonly IMyTextSurface _keyboard = new MockTextSurface(new VRageMath.Vector2(512, 256), new VRageMath.Vector2(512, 256));
 
-        public virtual int SurfaceCount { get; } = 1;
+        public virtual int SurfaceCount { get; } = 2;
      
         public virtual Type ProgramType { get; set; }
 
@@ -33,12 +37,41 @@ namespace IngameScript.Mockups.Blocks
         public virtual string Storage
         {
             get { return _storage; }
-            set { _storage = value ?? ""; }
+            set
+            {
+                if (_storage != value)
+                {
+                    _storage = value ?? "";
+                    OnPropertyChanged();
+                }
+            }
         }
 
-        public virtual bool IsRunning { get; set; }
+        public virtual bool IsRunning
+        {
+            get { return _isRunning; }
+            set
+            {
+                if (_isRunning != value)
+                {
+                    _isRunning = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public virtual string TerminalRunArgument { get; set; }
+        public virtual string TerminalRunArgument
+        {
+            get { return _terminalRunArgument; }
+            set
+            {
+                if (_terminalRunArgument != value)
+                {
+                    _terminalRunArgument = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -49,6 +82,7 @@ namespace IngameScript.Mockups.Blocks
             });
         }
 
+        [DisplayName("Run")]
         public virtual bool Run(string argument, UpdateType updateType)
         {
             if (!Enabled)

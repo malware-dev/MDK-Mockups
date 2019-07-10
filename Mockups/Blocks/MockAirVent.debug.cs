@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using IngameScript.Mockups.Base;
@@ -11,19 +12,74 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockAirVent : MockFunctionalBlock, IMyAirVent
+    [DisplayName("Air Vent")]
+    public partial class MockAirVent : MockFunctionalBlock, IMyAirVent
     {
-        public float OxygenLevel { get; set; } = 0;
+        private float _oxygenLevel = 0;
+        private bool _canPressurize = true;
+        private bool _dePressurize = false;
+        private VentStatus _status = VentStatus.Pressurized;
 
-        public bool CanPressurize { get; set; }
+        [DisplayName("Oxygen Level"), Range(0d, 1d)]
+        public virtual float OxygenLevel
+        {
+            get { return _oxygenLevel; }
+            set
+            {
+                if (_oxygenLevel != value)
+                {
+                    _oxygenLevel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public bool IsDepressurizing { get; set; }
+        [DisplayName("Can Pressurize")]
+        public virtual bool CanPressurize
+        {
+            get { return _canPressurize; }
+            set
+            {
+                if (_canPressurize != value)
+                {
+                    _canPressurize = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public bool Depressurize { get; set; } = false;
+        [DisplayName("De-pressurize")]
+        public virtual bool Depressurize
+        {
+            get { return _dePressurize; }
+            set
+            {
+                if (_dePressurize != value)
+                {
+                    _dePressurize = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public VentStatus Status { get; set; }
+        [DisplayName("Status")]
+        public virtual VentStatus Status
+        {
+            get { return _status; }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public bool PressurizationEnabled { get; } = true;
+        public virtual bool PressurizationEnabled => true;
+
+        [DisplayName("Is Depressurizing"), ReadOnly(true)]
+        public virtual bool IsDepressurizing => Enabled && (Status == VentStatus.Depressurizing || Status == VentStatus.Depressurized);
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
@@ -33,12 +89,10 @@ namespace IngameScript.Mockups.Blocks
             });
         }
 
-        public float GetOxygenLevel() => OxygenLevel;
+        [DisplayName("Get Oxygen Level")]
+        public virtual float GetOxygenLevel() => OxygenLevel;
 
-        public void SetCustomName(string text) => CustomName = text;
-
-        public void SetCustomName(StringBuilder text) => CustomName = text.ToString();
-
-        public bool IsPressurized() => PressurizationEnabled && (Status == VentStatus.Pressurized || Status == VentStatus.Pressurizing);
+        [DisplayName("Is Pressurized")]
+        public virtual bool IsPressurized() => PressurizationEnabled && (Status == VentStatus.Pressurized || Status == VentStatus.Pressurizing);
     }
 }

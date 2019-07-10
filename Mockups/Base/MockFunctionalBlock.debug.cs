@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
@@ -9,9 +10,23 @@ namespace IngameScript.Mockups.Base
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public abstract class MockFunctionalBlock : MockTerminalBlock, IMyFunctionalBlock
+    public abstract partial class MockFunctionalBlock : MockTerminalBlock, IMyFunctionalBlock
     {
-        public virtual bool Enabled { get; set; } = true;
+        private bool _enabled = true;
+
+        [DisplayName("Enabled")]
+        public virtual bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                if (_enabled != value)
+                {
+                    _enabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {

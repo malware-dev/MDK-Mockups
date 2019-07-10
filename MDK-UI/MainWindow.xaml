@@ -1,0 +1,214 @@
+﻿<Window x:Class="MDK_UI.MainWindow"
+        x:Name="mainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:VRageGame="clr-namespace:VRage.Game;assembly=VRage.Game"
+        mc:Ignorable="d"
+        Title="{Binding AssemblyName}"
+        Height="700" Width="1000" MinHeight="600" MinWidth="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Closed="MainWindow_Closed">
+    <Window.Resources>
+        <ResourceDictionary Source="Resources/MainWindow.xaml"/>
+    </Window.Resources>
+    
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Load Program" x:Name="miLoad" Click="MiLoad_Click"/>
+                <MenuItem Header="_Reload Program" x:Name="miReload" IsEnabled="False" Click="MiReload_Click"/>
+                <Separator />
+                <MenuItem Header="_New Grid" x:Name="miNew"/>
+                <MenuItem Header="_Save Grid" x:Name="miSave"/>
+                <MenuItem Header="_Open Grid" x:Name="miOpen"/>
+                <Separator />
+                <MenuItem Header="E_xit" x:Name="miExit" Click="MiExit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Blueprints">
+                <MenuItem Header="_Import" IsEnabled="False" x:Name="miImport"/>
+                <MenuItem Header="_Export" IsEnabled="False" x:Name="miExport"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About MDK UI" x:Name="miAbout" Click="MiAbout_Click"/>
+                <MenuItem Header="_MDK-SE" x:Name="miMdk" Click="MiMdk_Click"/>
+                <MenuItem Header="Check for _Updates" x:Name="miUpdate" Click="MiUpdate_Click"/>
+            </MenuItem>
+        </Menu>
+        <DockPanel Height="Auto">
+            <Grid Height="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Grid Details" Grid.Row="0" Grid.ColumnSpan="4" Margin="5,5,5,0" Width="Auto" VerticalAlignment="Top">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">Grid Name:</Label>
+                        <TextBox x:Name="tbGridName" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Grid.CustomName}" VerticalContentAlignment="Center"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,2,0,0">Grid Type:</Label>
+                        <ComboBox x:Name="cbGridSize" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,2,0,0" 
+                                  SelectedItem="{Binding Grid.GridSizeEnum}" ItemsSource="{Binding Source={StaticResource GridSizes}}" SelectionChanged="CbGridSize_SelectionChanged"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,2,0,0">Static Grid:</Label>
+                        <CheckBox x:Name="cbGridStatic" Grid.Row="2" Grid.Column="1" IsChecked="{Binding Grid.IsStatic}"
+                                  VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <CheckBox.Style>
+                                <Style TargetType="{x:Type CheckBox}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=cbGridSize, Path=SelectedValue}">
+                                            <DataTrigger.Value>
+                                                <x:Static Member="VRageGame:MyCubeSize.Large"/>
+                                            </DataTrigger.Value>
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Simulation Details" Grid.Row="1" Grid.ColumnSpan="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Button x:Name="btStepSimulation" Grid.Column="0" Margin="2,0" Click="BtStepSimulation_Click" IsEnabled="False">Step</Button>
+                        <Button x:Name="btStartSimulation" Grid.Column="1" Margin="0,0,2,0" Click="BtStartSimulation_Click" IsEnabled="False">Start</Button>
+                        <Button x:Name="btStopSimulation" Grid.Column="2" Margin="2,0" Click="BtStopSimulation_Click" IsEnabled="False" Grid.ColumnSpan="2">Suspend</Button>
+                        <Button x:Name="btResetSimulation" Grid.Column="4" Margin="2,0,0,0" Click="BtResetSimulation_Click" IsEnabled="False" Grid.ColumnSpan="2">Reset</Button>
+
+                        <Label Grid.Row="1" Margin="2">Adjust Simulation Speed:</Label>
+                        <Slider Value="{Binding TargetTickRate}" Grid.Row="1" Grid.Column="1" Margin="2,2,0,2" VerticalContentAlignment="Center" Minimum="1" Maximum="60" VerticalAlignment="Center" />
+
+                        <Label x:Name="lbSimSpeed" Grid.Row="1" Grid.Column="2" Margin="2">Sim Speed:</Label>
+                        <TextBox x:Name="tbSimSpeed" IsReadOnly="True" Grid.Row="1" Grid.Column="3" Margin="2,2,0,2"
+                                 Text="{Binding TickRate, Mode=OneWay, StringFormat={}{0:P2}}" VerticalContentAlignment="Center" />
+
+                        <Label Grid.Row="1" Grid.Column="4" Margin="2">Total ticks:</Label>
+                        <TextBox x:Name="tbTickCount" IsReadOnly="True" Grid.Row="1" Grid.Column="5" Margin="2,2,0,2"
+                                 Text="{Binding TickCount, Mode=OneWay}" VerticalContentAlignment="Center"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Block Groups" Grid.Row="2" Margin="5" Width="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="btAddGroup" Grid.Column="0" Grid.Row="0" Margin="0,0,2,5" Padding="1" Click="BtAddGroup_Click">Add</Button>
+                        <Button x:Name="btRemoveGroup" Grid.Column="1" Grid.Row="0" Margin="2,0,0,5" Click="BtRemoveGroup_Click">Remove</Button>
+                        <ListBox x:Name="lbBlockGroups" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Groups}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Grid Components" Grid.Row="3" Margin="5" Width="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="btAddComponent" Grid.Column="0" Grid.Row="0" Margin="0,0,2,5" Click="BtAddComponent_Click">Add</Button>
+                        <Button x:Name="btRemoveComponent" Grid.Column="1" Grid.Row="0" Margin="2,0,0,5" Click="BtRemoveComponent_Click">Remove</Button>
+                        <ListBox x:Name="lbGridComponents" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Blocks}" SelectionChanged="LbGridComponents_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                        <Rectangle Fill="{Binding Preview}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="15px" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding CustomName}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Component Details" Margin="5" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+                            <StackPanel>
+                                <Grid x:Name="gComponentProperties" Margin="2" Height="auto" DataContext="{Binding ElementName=lbGridComponents, Path=SelectedItem, Mode=OneWay}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Bold" Margin="2,0,0,0">Groups</TextBlock>
+                        
+                        <Button Grid.Row="1" Grid.Column="1" Margin="2,2,2,2" Click="BtAddBlockToGroup_Click">Add</Button>
+                        <Button Grid.Row="1" Grid.Column="2" Margin="2,2,0,2" Click="BtRemoveBlockFromGroup_Click">Remove</Button>
+                        
+                        <ListView x:Name="icBlockGroups" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="10" Margin="2,0,0,0" ItemsSource="{Binding BlockGroups, Mode=OneWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Debug Output" Margin="5" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2">
+                    <ScrollViewer x:Name="svDebugOut" ScrollChanged="SvDebugOut_ScrollChanged">
+                        <TextBox Margin="2" Text="{Binding Log, Mode=OneWay}" TextWrapping="Wrap" IsReadOnly="True"/>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+</Window>
