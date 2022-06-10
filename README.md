@@ -13,7 +13,7 @@ The project is currently in a highly fluent state. The structure has not yet bee
 
 **Please Help**
 
-Like I said, I can't do the heavy lifting on this project. Please contact me on [Keen's discord](https://discord.gg/0hIE7GirODUqhfIg) if you want to help getting the basics of the repo up and running. _We need you_.
+Like I said, I can't do the heavy lifting on this project. Please contact me on [Keen's discord](https://discord.gg/keenswh) if you want to help getting the basics of the repo up and running. _We need you_.
 
 ## [Getting Started - Use](Docs/Getting-Started-Use.md)
 
