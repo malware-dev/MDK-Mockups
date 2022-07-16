@@ -11,6 +11,9 @@ namespace IngameScript.Mockups
 #endif
     public class MockCubeGrid : MockEntity, IMyCubeGrid
     {
+        private MyCubeSize _gridEnumSize = MyCubeSize.Large;
+        private bool _isStatic = false;
+
         public virtual string CustomName { get; set; }
 
         public virtual float GridSize
@@ -29,9 +32,28 @@ namespace IngameScript.Mockups
             }
         }
 
-        public virtual MyCubeSize GridSizeEnum { get; set; }
+        public virtual MyCubeSize GridSizeEnum {
+            get { return _gridEnumSize; }
+            set
+            {
+                if (value == MyCubeSize.Small)
+                    IsStatic = false;
 
-        public virtual bool IsStatic { get; set; }
+                _gridEnumSize = value;
+            }
+        }
+
+        public virtual bool IsStatic
+        {
+            get { return _isStatic; }
+            set
+            {
+                if (value && _gridEnumSize == MyCubeSize.Small)
+                    throw new InvalidOperationException("Small Grids cannot be static.");
+
+                _isStatic = value;
+            }
+        }
 
         public virtual Vector3I Max { get; set; }
 

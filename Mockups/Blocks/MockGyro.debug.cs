@@ -9,17 +9,78 @@ namespace IngameScript.Mockups.Blocks
 #if !MOCKUP_DEBUG
     [System.Diagnostics.DebuggerNonUserCode]
 #endif
-    public class MockGyro : MockFunctionalBlock, IMyGyro
+    public partial class MockGyro : MockFunctionalBlock, IMyGyro
     {
-        public virtual float GyroPower { get; set; }
+        private float _gyroPower;
+        private bool _gyroOverride;
+        private float _yaw;
+        private float _pitch;
+        private float _roll;
 
-        public virtual bool GyroOverride { get; set; }
+        public virtual float GyroPower
+        {
+            get { return _gyroPower; }
+            set
+            {
+                if (_gyroPower != value)
+                {
+                    _gyroPower = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public virtual float Yaw { get; set; }
+        public virtual bool GyroOverride
+        {
+            get { return _gyroOverride; }
+            set
+            {
+                if (_gyroOverride != value)
+                {
+                    _gyroOverride = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public virtual float Pitch { get; set; }
+        public virtual float Yaw
+        {
+            get { return _yaw; }
+            set
+            {
+                if (_yaw != value)
+                {
+                    _yaw = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public virtual float Roll { get; set; }
+        public virtual float Pitch
+        {
+            get { return _pitch; }
+            set
+            {
+                if (_pitch != value)
+                {
+                    _pitch = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public virtual float Roll
+        {
+            get { return _roll; }
+            set
+            {
+                if (_roll != value)
+                {
+                    _roll = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         protected override IEnumerable<ITerminalProperty> CreateTerminalProperties()
         {
